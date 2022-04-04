@@ -39,7 +39,7 @@ dependencies {
 	implementation group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '5.13.0.202109080827-r'
 	
 	// https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
-	//api group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+	compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 }
 
 buildscript {
