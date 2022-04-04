@@ -26,7 +26,7 @@ import com.google.gson.JsonObject;
 public class GitHubAPICaller {
 
 	public static final String URL = "https://api.github.com"; // url general de la API
-	public static String USER_TOKEN = "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"; // token del usuario
+	public static String USER_TOKEN = "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"; // token del usuario
 
 	/**
 	 * 
