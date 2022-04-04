@@ -4,11 +4,11 @@
 package gpp;
 
 public class GPPMain {
-    
+
 	public static void main(String[] args) {
-		
-		System.out.println("Bienvenido a GitHub Parser Project");
-		
+
+		System.out.println("HOLA MUNDO");;
+
 	}
-	
+
 }
