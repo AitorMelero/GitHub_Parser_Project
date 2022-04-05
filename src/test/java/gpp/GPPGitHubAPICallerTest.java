@@ -42,7 +42,7 @@ public class GPPGitHubAPICallerTest {
 
 	}
 
-	public static void cloneRepository(String owner, String name, String cloneDirectoryPath) {
+	/*public static void cloneRepository(String owner, String name, String cloneDirectoryPath) {
 
 		String repoUrl = "https://github.com/" + owner + "/" + name + ".git";
 		
@@ -61,7 +61,7 @@ public class GPPGitHubAPICallerTest {
 			
 		}
 
-	}
+	}*/
 	
 	public static void deleteLocalRepository(String repoPath) {
 		

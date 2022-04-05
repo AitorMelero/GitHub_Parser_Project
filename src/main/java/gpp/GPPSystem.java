@@ -18,7 +18,7 @@ public class GPPSystem implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static GPPSystem instance = null;
-	private static User user;
+	private User user;
 
 	/**************************************************************************
 	 * CONSTRUCTOR: PATRÓN SINGLETON
@@ -75,7 +75,7 @@ public class GPPSystem implements Serializable {
 	 * @param user. Nuevo usuario actual.
 	 */
 	public void setUser(User user) {
-		GPPSystem.user = user;
+		instance.user = user;
 	}
 
 	/**************************************************************************
