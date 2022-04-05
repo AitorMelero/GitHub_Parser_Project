@@ -3,14 +3,9 @@ package gpp.model.github.api.caller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -25,17 +20,22 @@ import com.google.gson.JsonObject;
  */
 public class GitHubAPICaller {
 
-	public static final String URL = "https://api.github.com"; // url general de la API
-	public static String USER_TOKEN = "CAMBIAR_TOKEN"; // token del usuario
+	private static final String URL = "https://api.github.com"; // url general de la API
+
+	/**************************************************************************
+	 * MÉTODOS
+	 * ************************************************************************
+	 */
 
 	/**
 	 * 
 	 * Envía una petición get a la API de GitHub.
 	 * 
-	 * @param urlPath. Url a enviar la petición.
+	 * @param urlPath.   Url a enviar la petición.
+	 * @param userToken. Token del usuario actual.
 	 * @return Cadena con el resultado de la petición.
 	 */
-	public static String sendGetPetition(String urlPath) {
+	public static String sendGetPetition(String urlPath, String userToken) {
 
 		URL url;
 		HttpURLConnection conn;
@@ -55,7 +55,7 @@ public class GitHubAPICaller {
 				conn.setRequestMethod("GET");
 
 				// metemos el token en la peticion
-				conn.setRequestProperty("Authorization", "token " + USER_TOKEN);
+				conn.setRequestProperty("Authorization", "token " + userToken);
 
 				// metemos el formato a recibir
 				conn.setRequestProperty("Accept", "application/vnd.github.v3+json");
@@ -74,7 +74,7 @@ public class GitHubAPICaller {
 
 			} catch (IOException e) {
 
-				System.out.println("ERROR al crear conexión: " + e.getMessage());
+				cadenaResultado = "{\"error\": \"" + e.getMessage() + "\"}";
 
 			}
 
@@ -82,85 +82,6 @@ public class GitHubAPICaller {
 
 			// e.printStackTrace();
 			System.out.println("ERROR al generar url: " + e.getMessage());
-
-		}
-
-		return cadenaResultado;
-
-	}
-
-	public static String sendPostPetition(String urlPath, Map<String, Object> listParams) {
-
-		URL url;
-		Map<String, Object> params = listParams;
-		String cadenaResultado = "";
-
-		// creamos la url
-		try {
-
-			url = new URL(URL + urlPath);
-
-			// Pasamos los parámetros a una lista de bytes
-			StringBuilder postData = new StringBuilder();
-			for (Map.Entry<String, Object> param : params.entrySet()) {
-
-				if (postData.length() != 0)
-					postData.append('&');
-
-				postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
-				postData.append('=');
-				postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
-
-			}
-			byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-
-			// Creamos la conexión
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-			// Indicamos el tipo de la peticion
-			conn.setRequestMethod("POST");
-
-			// Metemos el token en la peticion
-			conn.setRequestProperty("Authorization", "token " + USER_TOKEN);
-
-			// Metemos el formato a recibir
-			conn.setRequestProperty("Accept", "application/vnd.github.v3+json");
-			
-			//conn.setRequestProperty("Accept-Language", "UTF-8");
-
-			// Longitud de los parámetros
-			conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
-
-			// Escribimos los parámetros en la petición
-			conn.setDoOutput(true);
-			conn.getOutputStream().write(postDataBytes);
-			/*OutputStreamWriter outputStreamWriter = new OutputStreamWriter(conn.getOutputStream());
-	        outputStreamWriter.write(postData.toString());
-	        outputStreamWriter.flush();*/
-
-			// Obtenemos la respuesta en el buffer
-			BufferedReader buffer = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-
-			// transformamos el buffer en cadena y depues en un objeto JSON
-			cadenaResultado = bufferedReaderToString(buffer);
-
-			// Cerramos el buffer
-			buffer.close();
-
-		} catch (MalformedURLException e) {
-
-			// e.printStackTrace();
-			System.out.println("ERROR al generar url: " + e.getMessage());
-
-		} catch (UnsupportedEncodingException e) {
-
-			// e.printStackTrace();
-			System.out.println("ERROR con la codificación: " + e.getMessage());
-
-		} catch (IOException e) {
-
-			// e.printStackTrace();
-			System.out.println("ERROR al crear conexión: " + e.getMessage());
 
 		}
 
@@ -177,17 +98,17 @@ public class GitHubAPICaller {
 	 * 
 	 * Devuelve la lista de branches de un repositorio.
 	 * 
+	 * @param token.   Token del usuario.
 	 * @param owner.   Nombre del dueño del repositorio.
 	 * @param repo.    Nombre del repositorio.
 	 * @param perPage. Número de branches devuelto por página, por defecto 30.
 	 * @param page.    Número de páginas devueltas, por defecto 1.
 	 * @return Branches del repositorio.
 	 */
-	public static JsonArray listBranches(String owner, String repo, int perPage, int page) {
+	public static JsonArray listBranches(String token, String owner, String repo, int perPage, int page) {
 
-		// COMPROBAR PAGINAS Y PERPAGINAS
 		String url = "/repos/" + owner + "/" + repo + "/branches?per_page=" + perPage + ";page=" + page;
-		String resultString = sendGetPetition(url);
+		String resultString = sendGetPetition(url, token);
 
 		return fromStringToJsonArray(resultString);
 
@@ -200,65 +121,55 @@ public class GitHubAPICaller {
 
 	/**
 	 * 
+	 * Devuelve el usuario a partir de su token.
+	 * 
+	 * @param token. Token del usuario.
+	 * @return Usuario actual.
+	 */
+	public static JsonObject getTheAuthenticatedUser(String token) {
+
+		String url = "/user";
+
+		return fromStringToJsonObject(sendGetPetition(url, token));
+
+	}
+
+	/**
+	 * 
 	 * Lista los followers de un usuario.
 	 * 
+	 * @param token.    Token del usuario.
 	 * @param username. Nombre del usuario.
 	 * @param perPage.  Número de seguidores por página, por defecto 30.
 	 * @param page.     Número de la página, por defecto 1.
 	 * @return Lista de seguidores del usuario.
 	 */
-	public static JsonArray listFollowersOfAUser(String username, int perPage, int page) {
+	public static JsonArray listFollowersOfAUser(String token, String username, int perPage, int page) {
 
 		String url = "/users/" + username + "/followers?per_page=" + perPage + ";page=" + page;
-		String resultString = sendGetPetition(url);
+		String resultString = sendGetPetition(url, token);
 
 		return fromStringToJsonArray(resultString);
 
 	}
 
-	public static JsonArray listEmailAddresses(int perPage, int page) {
+	/**
+	 * 
+	 * Devuelve la lista de correos del usuario actual.
+	 * 
+	 * @param token.   Token del usuario.
+	 * @param perPage. Correos por página.
+	 * @param page.    Número de página a mostrar.
+	 * @return Lista de correos del usuario actual del número correspondiente de
+	 *         página.
+	 */
+	public static JsonArray listEmailAddresses(String token, int perPage, int page) {
 
 		String url = "/user/emails?per_page=" + perPage + ";page=" + page;
-		String resultString = sendGetPetition(url);
+		String resultString = sendGetPetition(url, token);
 
 		return fromStringToJsonArray(resultString);
 
-	}
-
-	public static JsonArray addAnEmailAddress(ArrayList<String> emails) {
-
-		String url = "/user/emails";
-		Map<String, Object> params = new LinkedHashMap<>();
-
-		// Añadimos los parámetros
-		params.put("emails", emails);
-
-		// Envíamos la petición post
-		String resultString = sendPostPetition(url, params);
-
-		return fromStringToJsonArray(resultString);
-
-	}
-
-	/**********************************************************************************************
-	 * REPOSITORIES
-	 * ********************************************************************************************
-	 */
-
-	public static JsonObject createARepository(String name, String description, boolean isPrivate) {
-
-		String url = "/user/repos";
-		Map<String, Object> params = new LinkedHashMap<>();
-		
-		// Añadimos los parámetros
-		params.put("name", name);
-		params.put("description", description);
-		params.put("private", isPrivate);
-		
-		String resultString = sendPostPetition(url, params);
-		
-		return fromStringToJsonObject(resultString);
-		
 	}
 
 	/**********************************************************************************************
@@ -280,7 +191,7 @@ public class GitHubAPICaller {
 		return resultado;
 
 	}
-	
+
 	/**
 	 * 
 	 * Transforma una cadena en un objeto JSON.
@@ -289,11 +200,11 @@ public class GitHubAPICaller {
 	 * @return Objecto JSON con el resultado.
 	 */
 	private static JsonObject fromStringToJsonObject(String jsonString) {
-		
-		JsonObject resultado = new JsonObject();
-		
-		return resultado.getAsJsonObject(jsonString);
-		
+
+		JsonObject resultado = new Gson().fromJson(jsonString, JsonObject.class);
+
+		return resultado;
+
 	}
 
 	/**
