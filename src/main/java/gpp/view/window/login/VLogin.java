@@ -42,6 +42,10 @@ public class VLogin extends JPanel {
 	 * CONSTRUCTOR
 	 * ************************************************************************
 	 */
+
+	/**
+	 * Constructor.
+	 */
 	public VLogin() {
 
 		// Creamos los componentes
@@ -55,6 +59,9 @@ public class VLogin extends JPanel {
 		containerButton = new JPanel();
 		loginButton = new VButton("Iniciar sesión");
 		tokenButton = new VButton("Obtener token de GitHub");
+		
+		// Damos valores a los componentes
+		loginButton.setActionCommand("login");
 
 		// Título
 		titleGPP.setOpaque(true);
