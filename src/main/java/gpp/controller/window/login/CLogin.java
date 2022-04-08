@@ -1,7 +1,12 @@
 package gpp.controller.window.login;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import gpp.GPPSystem;
 import gpp.view.VWindow;
@@ -48,6 +53,19 @@ public class CLogin implements ActionListener {
 		if (e.getActionCommand().equals("login")) {
 			
 			gppSystem.login(token);
+			
+		} else if (e.getActionCommand().equals("getToken")) {
+			
+			try {
+				
+				URL urlToken = new URL("https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token");
+				GPPSystem.openWebpage(urlToken);
+				
+			} catch (MalformedURLException e1) {
+				
+				e1.printStackTrace();
+				
+			}
 			
 		}
 		

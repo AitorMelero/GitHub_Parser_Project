@@ -62,6 +62,7 @@ public class VLogin extends JPanel {
 		
 		// Damos valores a los componentes
 		loginButton.setActionCommand("login");
+		tokenButton.setActionCommand("getToken");
 
 		// Título
 		titleGPP.setOpaque(true);

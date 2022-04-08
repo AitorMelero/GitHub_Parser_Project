@@ -1,6 +1,10 @@
 package gpp;
 
+import java.awt.Desktop;
 import java.io.Serializable;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import com.google.gson.JsonObject;
 
@@ -85,6 +89,60 @@ public class GPPSystem implements Serializable {
 
 	/**
 	 * 
+	 * Abre una página web en el navegador por defecto del usuario.
+	 * 
+	 * @param uri. Uri a la que se accede en el navegador.
+	 * @return True si todo fue bien, false en caso contrario.
+	 */
+	public static boolean openWebpage(URI uri) {
+
+		// url info:
+		// https://stackoverflow.com/questions/10967451/open-a-link-in-browser-with-java-button
+		Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+
+		if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+
+			try {
+
+				desktop.browse(uri);
+				return true;
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * 
+	 * Abre una página web en el navegador por defecto del usuario.
+	 * 
+	 * @param url. Url a la que se accede en el navegador.
+	 * @return True si todo fue bien, false en caso contrario.
+	 */
+	public static boolean openWebpage(URL url) {
+
+		// url info:
+		// https://stackoverflow.com/questions/10967451/open-a-link-in-browser-with-java-button
+		try {
+
+			return openWebpage(url.toURI());
+
+		} catch (URISyntaxException e) {
+
+			e.printStackTrace();
+
+		}
+
+		return false;
+	}
+
+	/**
+	 * 
 	 * Se encarga del inicio de sesión de un usuario.
 	 * 
 	 * @param token. Token generado en la cuenta de GitHub.
@@ -94,7 +152,7 @@ public class GPPSystem implements Serializable {
 
 		boolean correctLogin = false;
 		JsonObject userData = GitHubAPICaller.getTheAuthenticatedUser(token);
-		
+
 		System.out.println("TOKEN: " + token);
 
 		// Comprobamos el inicio de sesión
@@ -103,7 +161,7 @@ public class GPPSystem implements Serializable {
 			this.setUser(new User(userData.get("login").getAsString(), token));
 
 			correctLogin = true;
-			
+
 			System.out.println("Hola, " + this.user.getUsername());
 
 		} else {
@@ -114,6 +172,15 @@ public class GPPSystem implements Serializable {
 
 		return correctLogin;
 
+	}
+	
+	/**
+	 * Método para cerrar sesión.
+	 */
+	public void logout() {
+		
+		
+		
 	}
 
 }
