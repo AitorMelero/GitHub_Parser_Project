@@ -4,17 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.font.TextAttribute;
+import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
+import gpp.view.component.VButton;
 import gpp.view.component.VColor;
 
 /**
@@ -34,8 +34,8 @@ public class VLogin extends JPanel {
 	private JPanel containerTokenField;  // contenedor para el campo del token
 	private JPasswordField tokenField; // campo de texto del token
 	private JPanel containerButton;  // contenedor de botones
-	private JButton loginButton;  // botón de iniciar sesión
-	private JButton tokenButton;  // botón de redirección para obtener token
+	private VButton loginButton;  // botón de iniciar sesión
+	private VButton tokenButton;  // botón de redirección para obtener token
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -52,8 +52,8 @@ public class VLogin extends JPanel {
 		containerTokenField = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		tokenField = new JPasswordField();
 		containerButton = new JPanel();
-		loginButton = new JButton("Iniciar sesión");
-		tokenButton = new JButton("¿Cómo obtengo un token de GitHub?");
+		loginButton = new VButton("Iniciar sesión");
+		tokenButton = new VButton("Obtener token de GitHub");
 
 		// Título
 		titleGPP.setOpaque(true);
@@ -80,10 +80,15 @@ public class VLogin extends JPanel {
 		containerTokenField.setBackground(VColor.getGRAY_MENU());
 		containerTokenField.add(tokenField);
 		
-		// Contenedor de botones
-		//containerButton.setLayout(new BoxLayout(containerButton, BoxLayout.Y_AXIS));
+		// Contenedor y estilos de botones
 		containerButton.setLayout(new FlowLayout(FlowLayout.CENTER));
+		loginButton.setFont(new Font("Arial", Font.PLAIN, 20));
 		containerButton.add(loginButton);
+		// Subrayado de botón de información para obtener token
+		Hashtable<TextAttribute, Object> map =
+	            new Hashtable<TextAttribute, Object>();
+		map.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+	    tokenButton.setFont(tokenButton.getFont().deriveFont(map));
 		containerButton.add(tokenButton);
 		containerButton.setBackground(VColor.getGRAY_MENU());
 		containerButton.setBorder(new EmptyBorder(20, 0, 20, 0));
