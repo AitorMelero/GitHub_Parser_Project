@@ -8,6 +8,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import javax.swing.JOptionPane;
+
 import gpp.GPPSystem;
 import gpp.view.VWindow;
 
@@ -52,7 +54,15 @@ public class CLogin implements ActionListener {
 		
 		if (e.getActionCommand().equals("login")) {
 			
-			gppSystem.login(token);
+			if (gppSystem.login(token)) {
+				
+				windows.getMenu().setVisible(true);
+				
+			} else {
+				
+				JOptionPane.showMessageDialog(windows.getLoginView(), "Token incorrecto. Inténtalo de nuevo.", "Error token", JOptionPane.ERROR_MESSAGE);
+				
+			}
 			
 		} else if (e.getActionCommand().equals("getToken")) {
 			

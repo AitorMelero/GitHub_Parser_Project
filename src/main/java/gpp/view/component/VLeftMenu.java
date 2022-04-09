@@ -1,0 +1,128 @@
+package gpp.view.component;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
+import gpp.constant.GPPConstant;
+
+/**
+ * 
+ * Clase que implementa el menú de la izquierda.
+ * 
+ * @author Aitor Melero
+ *
+ */
+public class VLeftMenu extends JPanel {
+
+	private VButton searchButton;
+	private VButton recentSearchesButton;
+	private VButton userRepositoriesButton;
+	private VButton userButton;
+	private VButton settingsButton;
+
+	public VLeftMenu(int width, int height) {
+
+		this.setBackground(VColor.getGRAY_MENU());
+		this.setPreferredSize(new Dimension(width, height));
+		this.setLayout(new BorderLayout());
+
+		// Creamos un contenedor para meter los botones principales del menú
+		JPanel mainButtonsContainer = new JPanel();
+		mainButtonsContainer.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
+		mainButtonsContainer.setLayout(new GridLayout(4, 1));
+
+		// Añadimos los botones principales
+		Icon searchIcon = new ImageIcon(GPPConstant.GPP_ICONS + "search.png");
+		searchButton = new VButton("Buscar", searchIcon);
+		mainButtonsContainer.add(searchButton);
+
+		Icon recentSearchesIcon = new ImageIcon(GPPConstant.GPP_ICONS + "clock.png");
+		recentSearchesButton = new VButton("Búsquedas recientes", recentSearchesIcon);
+		mainButtonsContainer.add(recentSearchesButton);
+
+		Icon userRepositoriesIcon = new ImageIcon(GPPConstant.GPP_ICONS + "my_repositories.png");
+		userRepositoriesButton = new VButton("Mis repositorios", userRepositoriesIcon);
+		mainButtonsContainer.add(userRepositoriesButton);
+
+		Icon userIcon = new ImageIcon(GPPConstant.GPP_ICONS + "profile.png");
+		userButton = new VButton("Mi perfil", userIcon);
+		mainButtonsContainer.add(userButton);
+
+		// Añadimos el contenedor de los botones principales
+		this.add(mainButtonsContainer, BorderLayout.NORTH);
+
+		// Creamos un contenedor para meter el botón de ajustes
+		JPanel settingsContainer = new JPanel();
+		settingsContainer.setPreferredSize(new Dimension(width, (int) (height * 0.3 / 4)));
+		settingsContainer.setLayout(new GridLayout(1, 1));
+
+		// Añadimos el botón de ajustes
+		Icon settingsIcon = new ImageIcon(GPPConstant.GPP_ICONS + "settings.png");
+		settingsButton = new VButton("Ajustes", settingsIcon);
+		settingsContainer.add(settingsButton);
+
+		this.add(settingsContainer, BorderLayout.SOUTH);
+
+	}
+
+	/**************************************************************************
+	 * GETTERS Y SETTERS
+	 * ************************************************************************
+	 */
+
+	/**
+	 * 
+	 * Devuelve el botón de buscar del menú.
+	 * 
+	 * @return Botón de buscar del menú.
+	 */
+	public VButton getSearchButton() {
+		return searchButton;
+	}
+
+	/**
+	 * 
+	 * Devuelve el botón de búsquedas recientes del menú.
+	 * 
+	 * @return Botón de búsquedas recientes del botón.
+	 */
+	public VButton getRecentSearchesButton() {
+		return recentSearchesButton;
+	}
+
+	/**
+	 * 
+	 * Devuelve el botón de repositorios del usuario del menú.
+	 * 
+	 * @return Botón de repositorios del usuario del menú.
+	 */
+	public VButton getUserRepositoriesButton() {
+		return userRepositoriesButton;
+	}
+
+	/**
+	 * 
+	 * Devuelve el botón del perfil del menú.
+	 * 
+	 * @return Devuelve el botón de perfil del menú.
+	 */
+	public VButton getUserButton() {
+		return userButton;
+	}
+
+	/**
+	 * 
+	 * Devuelve el botón de ajustes de la app del menú.
+	 * 
+	 * @return Botón de ajustes de la app del menú.
+	 */
+	public VButton getSettingsButton() {
+		return settingsButton;
+	}
+
+}

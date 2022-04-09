@@ -153,20 +153,12 @@ public class GPPSystem implements Serializable {
 		boolean correctLogin = false;
 		JsonObject userData = GitHubAPICaller.getTheAuthenticatedUser(token);
 
-		System.out.println("TOKEN: " + token);
-
 		// Comprobamos el inicio de sesión
 		if (userData.get("error") == null) {
 
 			this.setUser(new User(userData.get("login").getAsString(), token));
 
 			correctLogin = true;
-
-			System.out.println("Hola, " + this.user.getUsername());
-
-		} else {
-
-			System.out.println("Ups, ha ocurrido un error.");
 
 		}
 
