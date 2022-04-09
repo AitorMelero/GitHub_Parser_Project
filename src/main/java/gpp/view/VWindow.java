@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import gpp.constant.GPPConstant;
 import gpp.view.component.VLeftMenu;
 import gpp.view.window.login.VLogin;
+import gpp.view.window.search.VSearch;
 
 /**
  * 
@@ -22,6 +23,7 @@ public class VWindow extends JFrame {
 	private VLeftMenu menu; // menú lateral de la app
 	private JPanel cards; // panel sobre el que situar las pantallas
 	private VLogin loginView; // pantalla login
+	private VSearch searchView;  // pantalla de búsqueda
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -39,8 +41,12 @@ public class VWindow extends JFrame {
 		menu = new VLeftMenu((int) (GPPConstant.WIDTH * 0.25), GPPConstant.HEIGHT);
 		menu.setVisible(false);
 		loginView = new VLogin();
+		searchView = new VSearch();
+		
+		// Añadimos todas las pantallas
 		cards = new JPanel(new CardLayout());
 		cards.add(loginView, "VLogin");
+		cards.add(searchView, "VSearch");
 
 		// Mostramos ventana
 		CardLayout c1 = (CardLayout) (cards.getLayout());
@@ -109,6 +115,35 @@ public class VWindow extends JFrame {
 	 */
 	public void setLoginView(VLogin loginView) {
 		this.loginView = loginView;
+	}
+	
+	/**************************************************************************
+	 * MÉTODOS
+	 * ************************************************************************
+	 */
+	
+	/**
+	 * 
+	 * Cambia de pantalla.
+	 * 
+	 * @param nameCard. Nombre de la nueva pantalla a mostrar.
+	 */
+	public void setCard(String nameCard) {
+		
+		CardLayout c = (CardLayout)(cards.getLayout());
+		c.show(cards, nameCard);
+		
+		// Si estamos en el login no mostramos el menú lateral
+		if (nameCard.equals("VLogin")) {
+			
+			menu.setVisible(false);
+			
+		} else {
+			
+			menu.setVisible(true);
+			
+		}
+		
 	}
 
 }

@@ -56,7 +56,7 @@ public class CLogin implements ActionListener {
 			
 			if (gppSystem.login(token)) {
 				
-				windows.getMenu().setVisible(true);
+				windows.setCard("VSearch");
 				
 			} else {
 				
