@@ -1,9 +1,12 @@
 package gpp.view.window.search;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import gpp.view.component.VColor;
+import gpp.view.component.VSearchButton;
+import gpp.view.component.VWindowSearchButton;
 
 /**
  * 
@@ -13,19 +16,41 @@ import gpp.view.component.VColor;
  *
  */
 public class VSearch extends JPanel {
-	
-	private JLabel searchTitle;  // etiqueta del título de búsquedas
-	
+
+	private JLabel searchTitle; // etiqueta del título de búsquedas
+	private VSearchButton searchButton; // botón de buscar
+	private JPanel windowButtonContainer;  // contenedor para los botones de las subventanas
+	private VWindowSearchButton queryWindowButton; // botón para la pantalla de la consulta
+	private VWindowSearchButton filterWindowButton; // botón para la pantalla de filtros generales
+	private VWindowSearchButton filterLanguageWindowButton; // botón para la pantalla de filtros por lenguaje
+	private VQuery queryWindow;  // ventana para los parámetros de la búsqueda
+
 	public VSearch() {
-		
+
 		// Inicializamos componentes
 		searchTitle = new JLabel("Buscar");
-		
+
 		// Título
 		this.add(searchTitle);
-		
+
 		// Diseño general
 		this.setBackground(VColor.getWHITE_MAIN());
+		//BOCETO
+		this.setLayout(new BoxLayout(this, (BoxLayout.Y_AXIS)));
+
+		// BOCETO para probar búsquedas
+		searchButton = new VSearchButton("Buscar");
+		this.add(searchButton);
+		windowButtonContainer = new JPanel();
+		queryWindowButton = new VWindowSearchButton("¿Qué buscas?");
+		filterWindowButton = new VWindowSearchButton("Filtros generales");
+		filterLanguageWindowButton = new VWindowSearchButton("Filtros por lenguaje");
+		windowButtonContainer.add(queryWindowButton);
+		windowButtonContainer.add(filterWindowButton);
+		windowButtonContainer.add(filterLanguageWindowButton);
+		this.add(windowButtonContainer);
+		queryWindow = new VQuery();
+		this.add(queryWindow);
 		
 	}
 

@@ -29,10 +29,10 @@ public class GPPMain {
 				windows.getLoginView().setControllers(cLogin);
 				
 				// PRUEBAS -> BORRAR
-				Search s = new Search("Búsqueda prueba");
-				s.getQuery().setOwner("AitorMelero");
-				s.getQuery().setInRepositoryName("");
-				s.getQuery().generateQueryPath();
+				//Search s = new Search("Búsqueda prueba");
+				//s.getQuery().setOwner("AitorMelero");
+				//s.getQuery().setInRepositoryName("");
+				//s.getQuery().generateQueryPath();
 				//System.out.println("RESULTADO: " + GitHubAPICaller.searchRepositories("", s.getQuery().getPath(), "best-match", "desc", 1, 1));
 				
 			}
