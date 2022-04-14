@@ -3,6 +3,7 @@ package gpp;
 import java.awt.EventQueue;
 
 import gpp.controller.window.login.CLogin;
+import gpp.model.search.Search;
 import gpp.view.VWindow;
 
 public class GPPMain {
@@ -25,6 +26,12 @@ public class GPPMain {
 				
 				// Asociamos controladores a las vistas
 				windows.getLoginView().setControllers(cLogin);
+				
+				// PRUEBAS -> BORRAR
+				Search s = new Search("Búsqueda prueba");
+				s.getQuery().setOwner("   AitorMelero   ,  github   ,");
+				s.getQuery().generateQueryPath();
+				System.out.println("RESULTADO: " + s.getQuery().getPath());
 				
 			}
 			

@@ -309,5 +309,62 @@ public class Query {
 	public void setSortOption(String sortOption) {
 		this.sortOption = sortOption;
 	}
+	
+	
+	/**************************************************************************
+	 * MÉTODOSS
+	 * ************************************************************************
+	 */
+	
+	/**
+	 * 
+	 * Genera el path con los argumentos de la query.
+	 * 
+	 */
+	public void generateQueryPath() {
+		
+		setPath("?q=");
+		setPath(path + generateOwner());
+		
+	}
+	
+	/**
+	 * 
+	 * Genera la query con los argumentos para el propietario del repositorio a buscar.
+	 * 
+	 * @return Cadena con los argumentos para el propietario del repositorio a buscar.
+	 */
+	public String generateOwner() {
+		
+		String ownerQuery = "";
+		String ownerWithoutSpaces;
+		String[] ownerParams;
+		
+		if (owner != null) {
+			
+			// Reemplazamos espacios en blanco
+			ownerWithoutSpaces = owner.replace(" ", "");
+			
+			if (!ownerWithoutSpaces.equals("")) {
+				
+				// Separamos por comas a los autores
+				ownerParams = ownerWithoutSpaces.split(",");
+				
+				// Creamos la consulta
+				for (String o: ownerParams) {
+					
+					ownerQuery += "+user:" + o;
+					
+				}
+				
+			}
+			
+		}
+		
+		return ownerQuery;
+		
+	}
+	
+	//public String 
 
 }
