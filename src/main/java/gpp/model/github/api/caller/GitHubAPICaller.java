@@ -173,6 +173,35 @@ public class GitHubAPICaller {
 	}
 
 	/**********************************************************************************************
+	 * SEARCHS: 30 searchs por minutos de límite
+	 * ********************************************************************************************
+	 */
+
+	/**
+	 * 
+	 * Envía una petición de búsqueda de repositorios a la API de GitHub.
+	 * 
+	 * @param token.   Token del usuario.
+	 * @param query.   Parámetros de consulta para el repositorio.
+	 * @param sort.    Tipo de ordenamiento por estrellas, forks o fecha de
+	 *                 actualización.
+	 * @param order.   Tipo de ordenamiento ascendente o descendente.
+	 * @param perPage. Resultados por página.
+	 * @param page.    Número de la página de los resultados a mostrar.
+	 * @return Número de repositorios y lista de repositorios encontrados.
+	 */
+	public static JsonObject searchRepositories(String token, String query, String sort, String order, int perPage,
+			int page) {
+
+		String url = "/search/repositories?q=" + query + "sort=" + sort + ";order=" + order + ";per_page=" + perPage
+				+ ";page=" + page;
+		String resultString = sendGetPetition(url, token);
+
+		return fromStringToJsonObject(resultString);
+
+	}
+
+	/**********************************************************************************************
 	 * AUX TRANSFORMER PRIVATE METHODS
 	 * ********************************************************************************************
 	 */
