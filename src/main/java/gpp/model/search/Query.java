@@ -309,62 +309,130 @@ public class Query {
 	public void setSortOption(String sortOption) {
 		this.sortOption = sortOption;
 	}
-	
-	
+
 	/**************************************************************************
 	 * MÉTODOSS
 	 * ************************************************************************
 	 */
-	
+
 	/**
 	 * 
 	 * Genera el path con los argumentos de la query.
 	 * 
 	 */
 	public void generateQueryPath() {
-		
+
 		setPath("?q=");
 		setPath(path + generateOwner());
+		setPath(path + generateInRepositoryName());
 		
-	}
-	
-	/**
-	 * 
-	 * Genera la query con los argumentos para el propietario del repositorio a buscar.
-	 * 
-	 * @return Cadena con los argumentos para el propietario del repositorio a buscar.
-	 */
-	public String generateOwner() {
-		
-		String ownerQuery = "";
-		String ownerWithoutSpaces;
-		String[] ownerParams;
-		
-		if (owner != null) {
+		// Comprobamos que la query no está vacía
+		if (!path.equals("?q=")) {
 			
-			// Reemplazamos espacios en blanco
-			ownerWithoutSpaces = owner.replace(" ", "");
+			setPath(path + ";");
 			
-			if (!ownerWithoutSpaces.equals("")) {
-				
-				// Separamos por comas a los autores
-				ownerParams = ownerWithoutSpaces.split(",");
-				
-				// Creamos la consulta
-				for (String o: ownerParams) {
-					
-					ownerQuery += "+user:" + o;
-					
-				}
-				
-			}
+		} else {
+			
+			setPath("");
 			
 		}
-		
-		return ownerQuery;
-		
+
 	}
-	
-	//public String 
+
+	/**
+	 * 
+	 * Genera la query con los argumentos para el propietario del repositorio a
+	 * buscar.
+	 * 
+	 * @return Cadena con los argumentos para el propietario del repositorio a
+	 *         buscar.
+	 */
+	private String generateOwner() {
+
+		String ownerQuery = "";
+
+		if (owner != null) {
+
+			// Creamos la consulta
+			for (String o : generateParamsQuery(owner)) {
+
+				ownerQuery += "+user:" + o;
+
+			}
+
+		}
+
+		return ownerQuery;
+
+	}
+
+	/**
+	 * 
+	 * Genera la cadena con los parámetros para la cadena que aparece en el
+	 * repositorio.
+	 * 
+	 * @return Cadena con los parámetros para la cadena que aparece en el
+	 *         repositorio.
+	 */
+	private String generateInRepositoryName() {
+
+		String inRepositoryNameQuery = "";
+		String[] generateParams;
+
+		if (inRepositoryName != null) {
+
+			// Creamos la consulta
+			generateParams = generateParamsQuery(inRepositoryName);
+			
+			for (String i : generateParams) {
+
+				inRepositoryNameQuery += "+" + i;
+
+			}
+
+			if (generateParams.length > 0) {
+				
+				inRepositoryNameQuery += "+in:name";
+				
+			}
+
+		}
+
+		return inRepositoryNameQuery;
+
+	}
+
+	/**
+	 * 
+	 * Genera una lista de parámetros a partir de la cadena con los parámetros.
+	 * 
+	 * @param paramsString. Cadena con parámetros.
+	 * @return Lista con parámetros.
+	 */
+	private String[] generateParamsQuery(String paramsString) {
+
+		String withoutSpaces;
+		String[] params = {};
+
+		// Quitamos los espacios en blanco
+		withoutSpaces = paramsString.replace(" ", "");
+
+		if (!withoutSpaces.equals("")) {
+			
+			// Comprobamos que el primer caracter no sea una coma
+			if (withoutSpaces.substring(0, 1).equals(",")) {
+				
+				withoutSpaces = withoutSpaces.substring(1);
+				
+			}
+
+			// Separamos por comas
+			params = withoutSpaces.split(",");
+
+		}
+
+		return params;
+
+	}
 
 }

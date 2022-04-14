@@ -29,7 +29,8 @@ public class GPPMain {
 				
 				// PRUEBAS -> BORRAR
 				Search s = new Search("Búsqueda prueba");
-				s.getQuery().setOwner("   AitorMelero   ,  github   ,");
+				s.getQuery().setOwner("");
+				s.getQuery().setInRepositoryName("   troya , prueba");
 				s.getQuery().generateQueryPath();
 				System.out.println("RESULTADO: " + s.getQuery().getPath());
 				
