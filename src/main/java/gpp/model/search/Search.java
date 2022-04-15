@@ -1,11 +1,13 @@
 package gpp.model.search;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import gpp.model.Repository;
 import gpp.model.User;
 import gpp.model.github.api.caller.GitHubAPICaller;
 
@@ -22,7 +24,8 @@ public class Search {
 	private String name; // nombre asignado por el usuario a la búsqueda
 	private JsonArray result; // resultado de la búsqueda
 	private Query query; // datos de la consulta de la búsqueda
-	private User user;  // usuario que realiza la búsqueda
+	private User user; // usuario que realiza la búsqueda
+	private ArrayList<Repository> listRepoResult; // lista de repositorios del resultado
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -43,6 +46,7 @@ public class Search {
 		result = new JsonArray();
 		query = new Query();
 		this.user = user;
+		this.listRepoResult = new ArrayList<Repository>();
 
 	}
 
@@ -130,57 +134,81 @@ public class Search {
 	public void setQuery(Query query) {
 		this.query = query;
 	}
-	
+
 	/**************************************************************************
 	 * MÉTODOS
 	 * ************************************************************************
 	 */
-	
+
 	public void search() {
-		
+
 		// Realizamos la búsqueda
-		query.setRepositoriesMaxNumber("1000");  // 1000 de prueba, BORRAR
+		query.setRepositoriesMaxNumber("1000"); // 1000 de prueba, BORRAR
 		int pagesNumber = 1;
-		JsonObject resultQuery =  GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(), "best-match", "desc", 100, pagesNumber);
+		JsonObject resultQuery = GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(), "best-match",
+				"desc", 100, pagesNumber);
+		JsonArray resultRepos = resultQuery.get("items").getAsJsonArray();
 		int repositoriesMaxNumber = Integer.parseInt(query.getRepositoriesMaxNumber());
 		long totalCount = resultQuery.get("total_count").getAsLong();
+
+		// Guardamos los resultados de la primera página
 		result.add(resultQuery);
-		
+		for (JsonElement re : resultRepos) {
+
+			JsonObject ro = (JsonObject) re;
+			String ownerName = ro.get("full_name").getAsString().split("/")[0];
+			String repoName = ro.get("name").getAsString();
+
+			listRepoResult.add(new Repository(ownerName, repoName));
+
+		}
+
 		if (repositoriesMaxNumber > 100 && totalCount > 100) {
-			
+
 			// Sacamos el número de páginas que necesitamos devolver
 			if (totalCount >= repositoriesMaxNumber) {
-				
+
 				pagesNumber = repositoriesMaxNumber / 100;
-				
+
 				if (repositoriesMaxNumber % 100 != 0) {
-					
+
 					pagesNumber++;
-					
+
 				}
-				
+
 			} else {
-				
+
 				pagesNumber = (int) (totalCount / 100);
-				
+
 				if (totalCount % 100 != 0) {
-					
+
 					pagesNumber++;
-					
+
 				}
-				
+
 			}
-			
+
 			// Vamos guardando los resultados
 			for (int i = 1; i < pagesNumber; i++) {
-				
-				resultQuery = GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(), "best-match", "desc", 100, i+1);
+
+				resultQuery = GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(), "best-match", "desc",
+						100, i + 1);
+				// Guardamos los resultados de la primera página
 				result.add(resultQuery);
-				
+				for (JsonElement re : resultRepos) {
+
+					JsonObject ro = (JsonObject) re;
+					String ownerName = ro.get("full_name").getAsString().split("/")[0];
+					String repoName = ro.get("name").getAsString();
+
+					listRepoResult.add(new Repository(ownerName, repoName));
+
+				}
+
 			}
-			
+
 		}
-		
+
 	}
 
 }
