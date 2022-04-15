@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 
 import gpp.model.User;
 import gpp.model.github.api.caller.GitHubAPICaller;
+import gpp.model.search.Search;
 
 /**
  * 
@@ -23,6 +24,7 @@ public class GPPSystem implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static GPPSystem instance = null;
 	private User user;
+	private Search currentSearch; // búsqueda actual a mostrar
 
 	/**************************************************************************
 	 * CONSTRUCTOR: PATRÓN SINGLETON
@@ -80,6 +82,26 @@ public class GPPSystem implements Serializable {
 	 */
 	public void setUser(User user) {
 		instance.user = user;
+	}
+
+	/**
+	 * 
+	 * Devuelve la búsqueda actual.
+	 * 
+	 * @return Búsqueda actual.
+	 */
+	public Search getCurrentSearch() {
+		return currentSearch;
+	}
+
+	/**
+	 * 
+	 * Modifica la búsqueda actual.
+	 * 
+	 * @param currentSearch. Nueva búsqueda actual.
+	 */
+	public void setCurrentSearch(Search currentSearch) {
+		instance.currentSearch = currentSearch;
 	}
 
 	/**************************************************************************
@@ -165,14 +187,12 @@ public class GPPSystem implements Serializable {
 		return correctLogin;
 
 	}
-	
+
 	/**
 	 * Método para cerrar sesión.
 	 */
 	public void logout() {
-		
-		
-		
+
 	}
 
 }

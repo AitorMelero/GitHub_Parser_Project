@@ -10,6 +10,7 @@ import gpp.constant.GPPConstant;
 import gpp.view.component.VLeftMenu;
 import gpp.view.window.login.VLogin;
 import gpp.view.window.search.VSearch;
+import gpp.view.window.search.VSearchResult;
 
 /**
  * 
@@ -24,6 +25,7 @@ public class VWindow extends JFrame {
 	private JPanel cards; // panel sobre el que situar las pantallas
 	private VLogin loginView; // pantalla login
 	private VSearch searchView; // pantalla de búsqueda
+	private VSearchResult searchResultView; // pantalla de resultados de búsquedas
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -42,11 +44,13 @@ public class VWindow extends JFrame {
 		menu.setVisible(false);
 		loginView = new VLogin();
 		searchView = new VSearch();
+		searchResultView = new VSearchResult();
 
 		// Añadimos todas las pantallas
 		cards = new JPanel(new CardLayout());
 		cards.add(loginView, "VLogin");
 		cards.add(searchView, "VSearch");
+		cards.add(searchResultView, "VSearchResult");
 
 		// Mostramos ventana
 		CardLayout c1 = (CardLayout) (cards.getLayout());
@@ -131,10 +135,30 @@ public class VWindow extends JFrame {
 	 * 
 	 * Modifica la ventana de las búsquedas.
 	 * 
-	 * @param loginView. Nueva ventana de las búsquedas.
+	 * @param searchView. Nueva ventana de las búsquedas.
 	 */
 	public void setSearchView(VSearch searchView) {
 		this.searchView = searchView;
+	}
+
+	/**
+	 * 
+	 * Devuelve la ventana de los resultados de la búsqueda.
+	 * 
+	 * @return Ventana de los resultados de las búsquedas.
+	 */
+	public VSearchResult getSearchResultView() {
+		return searchResultView;
+	}
+
+	/**
+	 * 
+	 * Modifica la ventana de los resultados de las búsquedas.
+	 * 
+	 * @param searchResultView. Nueva ventana de los resultados de las búsquedas.
+	 */
+	public void setSearchResultView(VSearchResult searchResultView) {
+		this.searchResultView = searchResultView;
 	}
 
 	/**************************************************************************
