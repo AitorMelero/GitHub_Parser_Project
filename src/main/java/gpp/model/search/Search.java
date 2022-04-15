@@ -26,6 +26,7 @@ public class Search {
 	private Query query; // datos de la consulta de la búsqueda
 	private User user; // usuario que realiza la búsqueda
 	private ArrayList<Repository> listRepoResult; // lista de repositorios del resultado
+	private int currentPageNumber; // número actual de la página del resultado actual
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -47,6 +48,7 @@ public class Search {
 		query = new Query();
 		this.user = user;
 		this.listRepoResult = new ArrayList<Repository>();
+		this.currentPageNumber = -1;
 
 	}
 
@@ -134,7 +136,7 @@ public class Search {
 	public void setQuery(Query query) {
 		this.query = query;
 	}
-	
+
 	/**
 	 * 
 	 * Devuelve la lista de repositorios del resultado de la búsqueda.
@@ -155,6 +157,26 @@ public class Search {
 		this.listRepoResult = listRepoResult;
 	}
 
+	/**
+	 * 
+	 * Devuelve el número actual de la página a mostrar.
+	 * 
+	 * @return Número de página actual a mostrar.
+	 */
+	public int getCurrentPageNumber() {
+		return currentPageNumber;
+	}
+
+	/**
+	 * 
+	 * Modifica el número de página a mostrar.
+	 * 
+	 * @param currentPageNumber. Número de página a mostrar.
+	 */
+	public void setCurrentPageNumber(int currentPageNumber) {
+		this.currentPageNumber = currentPageNumber;
+	}
+
 	/**************************************************************************
 	 * MÉTODOS
 	 * ************************************************************************
@@ -172,6 +194,7 @@ public class Search {
 		long totalCount = resultQuery.get("total_count").getAsLong();
 
 		// Guardamos los resultados de la primera página
+		setCurrentPageNumber(1);
 		result.add(resultQuery);
 		for (JsonElement re : resultRepos) {
 
@@ -213,6 +236,7 @@ public class Search {
 
 				resultQuery = GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(), "best-match", "desc",
 						100, i + 1);
+				resultRepos = resultQuery.get("items").getAsJsonArray();
 				// Guardamos los resultados de la primera página
 				result.add(resultQuery);
 				for (JsonElement re : resultRepos) {
