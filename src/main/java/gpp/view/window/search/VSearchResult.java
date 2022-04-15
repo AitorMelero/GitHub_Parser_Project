@@ -3,6 +3,7 @@ package gpp.view.window.search;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import gpp.model.Repository;
 import gpp.model.search.Search;
@@ -19,11 +20,17 @@ import gpp.view.component.VRepositoryContainer;
 public class VSearchResult extends JPanel {
 
 	private JLabel title; // título
+	private JScrollPane resultContainerScroll;  // contenedor para la lista de resultados con scroll
+	private JPanel resultContainer;  // contenedor con la lista de resultados
 
 	public VSearchResult() {
 
 		this.setBackground(VColor.getWHITE_MAIN());
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		resultContainerScroll = new JScrollPane();
+		resultContainer = new JPanel();
+		resultContainerScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		resultContainer.setLayout(new BoxLayout(resultContainer, BoxLayout.Y_AXIS));
 
 	}
 
@@ -43,6 +50,8 @@ public class VSearchResult extends JPanel {
 	public void setSearchResultCurrent(Search currentSearch, int page) {
 		
 		// Borramos el contenido de la búsqueda anterior
+		resultContainer.removeAll();
+		resultContainerScroll.setViewportView(null);
 		this.removeAll();
 
 		title = new JLabel("Resultados de \"" + currentSearch.getName() + "\"");
@@ -68,9 +77,12 @@ public class VSearchResult extends JPanel {
 			
 			repositoryContainer = new VRepositoryContainer(r);
 			
-			this.add(repositoryContainer);
+			resultContainer.add(repositoryContainer);
 			
 		}
+		
+		resultContainerScroll.setViewportView(resultContainer);
+		this.add(resultContainerScroll);
 
 	}
 
