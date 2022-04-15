@@ -23,7 +23,7 @@ public class VWindow extends JFrame {
 	private VLeftMenu menu; // menú lateral de la app
 	private JPanel cards; // panel sobre el que situar las pantallas
 	private VLogin loginView; // pantalla login
-	private VSearch searchView;  // pantalla de búsqueda
+	private VSearch searchView; // pantalla de búsqueda
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -42,7 +42,7 @@ public class VWindow extends JFrame {
 		menu.setVisible(false);
 		loginView = new VLogin();
 		searchView = new VSearch();
-		
+
 		// Añadimos todas las pantallas
 		cards = new JPanel(new CardLayout());
 		cards.add(loginView, "VLogin");
@@ -66,7 +66,7 @@ public class VWindow extends JFrame {
 	 * GETTERS Y SETTERS
 	 * ************************************************************************
 	 */
-	
+
 	/**
 	 * 
 	 * Devuelve el menú lateral de la app.
@@ -116,12 +116,32 @@ public class VWindow extends JFrame {
 	public void setLoginView(VLogin loginView) {
 		this.loginView = loginView;
 	}
-	
+
+	/**
+	 * 
+	 * Devuelve la ventana de las búsquedas.
+	 * 
+	 * @return Ventana de las búsquedas.
+	 */
+	public VSearch getSearchView() {
+		return searchView;
+	}
+
+	/**
+	 * 
+	 * Modifica la ventana de las búsquedas.
+	 * 
+	 * @param loginView. Nueva ventana de las búsquedas.
+	 */
+	public void setSearchView(VSearch searchView) {
+		this.searchView = searchView;
+	}
+
 	/**************************************************************************
 	 * MÉTODOS
 	 * ************************************************************************
 	 */
-	
+
 	/**
 	 * 
 	 * Cambia de pantalla.
@@ -129,21 +149,21 @@ public class VWindow extends JFrame {
 	 * @param nameCard. Nombre de la nueva pantalla a mostrar.
 	 */
 	public void setCard(String nameCard) {
-		
-		CardLayout c = (CardLayout)(cards.getLayout());
+
+		CardLayout c = (CardLayout) (cards.getLayout());
 		c.show(cards, nameCard);
-		
+
 		// Si estamos en el login no mostramos el menú lateral
 		if (nameCard.equals("VLogin")) {
-			
+
 			menu.setVisible(false);
-			
+
 		} else {
-			
+
 			menu.setVisible(true);
-			
+
 		}
-		
+
 	}
 
 }

@@ -3,6 +3,7 @@ package gpp;
 import java.awt.EventQueue;
 
 import gpp.controller.window.login.CLogin;
+import gpp.controller.window.search.CSearch;
 import gpp.model.github.api.caller.GitHubAPICaller;
 import gpp.model.search.Search;
 import gpp.view.VWindow;
@@ -20,13 +21,16 @@ public class GPPMain {
 				VWindow windows = new VWindow();
 				GPPSystem gppSystem;
 				CLogin cLogin;
+				CSearch cSearch;
 				
 				// Inicializamos componentes
 				gppSystem = GPPSystem.getInstance();
 				cLogin = new CLogin(gppSystem, windows);
+				cSearch = new CSearch(gppSystem, windows);
 				
 				// Asociamos controladores a las vistas
 				windows.getLoginView().setControllers(cLogin);
+				windows.getSearchView().setControllers(cSearch);
 				
 				// PRUEBAS -> BORRAR
 				//Search s = new Search("Búsqueda prueba");

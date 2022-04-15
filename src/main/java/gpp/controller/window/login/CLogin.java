@@ -21,64 +21,71 @@ import gpp.view.VWindow;
  *
  */
 public class CLogin implements ActionListener {
-	
-	GPPSystem gppSystem;  // sistema
-	VWindow windows;  // ventana principal
-	
+
+	GPPSystem gppSystem; // sistema
+	VWindow windows; // ventana principal
+
 	/**************************************************************************
 	 * CONSTRUCTOR
 	 * ************************************************************************
 	 */
-	
+
 	/**
 	 * 
 	 * Constructor.
 	 * 
 	 * @param gppSystem. Sistema.
-	 * @param windows. Ventana principal.
+	 * @param windows.   Ventana principal.
 	 */
 	public CLogin(GPPSystem gppSystem, VWindow windows) {
-		
+
 		this.gppSystem = gppSystem;
 		this.windows = windows;
-		
+
 	}
+
+	/**************************************************************************
+	 * MÉTODOS
+	 * ************************************************************************
+	 */
 
 	/**
 	 * Método que controla los eventos
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 		String token = new String(windows.getLoginView().getTokenField().getPassword());
-		
+
 		if (e.getActionCommand().equals("login")) {
-			
+
 			if (gppSystem.login(token)) {
-				
+
 				windows.setCard("VSearch");
-				
+
 			} else {
-				
-				JOptionPane.showMessageDialog(windows.getLoginView(), "Token incorrecto. Inténtalo de nuevo.", "Error token", JOptionPane.ERROR_MESSAGE);
-				
+
+				JOptionPane.showMessageDialog(windows.getLoginView(), "Token incorrecto. Inténtalo de nuevo.",
+						"Error token", JOptionPane.ERROR_MESSAGE);
+
 			}
-			
+
 		} else if (e.getActionCommand().equals("getToken")) {
-			
+
 			try {
-				
-				URL urlToken = new URL("https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token");
+
+				URL urlToken = new URL(
+						"https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token");
 				GPPSystem.openWebpage(urlToken);
-				
+
 			} catch (MalformedURLException e1) {
-				
+
 				e1.printStackTrace();
-				
+
 			}
-			
+
 		}
-		
+
 	}
 
 }
