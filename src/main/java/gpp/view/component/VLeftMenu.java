@@ -3,6 +3,7 @@ package gpp.view.component;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -39,6 +40,7 @@ public class VLeftMenu extends JPanel {
 		// Añadimos los botones principales
 		Icon searchIcon = new ImageIcon(GPPConstant.GPP_ICONS + "search.png");
 		searchButton = new VButton("Buscar", searchIcon);
+		searchButton.setActionCommand("buscar");
 		mainButtonsContainer.add(searchButton);
 
 		Icon recentSearchesIcon = new ImageIcon(GPPConstant.GPP_ICONS + "clock.png");
@@ -123,6 +125,23 @@ public class VLeftMenu extends JPanel {
 	 */
 	public VButton getSettingsButton() {
 		return settingsButton;
+	}
+
+	/**************************************************************************
+	 * MÉTODOS
+	 * ************************************************************************
+	 */
+
+	/**
+	 * 
+	 * Agrega los listeners a todos los componentes de la pantalla que lo necesitan.
+	 * 
+	 * @param action. Listener.
+	 */
+	public void setControllers(ActionListener action) {
+
+		searchButton.addActionListener(action);
+
 	}
 
 }
