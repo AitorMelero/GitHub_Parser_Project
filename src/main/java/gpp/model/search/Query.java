@@ -23,6 +23,7 @@ public class Query {
 	private String topics; // topics del repositorio
 	private String topicsNumber; // número de topics del repositorio
 	private String sortOption; // opción de orden del resultado
+	private String repositoriesMaxNumber; // número máximos de repositorios a devolver (máx. 1000)
 
 	/**************************************************************************
 	 * GETTERS Y SETTERS
@@ -310,6 +311,30 @@ public class Query {
 		this.sortOption = sortOption;
 	}
 
+	/**
+	 * 
+	 * Devuelve la cadena con el número máximo de repositorios a devolver en la
+	 * búsqueda.
+	 * 
+	 * @return Cadena con el número máximo de repositorios a devolver en la
+	 *         búsqueda.
+	 */
+	public String getRepositoriesMaxNumber() {
+		return repositoriesMaxNumber;
+	}
+
+	/**
+	 * 
+	 * Modifica la cadena con el número máximo de repositorios a devolver en la
+	 * búsqueda.
+	 * 
+	 * @param sortOption. Cadena con el número máximo de repositorios a devolver en
+	 *                    la búsqueda.
+	 */
+	public void setRepositoriesMaxNumber(String repositoriesMaxNumber) {
+		this.repositoriesMaxNumber = repositoriesMaxNumber;
+	}
+
 	/**************************************************************************
 	 * MÉTODOSS
 	 * ************************************************************************
@@ -325,16 +350,16 @@ public class Query {
 		setPath("q=");
 		setPath(path + generateOwner());
 		setPath(path + generateInRepositoryName());
-		
+
 		// Comprobamos que la query no está vacía
 		if (!path.equals("q=")) {
-			
+
 			setPath(path + ";");
-			
+
 		} else {
-			
+
 			setPath("");
-			
+
 		}
 
 	}
@@ -383,7 +408,7 @@ public class Query {
 
 			// Creamos la consulta
 			generateParams = generateParamsQuery(inRepositoryName);
-			
+
 			for (String i : generateParams) {
 
 				inRepositoryNameQuery += "+" + i;
@@ -391,9 +416,9 @@ public class Query {
 			}
 
 			if (generateParams.length > 0) {
-				
+
 				inRepositoryNameQuery += "+in:name";
-				
+
 			}
 
 		}
@@ -418,12 +443,12 @@ public class Query {
 		withoutSpaces = paramsString.replace(" ", "");
 
 		if (!withoutSpaces.equals("")) {
-			
+
 			// Comprobamos que el primer caracter no sea una coma
 			if (withoutSpaces.substring(0, 1).equals(",")) {
-				
+
 				withoutSpaces = withoutSpaces.substring(1);
-				
+
 			}
 
 			// Separamos por comas

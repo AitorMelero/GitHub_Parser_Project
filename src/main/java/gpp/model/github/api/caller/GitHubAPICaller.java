@@ -195,7 +195,6 @@ public class GitHubAPICaller {
 
 		String url = "/search/repositories?" + query + "sort=" + sort + ";order=" + order + ";per_page=" + perPage
 				+ ";page=" + page;
-		System.out.println("CONSULTA: " + url);
 		String resultString = sendGetPetition(url, token);
 
 		return fromStringToJsonObject(resultString);

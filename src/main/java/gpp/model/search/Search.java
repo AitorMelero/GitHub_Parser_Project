@@ -3,6 +3,11 @@ package gpp.model.search;
 import java.time.LocalDate;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import gpp.model.User;
+import gpp.model.github.api.caller.GitHubAPICaller;
 
 /**
  * 
@@ -17,6 +22,7 @@ public class Search {
 	private String name; // nombre asignado por el usuario a la búsqueda
 	private JsonArray result; // resultado de la búsqueda
 	private Query query; // datos de la consulta de la búsqueda
+	private User user;  // usuario que realiza la búsqueda
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -28,13 +34,15 @@ public class Search {
 	 * Constructor de una búsqueda.
 	 * 
 	 * @param name. Nombre de la búsqueda.
+	 * @param user. Usuario que realiza la búsqueda.
 	 */
-	public Search(String name) {
+	public Search(String name, User user) {
 
 		date = LocalDate.now();
 		this.name = name;
 		result = new JsonArray();
 		query = new Query();
+		this.user = user;
 
 	}
 
@@ -121,6 +129,58 @@ public class Search {
 	 */
 	public void setQuery(Query query) {
 		this.query = query;
+	}
+	
+	/**************************************************************************
+	 * MÉTODOS
+	 * ************************************************************************
+	 */
+	
+	public void search() {
+		
+		// Realizamos la búsqueda
+		query.setRepositoriesMaxNumber("1000");  // 1000 de prueba, BORRAR
+		int pagesNumber = 1;
+		JsonObject resultQuery =  GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(), "best-match", "desc", 100, pagesNumber);
+		int repositoriesMaxNumber = Integer.parseInt(query.getRepositoriesMaxNumber());
+		long totalCount = resultQuery.get("total_count").getAsLong();
+		result.add(resultQuery);
+		
+		if (repositoriesMaxNumber > 100 && totalCount > 100) {
+			
+			// Sacamos el número de páginas que necesitamos devolver
+			if (totalCount >= repositoriesMaxNumber) {
+				
+				pagesNumber = repositoriesMaxNumber / 100;
+				
+				if (repositoriesMaxNumber % 100 != 0) {
+					
+					pagesNumber++;
+					
+				}
+				
+			} else {
+				
+				pagesNumber = (int) (totalCount / 100);
+				
+				if (totalCount % 100 != 0) {
+					
+					pagesNumber++;
+					
+				}
+				
+			}
+			
+			// Vamos guardando los resultados
+			for (int i = 1; i < pagesNumber; i++) {
+				
+				resultQuery = GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(), "best-match", "desc", 100, i+1);
+				result.add(resultQuery);
+				
+			}
+			
+		}
+		
 	}
 
 }
