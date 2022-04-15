@@ -134,6 +134,26 @@ public class Search {
 	public void setQuery(Query query) {
 		this.query = query;
 	}
+	
+	/**
+	 * 
+	 * Devuelve la lista de repositorios del resultado de la búsqueda.
+	 * 
+	 * @return Lista de repositorios devueltos en la búsqueda.
+	 */
+	public ArrayList<Repository> getListRepoResult() {
+		return listRepoResult;
+	}
+
+	/**
+	 * 
+	 * Modifica la lista de repositorios devuelta en la búsqueda.
+	 * 
+	 * @param listRepoResult. Lista de repositorios devuelta en la búsqueda.
+	 */
+	public void setListRepoResult(ArrayList<Repository> listRepoResult) {
+		this.listRepoResult = listRepoResult;
+	}
 
 	/**************************************************************************
 	 * MÉTODOS
