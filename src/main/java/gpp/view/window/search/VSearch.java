@@ -58,6 +58,31 @@ public class VSearch extends JPanel {
 	}
 
 	/**************************************************************************
+	 * GETTERS Y SETTERS
+	 * ************************************************************************
+	 */
+
+	/**
+	 * 
+	 * Devuelve la pantalla de parámetros de la consulta.
+	 * 
+	 * @return Ventana de parámetros de la búsqueda.
+	 */
+	public VQuery getQueryWindow() {
+		return queryWindow;
+	}
+
+	/**
+	 * 
+	 * Modifica la pantalla de parámetros de la búsqueda.
+	 * 
+	 * @param queryWindow. Nueva pantalla de parámetros de búsqueda.
+	 */
+	public void setQueryWindow(VQuery queryWindow) {
+		this.queryWindow = queryWindow;
+	}
+
+	/**************************************************************************
 	 * MÉTODOS
 	 * ************************************************************************
 	 */

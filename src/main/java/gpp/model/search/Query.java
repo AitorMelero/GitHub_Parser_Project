@@ -322,14 +322,18 @@ public class Query {
 	 */
 	public void generateQueryPath() {
 
-		setPath("");
+		setPath("q=");
 		setPath(path + generateOwner());
 		setPath(path + generateInRepositoryName());
 		
 		// Comprobamos que la query no está vacía
-		if (!path.equals("")) {
+		if (!path.equals("q=")) {
 			
 			setPath(path + ";");
+			
+		} else {
+			
+			setPath("");
 			
 		}
 

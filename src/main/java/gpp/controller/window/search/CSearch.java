@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import gpp.GPPSystem;
+import gpp.model.github.api.caller.GitHubAPICaller;
+import gpp.model.search.Query;
+import gpp.model.search.Search;
 import gpp.view.VWindow;
 
 /**
@@ -52,7 +55,19 @@ public class CSearch implements ActionListener {
 
 		if (e.getActionCommand().equals("buscar")) {
 
-			System.out.println("ESTOY BUSCANDO");
+			// Sacamos los valores de los campos de búsqueda
+			String owner = windows.getSearchView().getQueryWindow().getOwner().getText();
+			String inRepositoryName = windows.getSearchView().getQueryWindow().getInRepositoryName().getText();
+
+			// Creamos la búsqueda
+			Search s = new Search("Búsquedas prueba");
+			Query q = s.getQuery();
+			q.setOwner(owner);
+			q.setInRepositoryName(inRepositoryName);
+			q.generateQueryPath();
+
+			System.out.println("RESULTADO: " + GitHubAPICaller.searchRepositories(gppSystem.getUser().getToken(),
+					q.getPath(), "best-match", "desc", 1, 1));
 
 		}
 
