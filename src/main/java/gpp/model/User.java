@@ -34,7 +34,7 @@ public class User {
 
 		this.username = username;
 		this.token = token;
-		this.clonePath = "src/main/resources/repositories/";
+		this.clonePath = "gpp-clone-repositories/";
 		this.searches = new ArrayList<Search>();
 
 	}

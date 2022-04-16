@@ -175,7 +175,7 @@ public class Repository {
 		// Borramos el repositorio si no estaba ya clonado
 		if (!repoIsClone) {
 			
-			deleteCloneRepo();
+			//deleteCloneRepo();
 			
 		}
 
@@ -191,21 +191,22 @@ public class Repository {
 		String repoUrl = "https://github.com/" + ownerName + "/" + name + ".git";
 		User user = GPPSystem.getUser();
 		String path = user.getClonePath() + ownerName + "/" + name + "/";
+		
+		this.setClonePath(path);
 
 		CredentialsProvider cp = new UsernamePasswordCredentialsProvider(user.getUsername(), user.getToken());
 
 		try {
 
 			System.out.println("Cloning " + repoUrl + " into " + path);
-			Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory(Paths.get(path).toFile())
-					.call();
-			this.setClonePath(path);
+			Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory(Paths.get(path).toFile()).call();
 			System.out.println("Completed Cloning");
 
 		} catch (GitAPIException e) {
 
 			System.out.println("Exception occurred while cloning repo");
 			e.printStackTrace();
+			this.setClonePath(null);
 
 		}
 
