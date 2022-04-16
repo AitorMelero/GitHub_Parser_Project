@@ -44,20 +44,20 @@ public class Repository {
 
 		this.ownerName = ownerName;
 		this.name = name;
-		
+
 		// Comprobamos si el repositorio está clonado
 		String path = GPPSystem.getUser().getClonePath() + ownerName + "/" + name + "/";
 		File file = new File(path);
 		if (file.isDirectory()) {
-			
+
 			this.clonePath = path;
-			
+
 		} else {
-			
+
 			this.clonePath = null;
-			
+
 		}
-		
+
 		this.filesNumber = 0;
 
 	}
@@ -158,12 +158,12 @@ public class Repository {
 	 * 
 	 */
 	public void generateFullInfo() {
-		
+
 		boolean repoIsClone = true;
 
-		// Clonamos, si no está ya clonado el repositorio
+		// Clonamos, si no está clonado el repositorio
 		if (clonePath == null) {
-			
+
 			repoIsClone = false;
 
 			cloneRepo();
@@ -171,14 +171,16 @@ public class Repository {
 		}
 
 		// Recorremos el repositorio fichero a fichero
+		File f = new File(clonePath);
+		getFullInfo(f);
 
 		// Borramos el repositorio si no estaba ya clonado
 		if (!repoIsClone) {
-			
-			deleteCloneRepo(new File(clonePath));
-			
+
+			deleteCloneRepo(f);
+
 			this.setClonePath(null);
-			
+
 		}
 
 	}
@@ -193,22 +195,28 @@ public class Repository {
 		String repoUrl = "https://github.com/" + ownerName + "/" + name + ".git";
 		User user = GPPSystem.getUser();
 		String path = user.getClonePath() + ownerName + "/" + name + "/";
-		
-		this.setClonePath(path);
 
-		CredentialsProvider cp = new UsernamePasswordCredentialsProvider(user.getUsername(), user.getToken());
+		// Comprobamos si el repositorio ya está clonado
+		if (clonePath == null) {
 
-		try {
+			this.setClonePath(path);
 
-			//System.out.println("Cloning " + repoUrl + " into " + path);
-			Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory(Paths.get(path).toFile()).call().close();
-			//System.out.println("Completed Cloning");
+			CredentialsProvider cp = new UsernamePasswordCredentialsProvider(user.getUsername(), user.getToken());
 
-		} catch (GitAPIException e) {
+			try {
 
-			System.out.println("Exception occurred while cloning repo");
-			e.printStackTrace();
-			this.setClonePath(null);
+				// System.out.println("Cloning " + repoUrl + " into " + path);
+				Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory(Paths.get(path).toFile())
+						.call().close();
+				// System.out.println("Completed Cloning");
+
+			} catch (GitAPIException e) {
+
+				System.out.println("Exception occurred while cloning repo");
+				e.printStackTrace();
+				this.setClonePath(null);
+
+			}
 
 		}
 
@@ -219,18 +227,44 @@ public class Repository {
 	 * Método para eliminar repositorios clonados
 	 * 
 	 */
-	public void deleteCloneRepo(File f) {
-		
+	private void deleteCloneRepo(File f) {
+
 		if (f.isDirectory()) {
-			for (File c: f.listFiles()) {
+			for (File c : f.listFiles()) {
 				deleteCloneRepo(c);
 			}
 		}
-		
+
 		if (!f.delete()) {
 			System.out.println("NO SE PUEDE BORRAR: " + f.getName());
 		}
-		
+
+	}
+
+	/**
+	 * 
+	 * Método recursivo que saca toda la info del repositorio.
+	 * 
+	 * @param f. Fichero o directorio a analizar.
+	 */
+	private void getFullInfo(File f) {
+
+		if (!f.getName().equals(".git")) {
+
+			if (f.isDirectory()) {
+
+				for (File c : f.listFiles()) {
+					getFullInfo(c);
+				}
+
+			} else {
+
+				filesNumber++;
+
+			}
+
+		}
+
 	}
 
 }
