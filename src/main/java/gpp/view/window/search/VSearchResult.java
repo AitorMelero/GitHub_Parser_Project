@@ -31,6 +31,7 @@ public class VSearchResult extends JPanel {
 	private JLabel numberPageLabel; // etiqueta que indica el número de página actual
 	private JScrollPane resultContainerScroll; // contenedor para la lista de resultados con scroll
 	private JPanel resultContainer; // contenedor con la lista de resultados
+	private ActionListener resultContainerRepositoryListener; // listener para los contenedores de los repositorios
 
 	public VSearchResult() {
 
@@ -49,6 +50,32 @@ public class VSearchResult extends JPanel {
 	}
 
 	/**************************************************************************
+	 * GETTERS Y SETTERS
+	 * ************************************************************************
+	 */
+
+	/**
+	 * 
+	 * Devuelve el listener de los contenedores de los repositorios.
+	 * 
+	 * @return Listener de los contenedores de los repositorios.
+	 */
+	public ActionListener getResultContainerRepositoryListener() {
+		return resultContainerRepositoryListener;
+	}
+
+	/**
+	 * 
+	 * Modifica el listener de los contenedores de los repositorios.
+	 * 
+	 * @param resultContainerRepositoryListener. Listener de los contenedores de los
+	 *                                           repositorios.
+	 */
+	public void setResultContainerRepositoryListener(ActionListener resultContainerRepositoryListener) {
+		this.resultContainerRepositoryListener = resultContainerRepositoryListener;
+	}
+
+	/**************************************************************************
 	 * MÉTODOS
 	 * ************************************************************************
 	 */
@@ -62,7 +89,7 @@ public class VSearchResult extends JPanel {
 	 * @param page.          Número de página a mostrar.
 	 */
 	public void setSearchResultCurrent(Search currentSearch, int page) {
-		
+
 		// Borramos el contenido de la búsqueda anterior
 		navigationPageContainer.removeAll();
 		resultContainer.removeAll();
@@ -113,11 +140,11 @@ public class VSearchResult extends JPanel {
 		if (page == numPages) {
 
 			numRepoInPages = numRepo % 100;
-			
+
 			if (numRepoInPages == 0) {
-				
+
 				numRepoInPages = 100;
-				
+
 			}
 
 		}
@@ -125,8 +152,11 @@ public class VSearchResult extends JPanel {
 		for (int i = 0; i < numRepoInPages; i++) {
 
 			r = currentSearch.getListRepoResult().get(100 * (page - 1) + i);
-			
+
 			repositoryContainer = new VRepositoryContainer(r);
+			
+			// Añadimos el listener al contenedor del repositorio
+			repositoryContainer.setControllers(resultContainerRepositoryListener);
 
 			resultContainer.add(repositoryContainer);
 
