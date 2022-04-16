@@ -10,12 +10,13 @@ import gpp.view.VWindow;
 
 /**
  * 
- * Clase que implementa el controlador para los contenedores de repositorios.
+ * Clase que implementa el controlador de la pantalla de información del
+ * repositorio.
  * 
- * @author Aitor Melero.
+ * @author Aitor Melero
  *
  */
-public class CRepositoryContainer implements ActionListener {
+public class CRepository implements ActionListener {
 
 	GPPSystem gppSystem; // sistema
 	VWindow windows; // ventana principal
@@ -32,7 +33,7 @@ public class CRepositoryContainer implements ActionListener {
 	 * @param gppSystem. Sistema.
 	 * @param windows.   Ventana principal.
 	 */
-	public CRepositoryContainer(GPPSystem gppSystem, VWindow windows) {
+	public CRepository(GPPSystem gppSystem, VWindow windows) {
 
 		this.gppSystem = gppSystem;
 		this.windows = windows;
@@ -43,7 +44,7 @@ public class CRepositoryContainer implements ActionListener {
 	 * MÉTODOS
 	 * ************************************************************************
 	 */
-
+	
 	/**
 	 * 
 	 * Método que controla los eventos.
@@ -52,26 +53,11 @@ public class CRepositoryContainer implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		Search currentSearch = gppSystem.getCurrentSearch();
-		Repository repo = null;
-		String repoName;
-		
-		// Sacamos el repositorio correspondiente
-		for (Repository r: currentSearch.getListRepoResult()) {
+		if (e.getActionCommand().equals("go back")) {
 			
-			repoName = r.getOwnerName() + "/" + r.getName();
-			
-			if (e.getActionCommand().equals(repoName)) {
-				
-				repo = r;
-				
-			}
+			windows.setCard("VSearchResult");
 			
 		}
-		
-		// Cambiamos de pantalla
-		windows.getRepositoryView().setRepository(repo);
-		windows.setCard("VRepository");
 
 	}
 

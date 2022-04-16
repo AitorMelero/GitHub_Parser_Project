@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import gpp.constant.GPPConstant;
 import gpp.view.component.VLeftMenu;
+import gpp.view.component.VRepository;
 import gpp.view.window.login.VLogin;
 import gpp.view.window.search.VSearch;
 import gpp.view.window.search.VSearchResult;
@@ -26,6 +27,7 @@ public class VWindow extends JFrame {
 	private VLogin loginView; // pantalla login
 	private VSearch searchView; // pantalla de búsqueda
 	private VSearchResult searchResultView; // pantalla de resultados de búsquedas
+	private VRepository repositoryView; // pantalla con información del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -45,12 +47,14 @@ public class VWindow extends JFrame {
 		loginView = new VLogin();
 		searchView = new VSearch();
 		searchResultView = new VSearchResult();
+		repositoryView = new VRepository();
 
 		// Añadimos todas las pantallas
 		cards = new JPanel(new CardLayout());
 		cards.add(loginView, "VLogin");
 		cards.add(searchView, "VSearch");
 		cards.add(searchResultView, "VSearchResult");
+		cards.add(repositoryView, "VRepository");
 
 		// Mostramos ventana
 		CardLayout c1 = (CardLayout) (cards.getLayout());
@@ -159,6 +163,26 @@ public class VWindow extends JFrame {
 	 */
 	public void setSearchResultView(VSearchResult searchResultView) {
 		this.searchResultView = searchResultView;
+	}
+
+	/**
+	 * 
+	 * Devuelve la ventana de la información de un repositorio.
+	 * 
+	 * @return Ventana con la información de un repositorio.
+	 */
+	public VRepository getRepositoryView() {
+		return repositoryView;
+	}
+
+	/**
+	 * 
+	 * Modifica la ventana con la información de un repositorio.
+	 * 
+	 * @param repositoryView. Nueva ventana con la información de un repositorio.
+	 */
+	public void setRepositoryView(VRepository repositoryView) {
+		this.repositoryView = repositoryView;
 	}
 
 	/**************************************************************************

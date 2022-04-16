@@ -3,6 +3,7 @@ package gpp;
 import java.awt.EventQueue;
 
 import gpp.controller.component.CLeftMenu;
+import gpp.controller.component.CRepository;
 import gpp.controller.component.CRepositoryContainer;
 import gpp.controller.window.login.CLogin;
 import gpp.controller.window.search.CSearch;
@@ -28,6 +29,7 @@ public class GPPMain {
 				CSearchResult cSearchResult;
 				CLeftMenu cLeftMenu;
 				CRepositoryContainer cRepositoryContainer;
+				CRepository cRepository;
 
 				// Inicializamos componentes
 				gppSystem = GPPSystem.getInstance();
@@ -36,6 +38,7 @@ public class GPPMain {
 				cSearchResult = new CSearchResult(gppSystem, windows);
 				cLeftMenu = new CLeftMenu(gppSystem, windows);
 				cRepositoryContainer = new CRepositoryContainer(gppSystem, windows);
+				cRepository = new CRepository(gppSystem, windows);
 
 				// Asociamos controladores a las vistas
 				windows.getLoginView().setControllers(cLogin);
@@ -43,6 +46,7 @@ public class GPPMain {
 				windows.getSearchResultView().setControllers(cSearchResult);
 				windows.getMenu().setControllers(cLeftMenu);
 				windows.getSearchResultView().setResultContainerRepositoryListener(cRepositoryContainer);
+				windows.getRepositoryView().setControllers(cRepository);
 
 			}
 
