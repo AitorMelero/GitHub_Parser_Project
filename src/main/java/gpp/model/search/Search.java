@@ -182,6 +182,12 @@ public class Search {
 	 * ************************************************************************
 	 */
 
+	/**
+	 * 
+	 * Realiza la búsqueda de repositorios llamando a la API de GitHub según los
+	 * parámetros introducidos.
+	 * 
+	 */
 	public void search() {
 
 		// Realizamos la búsqueda
@@ -253,6 +259,17 @@ public class Search {
 
 		}
 
+	}
+	
+	/**
+	 * 
+	 * Filtra la lista de repositorios en función de los filtros introducidos.
+	 * 
+	 */
+	public void filter() {
+		
+		listRepoResult.get(0).generateFullInfo();
+		
 	}
 
 }

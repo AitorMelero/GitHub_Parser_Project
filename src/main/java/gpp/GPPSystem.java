@@ -23,7 +23,7 @@ public class GPPSystem implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static GPPSystem instance = null;
-	private User user;
+	private static User user;
 	private Search currentSearch; // búsqueda actual a mostrar
 
 	/**************************************************************************
@@ -70,7 +70,7 @@ public class GPPSystem implements Serializable {
 	 * 
 	 * @return Usuario actual.
 	 */
-	public User getUser() {
+	public static User getUser() {
 		return user;
 	}
 
@@ -81,7 +81,7 @@ public class GPPSystem implements Serializable {
 	 * @param user. Nuevo usuario actual.
 	 */
 	public void setUser(User user) {
-		instance.user = user;
+		GPPSystem.user = user;
 	}
 
 	/**

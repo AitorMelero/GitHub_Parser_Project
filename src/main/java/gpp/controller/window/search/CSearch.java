@@ -72,6 +72,9 @@ public class CSearch implements ActionListener {
 			// Realizamos la búsqueda
 			s.search();
 			
+			// Filtramos la búsqueda
+			s.filter();
+			
 			// Cambiamos a la pantalla de resultados
 			gppSystem.setCurrentSearch(s);
 			windows.getSearchResultView().setSearchResultCurrent(s,1);
