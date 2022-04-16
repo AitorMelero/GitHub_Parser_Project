@@ -270,7 +270,9 @@ public class Search {
 		
 		int i = 1;
 		
-		for (Repository r: listRepoResult) {
+		listRepoResult.get(3).generateFullInfo();
+		
+		/*for (Repository r: listRepoResult) {
 			
 			System.out.println("Clonando " + i + " de " + listRepoResult.size());
 			
@@ -278,7 +280,7 @@ public class Search {
 			
 			i++;
 			
-		}
+		}*/
 		
 	}
 

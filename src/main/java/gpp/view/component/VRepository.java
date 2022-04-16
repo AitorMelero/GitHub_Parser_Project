@@ -75,6 +75,15 @@ public class VRepository extends JPanel {
 		infoContainer.add(name);
 		JLabel filesNumber = new JLabel("Nº de ficheros: " + repo.getFilesNumber());
 		infoContainer.add(filesNumber);
+		String extensionsList = "Extensiones: { ";
+		for (String s: repo.getExtensionsList()) {
+			
+			extensionsList += s + " ";
+			
+		}
+		extensionsList += "}";
+		JLabel extensionRepo = new JLabel(extensionsList);
+		infoContainer.add(extensionRepo);
 
 		infoContainerScroll.setViewportView(infoContainer);
 		infoContainerScroll.getViewport().setViewPosition(new Point(0, 0));
