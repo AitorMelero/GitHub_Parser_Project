@@ -268,7 +268,17 @@ public class Search {
 	 */
 	public void filter() {
 		
-		listRepoResult.get(0).generateFullInfo();
+		int i = 1;
+		
+		for (Repository r: listRepoResult) {
+			
+			System.out.println("Clonando " + i + " de " + listRepoResult.size());
+			
+			r.generateFullInfo();
+			
+			i++;
+			
+		}
 		
 	}
 

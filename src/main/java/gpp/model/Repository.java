@@ -175,7 +175,9 @@ public class Repository {
 		// Borramos el repositorio si no estaba ya clonado
 		if (!repoIsClone) {
 			
-			//deleteCloneRepo();
+			deleteCloneRepo(new File(clonePath));
+			
+			this.setClonePath(null);
 			
 		}
 
@@ -198,9 +200,9 @@ public class Repository {
 
 		try {
 
-			System.out.println("Cloning " + repoUrl + " into " + path);
-			Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory(Paths.get(path).toFile()).call();
-			System.out.println("Completed Cloning");
+			//System.out.println("Cloning " + repoUrl + " into " + path);
+			Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory(Paths.get(path).toFile()).call().close();
+			//System.out.println("Completed Cloning");
 
 		} catch (GitAPIException e) {
 
@@ -212,14 +214,23 @@ public class Repository {
 
 	}
 
-	public void deleteCloneRepo() {
-
-		try {
-			Files.walk(Paths.get(clonePath)).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
-			this.setClonePath(null);
-		} catch (IOException e) {
-			e.printStackTrace();
+	/**
+	 * 
+	 * Método para eliminar repositorios clonados
+	 * 
+	 */
+	public void deleteCloneRepo(File f) {
+		
+		if (f.isDirectory()) {
+			for (File c: f.listFiles()) {
+				deleteCloneRepo(c);
+			}
 		}
+		
+		if (!f.delete()) {
+			System.out.println("NO SE PUEDE BORRAR: " + f.getName());
+		}
+		
 	}
 
 }
