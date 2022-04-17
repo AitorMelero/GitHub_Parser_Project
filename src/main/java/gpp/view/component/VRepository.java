@@ -84,6 +84,12 @@ public class VRepository extends JPanel {
 		extensionsList += "}";
 		JLabel extensionRepo = new JLabel(extensionsList);
 		infoContainer.add(extensionRepo);
+		JLabel totalSize = new JLabel("Tamaño total: " + repo.getTotalSize());
+		infoContainer.add(totalSize);
+		JLabel avgSize = new JLabel("Tamaño medio de ficheros: " + repo.getAvgSize());
+		infoContainer.add(avgSize);
+		JLabel mainLanguage = new JLabel("Lenguaje principal: " + repo.getMainLanguage());
+		infoContainer.add(mainLanguage);
 
 		infoContainerScroll.setViewportView(infoContainer);
 		infoContainerScroll.getViewport().setViewPosition(new Point(0, 0));

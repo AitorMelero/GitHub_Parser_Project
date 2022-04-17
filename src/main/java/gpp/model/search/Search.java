@@ -202,15 +202,7 @@ public class Search {
 		// Guardamos los resultados de la primera página
 		setCurrentPageNumber(1);
 		result.add(resultQuery);
-		for (JsonElement re : resultRepos) {
-
-			JsonObject ro = (JsonObject) re;
-			String ownerName = ro.get("full_name").getAsString().split("/")[0];
-			String repoName = ro.get("name").getAsString();
-
-			listRepoResult.add(new Repository(ownerName, repoName));
-
-		}
+		createRepositoriesFromResult(resultRepos);
 
 		if (repositoriesMaxNumber > 100 && totalCount > 100) {
 
@@ -243,45 +235,70 @@ public class Search {
 				resultQuery = GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(), "best-match", "desc",
 						100, i + 1);
 				resultRepos = resultQuery.get("items").getAsJsonArray();
-				// Guardamos los resultados de la primera página
+
+				// Guardamos los resultados
 				result.add(resultQuery);
-				for (JsonElement re : resultRepos) {
-
-					JsonObject ro = (JsonObject) re;
-					String ownerName = ro.get("full_name").getAsString().split("/")[0];
-					String repoName = ro.get("name").getAsString();
-
-					listRepoResult.add(new Repository(ownerName, repoName));
-
-				}
+				createRepositoriesFromResult(resultRepos);
 
 			}
 
 		}
 
 	}
-	
+
 	/**
 	 * 
 	 * Filtra la lista de repositorios en función de los filtros introducidos.
 	 * 
 	 */
 	public void filter() {
-		
+
 		int i = 1;
-		
-		listRepoResult.get(3).generateFullInfo();
-		
-		/*for (Repository r: listRepoResult) {
-			
+
+		// listRepoResult.get(3).generateFullInfo();
+
+		for (Repository r : listRepoResult) {
+
 			System.out.println("Clonando " + i + " de " + listRepoResult.size());
-			
+
 			r.generateFullInfo();
-			
+
 			i++;
-			
-		}*/
-		
+
+		}
+
+	}
+
+	/**
+	 * 
+	 * Recorre la lista de repositorios devueltos por la consulta a la API para ir
+	 * creando dichos repositorios.
+	 * 
+	 * @param resultRepos. Lista de objetos JSON con la representación de los
+	 *                     repositorios devueltos.
+	 */
+	private void createRepositoriesFromResult(JsonArray resultRepos) {
+
+		Repository repoResult;
+		for (JsonElement re : resultRepos) {
+
+			// Sacamos la información que nos proporciona la API
+			JsonObject ro = (JsonObject) re;
+			String ownerName = ro.get("full_name").getAsString().split("/")[0];
+			String repoName = ro.get("name").getAsString();
+			long totalSize = ro.get("size").getAsLong();
+			String mainLanguage = null;
+			if (!ro.get("language").isJsonNull()) {
+				mainLanguage = ro.get("language").getAsString();
+			}
+
+			repoResult = new Repository(ownerName, repoName);
+			repoResult.setTotalSize(totalSize);
+			repoResult.setMainLanguage(mainLanguage);
+			listRepoResult.add(repoResult);
+
+		}
+
 	}
 
 }
