@@ -59,8 +59,8 @@ public class CSearch implements ActionListener {
 		if (e.getActionCommand().equals("buscar")) {
 
 			// Sacamos los valores de los campos de búsqueda
-			String owner = windows.getSearchView().getQueryWindow().getOwner().getText();
-			String inRepositoryName = windows.getSearchView().getQueryWindow().getInRepositoryName().getText();
+			String owner = windows.getSearchView().getQueryWindow().getOwnerField().getParamTextField().getText();
+			String inRepositoryName = windows.getSearchView().getQueryWindow().getInRepositoryNameField().getParamTextField().getText();
 
 			// Creamos la búsqueda
 			Search s = new Search("Búsquedas prueba", gppSystem.getUser());
