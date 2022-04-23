@@ -1,11 +1,15 @@
 package gpp.view.window.search;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import gpp.view.component.VColor;
 import gpp.view.component.VSearchParamLabel;
 import gpp.view.component.VSearchTextField;
+import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
+import javax.swing.ScrollPaneConstants;
 
 /**
  * 
@@ -17,6 +21,7 @@ import gpp.view.component.VSearchTextField;
  */
 public class VQuery extends JPanel {
 
+	JScrollPane scrollContainer;  // contenedor con scroll general
 	JPanel ownerContainer; // contenedor para autores
 	VSearchParamLabel ownerLabel; // etiqueta para autores
 	VSearchTextField owner; // campo de texto para autores
@@ -24,23 +29,46 @@ public class VQuery extends JPanel {
 	VSearchParamLabel inRepositoryNameLabel; // etiqueta para cadenas en el nombre del repositorio
 	VSearchTextField inRepositoryName; // campo de texto para cadenas en el nombre del repositorio
 
+	/**************************************************************************
+	 * CONSTRUCTOR
+	 * ************************************************************************
+	 */
+	
 	public VQuery() {
-
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+		// Estilos generales
 		this.setBackground(VColor.getWHITE_MAIN());
-
-		ownerContainer = new JPanel();
-		inRepositoryNameContainer = new JPanel();
-		ownerLabel = new VSearchParamLabel("Propietarios del repositorio: ");
-		owner = new VSearchTextField();
-		ownerContainer.add(ownerLabel);
-		ownerContainer.add(owner);
-		inRepositoryNameLabel = new VSearchParamLabel("Palabras del nombre del repositorio: ");
-		inRepositoryName = new VSearchTextField();
-		inRepositoryNameContainer.add(inRepositoryNameLabel);
-		inRepositoryNameContainer.add(inRepositoryName);
-		this.add(ownerContainer);
-		this.add(inRepositoryNameContainer);
+		setLayout(null);
+		scrollContainer = new JScrollPane();
+		scrollContainer.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollContainer.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollContainer.setBorder(BorderFactory.createEmptyBorder());
+		scrollContainer.setBounds(0, 11, 824, 465);
+		scrollContainer.setLayout(null);
+		
+		// Construimos los campos de los parámetros
+		int yPosition = 0;
+		createContainerField(yPosition, ownerContainer, ownerLabel, "Propietarios del repositorio: ", owner);
+		yPosition += 60;
+		createContainerField(yPosition, inRepositoryNameContainer, inRepositoryNameLabel, "Palabras del nombre del repositorio: ", inRepositoryName);
+		yPosition += 60;
+		createContainerField(yPosition, ownerContainer, ownerLabel, "Propietarios del repositorio: ", owner);
+		yPosition += 60;
+		createContainerField(yPosition, inRepositoryNameContainer, inRepositoryNameLabel, "Palabras del nombre del repositorio: ", inRepositoryName);
+		yPosition += 60;
+		createContainerField(yPosition, ownerContainer, ownerLabel, "Propietarios del repositorio: ", owner);
+		yPosition += 60;
+		createContainerField(yPosition, inRepositoryNameContainer, inRepositoryNameLabel, "Palabras del nombre del repositorio: ", inRepositoryName);
+		yPosition += 60;
+		createContainerField(yPosition, ownerContainer, ownerLabel, "Propietarios del repositorio: ", owner);
+		yPosition += 60;
+		createContainerField(yPosition, inRepositoryNameContainer, inRepositoryNameLabel, "Palabras del nombre del repositorio: ", inRepositoryName);
+		yPosition += 60;
+		createContainerField(yPosition, ownerContainer, ownerLabel, "Propietarios del repositorio: ", owner);
+		yPosition += 60;
+		createContainerField(yPosition, inRepositoryNameContainer, inRepositoryNameLabel, "Palabras del nombre del repositorio: ", inRepositoryName);
+		
+		this.add(scrollContainer);
 
 	}
 
@@ -92,5 +120,27 @@ public class VQuery extends JPanel {
 	public void setInRepositoryName(VSearchTextField inRepositoryName) {
 		this.inRepositoryName = inRepositoryName;
 	}
-
+	
+	/**************************************************************************
+	 * MÉTODOS
+	 * ************************************************************************
+	 */
+	
+	private void createContainerField(int yPosition, JPanel container, VSearchParamLabel labelContainer, String labelString, VSearchTextField textField) {
+		
+		container = new JPanel();
+		container.setBounds(0, yPosition, 693, 61);
+		container.setLayout(null);
+		
+		labelContainer = new VSearchParamLabel(labelString);
+		labelContainer.setBounds(10, 22, 304, 14);
+		container.add(labelContainer);
+		
+		textField = new VSearchTextField();
+		textField.setBounds(350, 19, 326, 20);
+		container.add(textField);
+		
+		scrollContainer.add(container);
+		
+	}
 }

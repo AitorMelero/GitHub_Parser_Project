@@ -46,6 +46,7 @@ public class VWindow extends JFrame {
 		menu.setVisible(false);
 		loginView = new VLogin();
 		searchView = new VSearch();
+		searchView.getQueryWindow().setBounds(20, 144, 807, 473);
 		searchResultView = new VSearchResult();
 		repositoryView = new VRepository();
 
@@ -61,8 +62,8 @@ public class VWindow extends JFrame {
 		c1.show(cards, "VLogin");
 
 		// Añadimos componentes
-		this.add(menu, BorderLayout.WEST);
-		this.add(cards);
+		getContentPane().add(menu, BorderLayout.WEST);
+		getContentPane().add(cards);
 
 		this.setVisible(true);
 

@@ -1,14 +1,19 @@
 package gpp.view.window.search;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import gpp.view.component.VColor;
 import gpp.view.component.VSearchButton;
 import gpp.view.component.VWindowSearchButton;
+import java.awt.Dimension;
 
 /**
  * 
@@ -19,6 +24,7 @@ import gpp.view.component.VWindowSearchButton;
  */
 public class VSearch extends JPanel {
 
+	private JPanel searchContainer; // posicion del contenedor principal de buscar
 	private JLabel searchTitle; // etiqueta del título de búsquedas
 	private VSearchButton searchButton; // botón de buscar
 	private JPanel windowButtonContainer; // contenedor para los botones de las subventanas
@@ -30,30 +36,44 @@ public class VSearch extends JPanel {
 	public VSearch() {
 
 		// Inicializamos componentes
+		searchContainer = new JPanel();
 		searchTitle = new JLabel("Buscar");
-
-		// Título
-		this.add(searchTitle);
+		searchTitle.setBounds(20, 11, 100, 42);
+		queryWindow = new VQuery();
 
 		// Diseño general
+		this.setBorder(new EmptyBorder(20, 20, 20, 20));
 		this.setBackground(VColor.getWHITE_MAIN());
-		// BOCETO
-		this.setLayout(new BoxLayout(this, (BoxLayout.Y_AXIS)));
+		setLayout(null);
+		//this.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+		// Título
+		searchTitle.setOpaque(true);
+		searchTitle.setBackground(VColor.getWHITE_MAIN());
+		searchTitle.setFont(new Font("Dialog", Font.ITALIC, 32));
+		//searchTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
+		this.add(searchTitle);
 
 		// BOCETO para probar búsquedas
 		searchButton = new VSearchButton("Buscar");
+		searchButton.setBounds(752, 57, 75, 26);
 		searchButton.setActionCommand("buscar");
 		this.add(searchButton);
 		windowButtonContainer = new JPanel();
+		windowButtonContainer.setLocation(20, 96);
 		queryWindowButton = new VWindowSearchButton("¿Qué buscas?");
 		filterWindowButton = new VWindowSearchButton("Filtros generales");
 		filterLanguageWindowButton = new VWindowSearchButton("Filtros por lenguaje");
 		windowButtonContainer.add(queryWindowButton);
 		windowButtonContainer.add(filterWindowButton);
 		windowButtonContainer.add(filterLanguageWindowButton);
+		windowButtonContainer.setSize(new Dimension(407, 36));
 		this.add(windowButtonContainer);
-		queryWindow = new VQuery();
+		queryWindow.setBounds(20, 144, 807, 319);
 		this.add(queryWindow);
+
+		// searchContainer.setAlignmentY(Component.LEFT_ALIGNMENT);
+		// this.add(searchContainer, BorderLayout.WEST);
 
 	}
 
