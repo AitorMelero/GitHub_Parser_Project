@@ -7,6 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import gpp.view.component.VColor;
+import gpp.view.component.VSearchFieldContainer;
 import gpp.view.component.VSearchParamLabel;
 import gpp.view.component.VSearchTextField;
 import javax.swing.JScrollPane;
@@ -40,6 +41,9 @@ public class VQuery extends JPanel {
 	VSearchTextField inRepositoryName; // campo de texto para cadenas en el nombre del repositorio
 	private JTextField textField_1;
 	private JTextField textField_2;
+	
+	private VSearchFieldContainer ownerField;
+	private VSearchFieldContainer inRepositoryNameField;
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -87,7 +91,7 @@ public class VQuery extends JPanel {
 
 	}*/
 	
-	public VQuery() {
+	/*public VQuery() {
 		setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -131,6 +135,27 @@ public class VQuery extends JPanel {
 		textField_2.setColumns(10);
 		
 		
+		
+	}*/
+	
+	public VQuery() {
+		setLayout(new BorderLayout(0, 0));
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		add(scrollPane);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.MAGENTA);
+		scrollPane.setViewportView(panel);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		
+		ownerField = new VSearchFieldContainer("Autores del repositorio", "");
+		panel.add(ownerField);
+		
+		inRepositoryNameField = new VSearchFieldContainer("En el repositorio", "");
+		panel.add(inRepositoryNameField);
 		
 	}
 	
