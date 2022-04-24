@@ -80,6 +80,18 @@ public class CSearch implements ActionListener {
 			windows.getSearchResultView().setSearchResultCurrent(s,1);
 			windows.setCard("VSearchResult");
 
+		} else if (e.getActionCommand().equals("Buscar general")) {
+			
+			windows.getSearchView().setCard("VQuery");
+			
+		} else if (e.getActionCommand().equals("Filtros generales")) {
+			
+			windows.getSearchView().setCard("VFilter");
+			
+		} else if (e.getActionCommand().equals("Filtros por lenguaje")) {
+			
+			windows.getSearchView().setCard("VFilterLanguage");
+			
 		}
 
 	}

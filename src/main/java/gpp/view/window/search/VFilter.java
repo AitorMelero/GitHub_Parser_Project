@@ -10,13 +10,13 @@ import java.awt.Color;
 
 /**
  * 
- * Clase que implementa el diseño de los parámetros de una búsqueda de
+ * Clase que implementa el diseño de los filtros generales de una búsqueda de
  * repositorios.
  * 
  * @author Aitor Melero
  *
  */
-public class VQuery extends JPanel {
+public class VFilter extends JPanel {
 
 	private JScrollPane scrollContainer; // contenedor con scroll general
 	private JPanel container; // contenedor dentro del scroll
@@ -31,7 +31,7 @@ public class VQuery extends JPanel {
 	/**
 	 * Constructor
 	 */
-	public VQuery() {
+	public VFilter() {
 		setLayout(new BorderLayout(0, 0));
 		setBounds(20, 144, 807, 319);
 
@@ -41,13 +41,14 @@ public class VQuery extends JPanel {
 		add(scrollContainer);
 
 		container = new JPanel();
+		container.setBackground(Color.MAGENTA);
 		scrollContainer.setViewportView(container);
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
-		ownerField = new VSearchFieldContainer("Autores del repositorio", "");
+		ownerField = new VSearchFieldContainer("Filtro 1", "");
 		container.add(ownerField);
 
-		inRepositoryNameField = new VSearchFieldContainer("En el repositorio", "");
+		inRepositoryNameField = new VSearchFieldContainer("Filtro 2", "");
 		container.add(inRepositoryNameField);
 
 	}

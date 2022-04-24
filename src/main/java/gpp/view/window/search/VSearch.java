@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import gpp.view.component.VColor;
 import gpp.view.component.VSearchButton;
 import gpp.view.component.VWindowSearchButton;
+
+import java.awt.CardLayout;
 import java.awt.Dimension;
 
 /**
@@ -28,7 +30,10 @@ public class VSearch extends JPanel {
 	private VWindowSearchButton queryWindowButton; // botón para la pantalla de la consulta
 	private VWindowSearchButton filterWindowButton; // botón para la pantalla de filtros generales
 	private VWindowSearchButton filterLanguageWindowButton; // botón para la pantalla de filtros por lenguaje
+	private JPanel cards; // panel sobre el que situar las pantallas
 	private VQuery queryWindow; // ventana para los parámetros de la búsqueda
+	private VFilter filterWindow; // ventana para los parámetros de los filtros generales
+	private VFilterLanguage filterLanguageWindow;  // ventana para los parámetros de los filtros por lenguaje
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -45,12 +50,23 @@ public class VSearch extends JPanel {
 		searchTitle = new JLabel("Buscar");
 		searchTitle.setBounds(20, 11, 100, 42);
 		queryWindow = new VQuery();
+		filterWindow = new VFilter();
+		filterLanguageWindow = new VFilterLanguage();
+
+		// Añadimos todas las pantallas
+		cards = new JPanel(new CardLayout());
+		cards.add(queryWindow, "VQuery");
+		cards.add(filterWindow, "VFilter");
+		cards.add(filterLanguageWindow, "VFilterLanguage");
+
+		// Mostramos ventana
+		CardLayout c1 = (CardLayout) (cards.getLayout());
+		c1.show(cards, "VQuery");
 
 		// Diseño general
 		this.setBorder(new EmptyBorder(20, 20, 20, 20));
 		this.setBackground(VColor.getWHITE_MAIN());
 		setLayout(null);
-		// this.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 		// Título
 		searchTitle.setOpaque(true);
@@ -59,27 +75,32 @@ public class VSearch extends JPanel {
 		// searchTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
 		this.add(searchTitle);
 
-		// BOCETO para probar búsquedas
+		// Botón de buscar
 		searchButton = new VSearchButton("Buscar");
 		searchButton.setBounds(752, 57, 75, 26);
 		searchButton.setActionCommand("buscar");
 		this.add(searchButton);
+		
+		// Botones de parámetros
 		windowButtonContainer = new JPanel();
 		windowButtonContainer.setLocation(20, 96);
 		queryWindowButton = new VWindowSearchButton("¿Qué buscas?");
+		queryWindowButton.setActionCommand("Buscar general");
 		filterWindowButton = new VWindowSearchButton("Filtros generales");
+		filterWindowButton.setActionCommand("Filtros generales");
 		filterLanguageWindowButton = new VWindowSearchButton("Filtros por lenguaje");
+		filterLanguageWindowButton.setActionCommand("Filtros por lenguaje");
 		windowButtonContainer.add(queryWindowButton);
 		windowButtonContainer.add(filterWindowButton);
 		windowButtonContainer.add(filterLanguageWindowButton);
 		windowButtonContainer.setSize(new Dimension(407, 36));
 		windowButtonContainer.setBackground(VColor.getWHITE_MAIN());
 		this.add(windowButtonContainer);
-		queryWindow.setBounds(20, 144, 807, 319);
-		this.add(queryWindow);
-
-		// searchContainer.setAlignmentY(Component.LEFT_ALIGNMENT);
-		// this.add(searchContainer, BorderLayout.WEST);
+		
+		// Contenedor con parámetros
+		cards.setBounds(20, 144, 807, 465);
+		//this.add(queryWindow);
+		this.add(cards);
 
 	}
 
@@ -107,6 +128,26 @@ public class VSearch extends JPanel {
 	public void setQueryWindow(VQuery queryWindow) {
 		this.queryWindow = queryWindow;
 	}
+	
+	/**
+	 * 
+	 * Devuelve la ventana de los filtros generales.
+	 * 
+	 * @return Ventana con los filtros generales.
+	 */
+	public VFilter getFilterWindow() {
+		return filterWindow;
+	}
+
+	/**
+	 * 
+	 * Modifica la ventana con los filtros generales.
+	 * 
+	 * @param filterWindow. Nueva ventana con los filtros generales.
+	 */
+	public void setFilterWindow(VFilter filterWindow) {
+		this.filterWindow = filterWindow;
+	}
 
 	/**************************************************************************
 	 * MÉTODOS
@@ -122,6 +163,22 @@ public class VSearch extends JPanel {
 	public void setControllers(ActionListener action) {
 
 		searchButton.addActionListener(action);
+		queryWindowButton.addActionListener(action);
+		filterWindowButton.addActionListener(action);
+		filterLanguageWindowButton.addActionListener(action);
+
+	}
+	
+	/**
+	 * 
+	 * Cambia de pantalla.
+	 * 
+	 * @param nameCard. Nombre de la nueva pantalla a mostrar.
+	 */
+	public void setCard(String nameCard) {
+
+		CardLayout c = (CardLayout) (cards.getLayout());
+		c.show(cards, nameCard);
 
 	}
 
