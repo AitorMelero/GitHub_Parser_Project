@@ -191,7 +191,7 @@ public class Search {
 	public void search() {
 
 		// Realizamos la búsqueda
-		query.setRepositoriesMaxNumber("100"); // 1000 de prueba, BORRAR
+		query.setRepositoriesMaxNumber("300"); // 1000 de prueba, BORRAR
 		int pagesNumber = 1;
 		JsonObject resultQuery = GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(), "best-match",
 				"desc", 100, pagesNumber);
@@ -255,9 +255,9 @@ public class Search {
 
 		int i = 1;
 
-		// listRepoResult.get(3).generateFullInfo();
+		//listRepoResult.get(3).generateFullInfo();
 
-		for (Repository r : listRepoResult) {
+		/*for (Repository r : listRepoResult) {
 
 			System.out.println("Clonando " + i + " de " + listRepoResult.size());
 
@@ -265,7 +265,7 @@ public class Search {
 
 			i++;
 
-		}
+		}*/
 
 	}
 

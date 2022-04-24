@@ -1,5 +1,6 @@
 package gpp.view.window.search;
 
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionListener;
 
@@ -9,11 +10,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
 
 import gpp.model.Repository;
 import gpp.model.search.Search;
 import gpp.view.component.VColor;
 import gpp.view.component.VRepositoryContainer;
+import gpp.view.component.VWindowSearchButton;
 
 /**
  * 
@@ -26,26 +29,64 @@ public class VSearchResult extends JPanel {
 
 	private JLabel title; // título
 	private JPanel navigationPageContainer; // contenedor de navegación de páginas
-	private JButton previousPageButton; // botón para navegar a la página anterior
-	private JButton nextPageButton; // botón para navegar a la página siguiente
+	private VWindowSearchButton previousPageButton; // botón para navegar a la página anterior
+	private VWindowSearchButton nextPageButton; // botón para navegar a la página siguiente
+	private JLabel repositoryNumberLabel; // etiqueta para número de repositorios encontrados
 	private JLabel numberPageLabel; // etiqueta que indica el número de página actual
 	private JScrollPane resultContainerScroll; // contenedor para la lista de resultados con scroll
 	private JPanel resultContainer; // contenedor con la lista de resultados
 	private ActionListener resultContainerRepositoryListener; // listener para los contenedores de los repositorios
 
+	/**************************************************************************
+	 * CONSTRUCTOR
+	 * ************************************************************************
+	 */
+
+	/**
+	 * Constructor
+	 */
 	public VSearchResult() {
 
+		// Estilo general
 		this.setBackground(VColor.getWHITE_MAIN());
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.setBorder(new EmptyBorder(20, 20, 20, 20));
+		//this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.setLayout(null);
+		
+		// Componentes
+		// Título
+		title = new JLabel("");
+		title.setBounds(20, 11, 500, 42);
+		title.setOpaque(true);
+		title.setBackground(VColor.getWHITE_MAIN());
+		title.setFont(new Font("Dialog", Font.ITALIC, 32));
+		
+		// Resultados
 		resultContainerScroll = new JScrollPane();
 		resultContainer = new JPanel();
 		resultContainerScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		resultContainerScroll.setBounds(20, 144, 807, 465);
 		resultContainer.setLayout(new BoxLayout(resultContainer, BoxLayout.Y_AXIS));
+		
+		// Repositorios encontrados
+		repositoryNumberLabel = new JLabel("");
+		repositoryNumberLabel.setBackground(VColor.getWHITE_MAIN());
+		repositoryNumberLabel.setBounds(20, 75, 200, 40);
+		
+		// Páginas de resultados
 		navigationPageContainer = new JPanel();
-		previousPageButton = new JButton("<");
+		navigationPageContainer.setBounds(300, 75, 200, 40);
+		navigationPageContainer.setBackground(VColor.getWHITE_MAIN());
+		numberPageLabel = new JLabel("0");
+		previousPageButton = new VWindowSearchButton("<");
+		previousPageButton.setEnabled(false);
 		previousPageButton.setActionCommand("previous page");
-		nextPageButton = new JButton(">");
+		nextPageButton = new VWindowSearchButton(">");
+		nextPageButton.setEnabled(false);
 		nextPageButton.setActionCommand("next page");
+		navigationPageContainer.add(previousPageButton);
+		navigationPageContainer.add(numberPageLabel);
+		navigationPageContainer.add(nextPageButton);
 
 	}
 
@@ -91,7 +132,7 @@ public class VSearchResult extends JPanel {
 	public void setSearchResultCurrent(Search currentSearch, int page) {
 
 		// Borramos el contenido de la búsqueda anterior
-		navigationPageContainer.removeAll();
+		//navigationPageContainer.removeAll();
 		resultContainer.removeAll();
 		resultContainerScroll.setViewportView(null);
 		resultContainerScroll.revalidate();
@@ -100,31 +141,36 @@ public class VSearchResult extends JPanel {
 		this.revalidate();
 		this.repaint();
 
-		title = new JLabel("Resultados de \"" + currentSearch.getName() + "\"");
-		numberPageLabel = new JLabel(Integer.toString(page));
+		title.setText(currentSearch.getName());
+		repositoryNumberLabel.setText(currentSearch.getListRepoResult().size() + " repositorios encontrados");
+		numberPageLabel.setText("Página " + Integer.toString(page) + " de " + currentSearch.getResult().size());
 
 		// Añadimos componentes
 		this.add(title);
+		this.add(repositoryNumberLabel);
 		if (page == 1) {
-
-			navigationPageContainer.add(numberPageLabel);
+			
+			previousPageButton.setEnabled(false);
 
 			if (page != currentSearch.getResult().size()) {
 
-				navigationPageContainer.add(nextPageButton);
+				nextPageButton.setEnabled(true);
 
+			} else {
+				
+				nextPageButton.setEnabled(false);
+				
 			}
 
 		} else if (page == currentSearch.getResult().size()) {
 
-			navigationPageContainer.add(previousPageButton);
-			navigationPageContainer.add(numberPageLabel);
+			previousPageButton.setEnabled(true);
+			nextPageButton.setEnabled(false);
 
 		} else {
 
-			navigationPageContainer.add(previousPageButton);
-			navigationPageContainer.add(numberPageLabel);
-			navigationPageContainer.add(nextPageButton);
+			previousPageButton.setEnabled(true);
+			nextPageButton.setEnabled(true);
 
 		}
 
