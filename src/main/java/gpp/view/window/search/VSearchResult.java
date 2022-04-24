@@ -66,6 +66,7 @@ public class VSearchResult extends JPanel {
 		resultContainerScroll = new JScrollPane();
 		resultContainer = new JPanel();
 		resultContainerScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		resultContainerScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		resultContainerScroll.setBounds(20, 144, 807, 465);
 		resultContainer.setLayout(new BoxLayout(resultContainer, BoxLayout.Y_AXIS));
 		

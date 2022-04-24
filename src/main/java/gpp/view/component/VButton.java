@@ -21,6 +21,23 @@ public class VButton extends JButton {
 	 * CONSTRUCTOR
 	 * ************************************************************************
 	 */
+	
+	/**
+	 * 
+	 * Constructor para botón sin parámetros.
+	 * 
+	 */
+	public VButton() {
+
+		super();
+
+		// Damos estilo al botón
+		this.setButtonStyle();
+
+		// Añadimos los listener al button
+		this.setButtonListeners();
+
+	}
 
 	/**
 	 * 

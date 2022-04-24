@@ -15,6 +15,7 @@ public class VColor {
 	private static Color WHITE_MAIN = new Color(255, 255, 255);
 	private static Color BLACK_MAIN = new Color(0, 0, 0);
 	private static Color GRAY_FOCUS_MENU = new Color(214, 214, 214);
+	private static Color BLUE_REPOSITORY_TITLE = new Color(0, 138, 240);
 
 	/**************************************************************************
 	 * GETTERS Y SETTERS
@@ -51,6 +52,14 @@ public class VColor {
 
 	public static void setGRAY_FOCUS_MENU(Color gRAY_FOCUS_MENU) {
 		GRAY_FOCUS_MENU = gRAY_FOCUS_MENU;
+	}
+
+	public static Color getBLUE_REPOSITORY_TITLE() {
+		return BLUE_REPOSITORY_TITLE;
+	}
+
+	public static void setBLUE_REPOSITORY_TITLE(Color bLUE_REPOSITORY_TITLE) {
+		BLUE_REPOSITORY_TITLE = bLUE_REPOSITORY_TITLE;
 	}
 
 }
