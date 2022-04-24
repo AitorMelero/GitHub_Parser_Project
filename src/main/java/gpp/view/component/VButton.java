@@ -90,7 +90,7 @@ public class VButton extends JButton {
 	 * Define un estilo para el botón.
 	 * 
 	 */
-	private void setButtonStyle() {
+	protected void setButtonStyle() {
 
 		this.setHorizontalAlignment(SwingConstants.LEFT);
 		this.setBorderPainted(false);
@@ -106,7 +106,7 @@ public class VButton extends JButton {
 	 * Asigna todos los listener al botón.
 	 * 
 	 */
-	private void setButtonListeners() {
+	protected void setButtonListeners() {
 
 		this.setLeftMenuButtonFocusListener();
 		this.addFocusListener(focusListener);
@@ -120,7 +120,7 @@ public class VButton extends JButton {
 	 * Asignamos un focus listener al botón.
 	 * 
 	 */
-	private void setLeftMenuButtonFocusListener() {
+	protected void setLeftMenuButtonFocusListener() {
 
 		if (focusListener == null) {
 
@@ -158,7 +158,7 @@ public class VButton extends JButton {
 	 * Asigna un mouse listener al botón.
 	 * 
 	 */
-	private void setLeftMenuButtonMouseListener() {
+	protected void setLeftMenuButtonMouseListener() {
 
 		if (mouseListener == null) {
 

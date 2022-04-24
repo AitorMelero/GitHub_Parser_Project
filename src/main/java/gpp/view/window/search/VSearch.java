@@ -73,6 +73,7 @@ public class VSearch extends JPanel {
 		windowButtonContainer.add(filterWindowButton);
 		windowButtonContainer.add(filterLanguageWindowButton);
 		windowButtonContainer.setSize(new Dimension(407, 36));
+		windowButtonContainer.setBackground(VColor.getWHITE_MAIN());
 		this.add(windowButtonContainer);
 		queryWindow.setBounds(20, 144, 807, 319);
 		this.add(queryWindow);
