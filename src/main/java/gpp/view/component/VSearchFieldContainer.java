@@ -34,6 +34,7 @@ public class VSearchFieldContainer extends JPanel {
 
 		// Campo de texto
 		paramTextField = new VSearchTextField();
+		paramTextField.setText(textFieldValue);
 		paramTextField.setBounds(332, 20, 430, 20);
 		paramTextField.setColumns(10);
 		this.add(paramTextField);

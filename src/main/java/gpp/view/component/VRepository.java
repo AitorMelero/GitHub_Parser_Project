@@ -1,5 +1,7 @@
 package gpp.view.component;
 
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionListener;
 
@@ -8,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
 
 import gpp.model.Repository;
 
@@ -25,25 +28,47 @@ public class VRepository extends JPanel {
 	private JLabel title; // título
 	private JScrollPane infoContainerScroll; // contenedor con scroll
 	private JPanel infoContainer; // contenedor con la información del repositorio
-	private JButton goBackButton; // botón para ir atrás
+	private VSearchButton goBackButton; // botón para ir atrás
 
 	/**************************************************************************
 	 * CONSTRUCTOR
 	 * ************************************************************************
 	 */
 
+	/**
+	 * 
+	 * Constructor.
+	 * 
+	 */
 	public VRepository() {
 
+		// Diseño general
+		this.setBorder(new EmptyBorder(20, 20, 20, 20));
+		this.setBackground(VColor.getWHITE_MAIN());
+		setLayout(null);
+
+		// Título
 		title = new JLabel("Información del repositorio");
+		title.setBounds(20, 11, 418, 42);
+		title.setOpaque(true);
+		title.setBackground(VColor.getWHITE_MAIN());
+		title.setFont(new Font("Dialog", Font.ITALIC, 32));
+
+		// Contenedor
 		infoContainerScroll = new JScrollPane();
-		infoContainerScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		infoContainer = new JPanel();
+		infoContainerScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		//infoContainerScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		infoContainerScroll.setBounds(20, 144, 807, 465);
 		infoContainer.setLayout(new BoxLayout(infoContainer, BoxLayout.Y_AXIS));
-		goBackButton = new JButton("Atrás");
+
+		// Botón de buscar
+		goBackButton = new VSearchButton("Volver a resultados");
 		goBackButton.setActionCommand("go back");
+		goBackButton.setBounds(636, 57, 191, 26);
 
 		infoContainerScroll.add(infoContainer);
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		// this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(title);
 		this.add(goBackButton);
 		this.add(infoContainerScroll);
@@ -69,27 +94,29 @@ public class VRepository extends JPanel {
 		infoContainerScroll.repaint();
 
 		// Añadimos la información al contenedor
-		JLabel owner = new JLabel("Autor: " + repo.getOwnerName());
-		infoContainer.add(owner);
-		JLabel name = new JLabel("Nombre: " + repo.getName());
-		infoContainer.add(name);
-		JLabel filesNumber = new JLabel("Nº de ficheros: " + repo.getFilesNumber());
-		infoContainer.add(filesNumber);
-		String extensionsList = "Extensiones: { ";
-		for (String s: repo.getExtensionsList()) {
-			
-			extensionsList += s + " ";
-			
+		infoContainer.add(addInfoField("Autor: ", repo.getOwnerName()));
+		infoContainer.add(addInfoField("Nombre: ", repo.getName()));
+		infoContainer.add(addInfoField("Nº de ficheros: ", repo.getFilesNumber() + ""));
+		String extensionsList = "";
+		for (int i = 0; i < repo.getExtensionsList().size(); i++) {
+
+			extensionsList += repo.getExtensionsList().toArray()[i];
+
+			if ((i + 1) != repo.getExtensionsList().size()) {
+
+				extensionsList += ", ";
+
+			}
+
 		}
-		extensionsList += "}";
-		JLabel extensionRepo = new JLabel(extensionsList);
-		infoContainer.add(extensionRepo);
-		JLabel totalSize = new JLabel("Tamaño total: " + repo.getTotalSize());
-		infoContainer.add(totalSize);
-		JLabel avgSize = new JLabel("Tamaño medio de ficheros: " + repo.getAvgSize());
-		infoContainer.add(avgSize);
-		JLabel mainLanguage = new JLabel("Lenguaje principal: " + repo.getMainLanguage());
-		infoContainer.add(mainLanguage);
+		VSearchFieldContainer extensionContainer = addInfoField("Extensiones: ", extensionsList);
+		//extensionContainer.getParamTextField().setMinimumSize(new Dimension(430, 20));
+		//extensionContainer.getParamTextField().setMaximumSize(new Dimension(1000, 20));
+		//extensionContainer.setPreferredSize(new Dimension(430, 20));
+		infoContainer.add(extensionContainer);
+		infoContainer.add(addInfoField("Tamaño total: ", repo.getTotalSize() + " KB"));
+		infoContainer.add(addInfoField("Tamaño medio de ficheros: ", repo.getAvgSize() + " KB"));
+		infoContainer.add(addInfoField("Lenguaje principal: ", repo.getMainLanguage()));
 
 		infoContainerScroll.setViewportView(infoContainer);
 		infoContainerScroll.getViewport().setViewPosition(new Point(0, 0));
@@ -105,6 +132,24 @@ public class VRepository extends JPanel {
 	public void setControllers(ActionListener action) {
 
 		goBackButton.addActionListener(action);
+
+	}
+
+	/**
+	 * 
+	 * Añade campos de información.
+	 * 
+	 * @param field. Nombre del campo.
+	 * @param value. Valor del campo.
+	 * @return Campo con la información.
+	 */
+	private VSearchFieldContainer addInfoField(String field, String value) {
+
+		VSearchFieldContainer fieldContainer = new VSearchFieldContainer(field, value);
+		fieldContainer.getParamTextField().setEnabled(false);
+		fieldContainer.getParamTextField().setDisabledTextColor(VColor.getBLACK_MAIN());
+
+		return fieldContainer;
 
 	}
 
