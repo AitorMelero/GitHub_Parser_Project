@@ -28,6 +28,9 @@ public class VQuery extends JPanel {
 	 * ************************************************************************
 	 */
 
+	/**
+	 * Constructor
+	 */
 	public VQuery() {
 		setLayout(new BorderLayout(0, 0));
 

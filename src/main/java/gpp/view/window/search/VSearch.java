@@ -1,11 +1,8 @@
 package gpp.view.window.search;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -33,6 +30,14 @@ public class VSearch extends JPanel {
 	private VWindowSearchButton filterLanguageWindowButton; // botón para la pantalla de filtros por lenguaje
 	private VQuery queryWindow; // ventana para los parámetros de la búsqueda
 
+	/**************************************************************************
+	 * CONSTRUCTOR
+	 * ************************************************************************
+	 */
+
+	/**
+	 * Constructor
+	 */
 	public VSearch() {
 
 		// Inicializamos componentes
@@ -45,13 +50,13 @@ public class VSearch extends JPanel {
 		this.setBorder(new EmptyBorder(20, 20, 20, 20));
 		this.setBackground(VColor.getWHITE_MAIN());
 		setLayout(null);
-		//this.setAlignmentX(Component.LEFT_ALIGNMENT);
+		// this.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 		// Título
 		searchTitle.setOpaque(true);
 		searchTitle.setBackground(VColor.getWHITE_MAIN());
 		searchTitle.setFont(new Font("Dialog", Font.ITALIC, 32));
-		//searchTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
+		// searchTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
 		this.add(searchTitle);
 
 		// BOCETO para probar búsquedas
