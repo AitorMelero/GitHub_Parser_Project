@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import gpp.model.Repository;
 import gpp.model.search.Search;
 import gpp.view.component.VColor;
+import gpp.view.component.VRepositoryButton;
 import gpp.view.component.VRepositoryContainer;
 import gpp.view.component.VWindowSearchButton;
 
@@ -204,7 +205,8 @@ public class VSearchResult extends JPanel {
 			// Añadimos el listener al contenedor del repositorio
 			repositoryContainer.setControllers(resultContainerRepositoryListener);
 
-			resultContainer.add(repositoryContainer);
+			//resultContainer.add(repositoryContainer);
+			resultContainer.add(new VRepositoryButton());
 
 		}
 
