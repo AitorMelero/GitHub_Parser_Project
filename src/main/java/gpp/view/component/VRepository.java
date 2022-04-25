@@ -115,10 +115,23 @@ public class VRepository extends JPanel {
 
 		}
 		VSearchFieldContainer extensionContainer = addInfoField("Extensiones: ", extensionsList);
+		infoContainer.add(extensionContainer);
 		//extensionContainer.getParamTextField().setMinimumSize(new Dimension(430, 20));
 		//extensionContainer.getParamTextField().setMaximumSize(new Dimension(1000, 20));
 		//extensionContainer.setPreferredSize(new Dimension(430, 20));
-		infoContainer.add(extensionContainer);
+		String topicsList = "";
+		for (int i = 0; i < repo.getTopics().size(); i++) {
+
+			topicsList += repo.getTopics().get(i);
+
+			if ((i + 1) != repo.getTopics().size()) {
+
+				topicsList += ", ";
+
+			}
+
+		}
+		infoContainer.add(addInfoField("Topics: ", topicsList));
 		infoContainer.add(addInfoField("Tamaño total: ", repo.getTotalSize() + " KB"));
 		infoContainer.add(addInfoField("Tamaño medio de ficheros: ", repo.getAvgSize() + " KB"));
 		infoContainer.add(addInfoField("Lenguaje principal: ", repo.getMainLanguage()));

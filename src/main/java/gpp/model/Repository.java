@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +34,7 @@ public class Repository {
 	private String dateUpdated; // fecha de actualización
 	private int filesNumber; // número de ficheros del repositorio
 	private Set<String> extensionsList; // lista con las extensiones que aparecen en el repositorio
+	private ArrayList<String> topics; // lista de topics del repositorio
 	private long totalSize; // tamaño total del repositorio (sacado de la api y puede ser 0)
 	private long avgSize; // tamaño medio de ficheros (en caso de un tamaño total de 0, será 0 la media)
 	private String mainLanguage; // lenguaje principal del repositorio
@@ -74,6 +76,7 @@ public class Repository {
 		this.dateUpdated = "";
 		this.filesNumber = 0;
 		this.extensionsList = new HashSet<String>();
+		this.topics = new ArrayList<String>();
 		this.totalSize = 0;
 		this.avgSize = 0;
 		this.mainLanguage = null;
@@ -283,6 +286,26 @@ public class Repository {
 	 */
 	public void setExtensionsList(Set<String> extensionsList) {
 		this.extensionsList = extensionsList;
+	}
+
+	/**
+	 * 
+	 * Devuelve la lista de topics del repositorio.
+	 * 
+	 * @return Lista de topics del repositorio.
+	 */
+	public ArrayList<String> getTopics() {
+		return topics;
+	}
+
+	/**
+	 * 
+	 * Modifica la lista de topics del repositorio.
+	 * 
+	 * @param topics. Lista de topics del repositorio.
+	 */
+	public void setTopics(ArrayList<String> topics) {
+		this.topics = topics;
 	}
 
 	/**

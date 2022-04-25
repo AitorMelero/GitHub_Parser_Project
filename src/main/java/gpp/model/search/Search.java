@@ -1,11 +1,14 @@
 package gpp.model.search;
 
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import gpp.model.Repository;
 import gpp.model.User;
@@ -296,6 +299,9 @@ public class Search {
 			}
 			String dateCreated = ro.get("created_at").getAsString().split("T")[0];
 			String dateUpdated = ro.get("pushed_at").getAsString().split("T")[0];
+			JsonElement topics = ro.get("topics");
+			Type listType = new TypeToken<ArrayList<String>>() {}.getType();
+			ArrayList<String> topicsList = new Gson().fromJson(topics, listType);
 			long totalSize = ro.get("size").getAsLong();
 			String mainLanguage = null;
 			if (!ro.get("language").isJsonNull()) {
@@ -309,6 +315,7 @@ public class Search {
 			repoResult.setLicense(licenseString);
 			repoResult.setDateCreated(dateCreated);
 			repoResult.setDateUpdated(dateUpdated);
+			repoResult.setTopics(topicsList);
 			repoResult.setTotalSize(totalSize);
 			repoResult.setMainLanguage(mainLanguage);
 			listRepoResult.add(repoResult);
