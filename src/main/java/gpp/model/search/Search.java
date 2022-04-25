@@ -191,10 +191,10 @@ public class Search {
 	public void search() {
 
 		// Realizamos la búsqueda
-		query.setRepositoriesMaxNumber("100"); // 1000 de prueba, BORRAR
+		query.setRepositoriesMaxNumber("4"); // 1000 de prueba, BORRAR
 		int pagesNumber = 1;
 		JsonObject resultQuery = GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(), "best-match",
-				"desc", 100, pagesNumber);
+				"desc", 4, pagesNumber);
 		JsonArray resultRepos = resultQuery.get("items").getAsJsonArray();
 		int repositoriesMaxNumber = Integer.parseInt(query.getRepositoriesMaxNumber());
 		long totalCount = resultQuery.get("total_count").getAsLong();
@@ -286,6 +286,7 @@ public class Search {
 			JsonObject ro = (JsonObject) re;
 			String ownerName = ro.get("full_name").getAsString().split("/")[0];
 			String repoName = ro.get("name").getAsString();
+			long starsNumber = ro.get("stargazers_count").getAsLong();
 			long totalSize = ro.get("size").getAsLong();
 			String mainLanguage = null;
 			if (!ro.get("language").isJsonNull()) {
@@ -293,6 +294,7 @@ public class Search {
 			}
 
 			repoResult = new Repository(ownerName, repoName);
+			repoResult.setStarsNumber(starsNumber);
 			repoResult.setTotalSize(totalSize);
 			repoResult.setMainLanguage(mainLanguage);
 			listRepoResult.add(repoResult);

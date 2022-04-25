@@ -9,6 +9,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -51,6 +52,21 @@ public class VRepositoryContainer extends JButton {
 
 		this.setLayout(null);
 
+		// Sacamos datos del repositorio
+		String starsString = "0";
+		long numberStars = repository.getStarsNumber();
+		DecimalFormat df1 = new DecimalFormat("#.#");
+		DecimalFormat df2 = new DecimalFormat("#");
+		if (numberStars >= 100000) {
+			double number = numberStars / 1000.0;
+			starsString = df2.format(number) + "k";
+		} else if (numberStars >= 1000) {
+			double number = numberStars / 1000.0;
+			starsString = df1.format(number) + "k";
+		} else {
+			starsString = numberStars + "";
+		}
+
 		container = new JPanel();
 		container.setBounds(0, 0, 790, 125);
 		container.setBackground(VColor.getGRAY_MENU());
@@ -67,7 +83,7 @@ public class VRepositoryContainer extends JButton {
 		description = new JLabel("Aplicación de parseo de repositorios de GitHub");
 		description.setBounds(32, 51, 693, 16);
 		Font fontInfoExtra = new Font("Dialog", Font.ITALIC, 12);
-		stars = new JLabel("25.3k", new ImageIcon(GPPConstant.GPP_ICONS + "star.png"), LEFT);
+		stars = new JLabel(starsString, new ImageIcon(GPPConstant.GPP_ICONS + "star.png"), LEFT);
 		stars.setBounds(12, 67, 31, 16);
 		stars.setFont(fontInfoExtra);
 		language = new JLabel(repository.getMainLanguage());

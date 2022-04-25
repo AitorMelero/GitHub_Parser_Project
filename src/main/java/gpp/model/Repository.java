@@ -26,6 +26,7 @@ public class Repository {
 	private String ownerName; // nombre del propietario del repositorio
 	private String name; // nombre del repositorio
 	private String clonePath; // path donde está clonado el repositorio, null si no está clonado
+	private long starsNumber; // número de estrellas del repositorio
 	private int filesNumber; // número de ficheros del repositorio
 	private Set<String> extensionsList; // lista con las extensiones que aparecen en el repositorio
 	private long totalSize; // tamaño total del repositorio (sacado de la api y puede ser 0)
@@ -62,6 +63,7 @@ public class Repository {
 
 		}
 
+		this.starsNumber = 0;
 		this.filesNumber = 0;
 		this.extensionsList = new HashSet<String>();
 		this.totalSize = 0;
@@ -133,6 +135,26 @@ public class Repository {
 	 */
 	public void setClonePath(String clonePath) {
 		this.clonePath = clonePath;
+	}
+	
+	/**
+	 * 
+	 * Devuelve el número de estrellas del repositorio.
+	 * 
+	 * @return Número de estrellas del repositorio.
+	 */
+	public long getStarsNumber() {
+		return starsNumber;
+	}
+
+	/**
+	 * 
+	 * Modifica el número de estrellas del repositorio.
+	 * 
+	 * @param starsNumber. Número de estrellas del repositorio.
+	 */
+	public void setStarsNumber(long starsNumber) {
+		this.starsNumber = starsNumber;
 	}
 
 	/**
