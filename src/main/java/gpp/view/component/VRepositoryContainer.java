@@ -53,6 +53,7 @@ public class VRepositoryContainer extends JButton {
 		this.setLayout(null);
 
 		// Sacamos datos del repositorio
+		String descriptionString = repository.getDescription();
 		String starsString = "0";
 		long numberStars = repository.getStarsNumber();
 		DecimalFormat df1 = new DecimalFormat("#.#");
@@ -80,7 +81,7 @@ public class VRepositoryContainer extends JButton {
 		repositoryTitle.setBounds(32, 12, 693, 27);
 		repositoryTitle.setFont(new Font("Dialog", Font.BOLD, 16));
 		repositoryTitle.setForeground(VColor.getBLUE_REPOSITORY_TITLE());
-		description = new JLabel("Aplicación de parseo de repositorios de GitHub");
+		description = new JLabel(descriptionString);
 		description.setBounds(32, 51, 693, 16);
 		Font fontInfoExtra = new Font("Dialog", Font.ITALIC, 12);
 		stars = new JLabel(starsString, new ImageIcon(GPPConstant.GPP_ICONS + "star.png"), LEFT);

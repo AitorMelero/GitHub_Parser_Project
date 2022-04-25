@@ -26,6 +26,7 @@ public class Repository {
 	private String ownerName; // nombre del propietario del repositorio
 	private String name; // nombre del repositorio
 	private String clonePath; // path donde está clonado el repositorio, null si no está clonado
+	private String description; // descripción del repositorio
 	private long starsNumber; // número de estrellas del repositorio
 	private int filesNumber; // número de ficheros del repositorio
 	private Set<String> extensionsList; // lista con las extensiones que aparecen en el repositorio
@@ -63,6 +64,7 @@ public class Repository {
 
 		}
 
+		this.description = "";
 		this.starsNumber = 0;
 		this.filesNumber = 0;
 		this.extensionsList = new HashSet<String>();
@@ -137,6 +139,26 @@ public class Repository {
 		this.clonePath = clonePath;
 	}
 	
+	/**
+	 * 
+	 * Devuelve la descripción del repositorio.
+	 * 
+	 * @return Descripción del repositorio.
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * 
+	 * Modifica la descripción del repositorio.
+	 * 
+	 * @param description. Descripción del repositorio.
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	/**
 	 * 
 	 * Devuelve el número de estrellas del repositorio.

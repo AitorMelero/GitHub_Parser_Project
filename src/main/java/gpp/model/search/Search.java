@@ -286,6 +286,7 @@ public class Search {
 			JsonObject ro = (JsonObject) re;
 			String ownerName = ro.get("full_name").getAsString().split("/")[0];
 			String repoName = ro.get("name").getAsString();
+			String description = ro.get("description").getAsString();
 			long starsNumber = ro.get("stargazers_count").getAsLong();
 			long totalSize = ro.get("size").getAsLong();
 			String mainLanguage = null;
@@ -294,6 +295,7 @@ public class Search {
 			}
 
 			repoResult = new Repository(ownerName, repoName);
+			repoResult.setDescription(description);
 			repoResult.setStarsNumber(starsNumber);
 			repoResult.setTotalSize(totalSize);
 			repoResult.setMainLanguage(mainLanguage);
