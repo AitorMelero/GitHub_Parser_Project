@@ -288,6 +288,11 @@ public class Search {
 			String repoName = ro.get("name").getAsString();
 			String description = ro.get("description").getAsString();
 			long starsNumber = ro.get("stargazers_count").getAsLong();
+			JsonObject license = ro.get("license").getAsJsonObject();
+			String licenseString = "";
+			if (!license.isJsonNull()) {
+				licenseString = license.get("spdx_id").getAsString() + " license";
+			}
 			long totalSize = ro.get("size").getAsLong();
 			String mainLanguage = null;
 			if (!ro.get("language").isJsonNull()) {
@@ -297,6 +302,7 @@ public class Search {
 			repoResult = new Repository(ownerName, repoName);
 			repoResult.setDescription(description);
 			repoResult.setStarsNumber(starsNumber);
+			repoResult.setLicense(licenseString);
 			repoResult.setTotalSize(totalSize);
 			repoResult.setMainLanguage(mainLanguage);
 			listRepoResult.add(repoResult);

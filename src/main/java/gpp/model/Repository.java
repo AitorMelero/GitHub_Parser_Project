@@ -28,6 +28,7 @@ public class Repository {
 	private String clonePath; // path donde está clonado el repositorio, null si no está clonado
 	private String description; // descripción del repositorio
 	private long starsNumber; // número de estrellas del repositorio
+	private String license; // licencia del repositorio
 	private int filesNumber; // número de ficheros del repositorio
 	private Set<String> extensionsList; // lista con las extensiones que aparecen en el repositorio
 	private long totalSize; // tamaño total del repositorio (sacado de la api y puede ser 0)
@@ -66,6 +67,7 @@ public class Repository {
 
 		this.description = "";
 		this.starsNumber = 0;
+		this.license = "";
 		this.filesNumber = 0;
 		this.extensionsList = new HashSet<String>();
 		this.totalSize = 0;
@@ -177,6 +179,26 @@ public class Repository {
 	 */
 	public void setStarsNumber(long starsNumber) {
 		this.starsNumber = starsNumber;
+	}
+	
+	/**
+	 * 
+	 * Devuelve la licencia del repositorio.
+	 * 
+	 * @return Licencia del repositorio.
+	 */
+	public String getLicense() {
+		return license;
+	}
+
+	/**
+	 * 
+	 * Modifica la licencia del repositorio.
+	 * 
+	 * @param license. Licencia del repositorio.
+	 */
+	public void setLicense(String license) {
+		this.license = license;
 	}
 
 	/**

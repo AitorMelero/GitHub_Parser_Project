@@ -67,6 +67,7 @@ public class VRepositoryContainer extends JButton {
 		} else {
 			starsString = numberStars + "";
 		}
+		String licenseString = repository.getLicense();
 
 		container = new JPanel();
 		container.setBounds(0, 0, 790, 125);
@@ -90,7 +91,7 @@ public class VRepositoryContainer extends JButton {
 		language = new JLabel(repository.getMainLanguage());
 		language.setBounds(99, 67, 27, 16);
 		language.setFont(fontInfoExtra);
-		license = new JLabel("MIT license");
+		license = new JLabel(licenseString);
 		license.setBounds(197, 67, 64, 16);
 		license.setFont(fontInfoExtra);
 		date = new JLabel("Actualizado: 24-04-2022");
