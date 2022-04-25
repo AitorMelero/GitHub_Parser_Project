@@ -29,6 +29,8 @@ public class Repository {
 	private String description; // descripción del repositorio
 	private long starsNumber; // número de estrellas del repositorio
 	private String license; // licencia del repositorio
+	private String dateCreated; // fecha de creación
+	private String dateUpdated; // fecha de actualización
 	private int filesNumber; // número de ficheros del repositorio
 	private Set<String> extensionsList; // lista con las extensiones que aparecen en el repositorio
 	private long totalSize; // tamaño total del repositorio (sacado de la api y puede ser 0)
@@ -68,6 +70,8 @@ public class Repository {
 		this.description = "";
 		this.starsNumber = 0;
 		this.license = "";
+		this.dateCreated = "";
+		this.dateUpdated = "";
 		this.filesNumber = 0;
 		this.extensionsList = new HashSet<String>();
 		this.totalSize = 0;
@@ -199,6 +203,46 @@ public class Repository {
 	 */
 	public void setLicense(String license) {
 		this.license = license;
+	}
+	
+	/**
+	 * 
+	 * Devuelve la cadena de la fecha de creación del repositorio.
+	 * 
+	 * @return Fecha de creación del repositorio.
+	 */
+	public String getDateCreated() {
+		return dateCreated;
+	}
+
+	/**
+	 * 
+	 * Modifica la fecha de creación del repositorio.
+	 * 
+	 * @param dateCreated. Fecha de creación del repositorio.
+	 */
+	public void setDateCreated(String dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	/**
+	 * 
+	 * Devuelve la cadena de la fecha de actualización del repositorio.
+	 * 
+	 * @return Fecha de actualización del repositorio.
+	 */
+	public String getDateUpdated() {
+		return dateUpdated;
+	}
+
+	/**
+	 * 
+	 * Modifica la cadena de la fecha de actualización del repositorio.
+	 * 
+	 * @param dateUpdated. Fecha de actualización del repositorio.
+	 */
+	public void setDateUpdated(String dateUpdated) {
+		this.dateUpdated = dateUpdated;
 	}
 
 	/**

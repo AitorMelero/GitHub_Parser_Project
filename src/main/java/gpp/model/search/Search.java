@@ -288,21 +288,27 @@ public class Search {
 			String repoName = ro.get("name").getAsString();
 			String description = ro.get("description").getAsString();
 			long starsNumber = ro.get("stargazers_count").getAsLong();
-			JsonObject license = ro.get("license").getAsJsonObject();
+			JsonObject license =  null;
 			String licenseString = "";
-			if (!license.isJsonNull()) {
+			if (!ro.get("license").isJsonNull()) {
+				license = ro.get("license").getAsJsonObject();
 				licenseString = license.get("spdx_id").getAsString() + " license";
 			}
+			String dateCreated = ro.get("created_at").getAsString().split("T")[0];
+			String dateUpdated = ro.get("pushed_at").getAsString().split("T")[0];
 			long totalSize = ro.get("size").getAsLong();
 			String mainLanguage = null;
 			if (!ro.get("language").isJsonNull()) {
 				mainLanguage = ro.get("language").getAsString();
 			}
 
+			// Añadimos la información obtenida al repositorio
 			repoResult = new Repository(ownerName, repoName);
 			repoResult.setDescription(description);
 			repoResult.setStarsNumber(starsNumber);
 			repoResult.setLicense(licenseString);
+			repoResult.setDateCreated(dateCreated);
+			repoResult.setDateUpdated(dateUpdated);
 			repoResult.setTotalSize(totalSize);
 			repoResult.setMainLanguage(mainLanguage);
 			listRepoResult.add(repoResult);

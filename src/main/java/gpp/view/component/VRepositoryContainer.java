@@ -68,6 +68,7 @@ public class VRepositoryContainer extends JButton {
 			starsString = numberStars + "";
 		}
 		String licenseString = repository.getLicense();
+		String dateUpdated = repository.getDateUpdated();
 
 		container = new JPanel();
 		container.setBounds(0, 0, 790, 125);
@@ -94,7 +95,7 @@ public class VRepositoryContainer extends JButton {
 		license = new JLabel(licenseString);
 		license.setBounds(197, 67, 64, 16);
 		license.setFont(fontInfoExtra);
-		date = new JLabel("Actualizado: 24-04-2022");
+		date = new JLabel("Actualizado el " + dateUpdated);
 		date.setBounds(273, 67, 136, 16);
 		date.setFont(fontInfoExtra);
 		container.setLayout(null);

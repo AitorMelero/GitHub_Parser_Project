@@ -100,6 +100,8 @@ public class VRepository extends JPanel {
 		infoContainer.add(addInfoField("Nº de ficheros: ", repo.getFilesNumber() + ""));
 		infoContainer.add(addInfoField("Número de estrellas: ", repo.getStarsNumber() + ""));
 		infoContainer.add(addInfoField("Licencia: ", repo.getLicense()));
+		infoContainer.add(addInfoField("Fecha de creación: ", repo.getDateCreated()));
+		infoContainer.add(addInfoField("Fecha de actualización: ", repo.getDateUpdated()));
 		String extensionsList = "";
 		for (int i = 0; i < repo.getExtensionsList().size(); i++) {
 
