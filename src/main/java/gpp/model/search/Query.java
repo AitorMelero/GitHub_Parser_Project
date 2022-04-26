@@ -14,6 +14,7 @@ public class Query {
 	private String inRepositoryName; // cadena que aparece en el nombre del repositorio
 	private String repository; // repositorio concreto con propietario y nombre
 	private String description; // cadena que aparece en la descripción del repositorio
+	private String inReadme; // cadena que aparece en el Readme del repositorio
 	private String createdDate; // fecha de creación del repositorio
 	private String mainLanguage; // lenguaje principal del repositorio
 	private String starsNumber; // número de estrellas del repositorio
@@ -133,6 +134,28 @@ public class Query {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * 
+	 * Devuelve la cadena con las palabras que aparecen en el Readme del
+	 * repositorio.
+	 * 
+	 * @return Cadena con palabras que aparecen en el Readme del repositorio.
+	 */
+	public String getInReadme() {
+		return inReadme;
+	}
+
+	/**
+	 * 
+	 * Modifica la cadena con palabras que aparecen en el Readme del repositorio.
+	 * 
+	 * @param inReadme. Cadena con palabras que aparecen en el Readme del
+	 *                  repositorio.
+	 */
+	public void setInReadme(String inReadme) {
+		this.inReadme = inReadme;
 	}
 
 	/**
@@ -376,6 +399,7 @@ public class Query {
 		setPath(path + generateInRepositoryName());
 		setPath(path + generateRepository());
 		setPath(path + generateDescription());
+		setPath(path + generateInReadme());
 
 		// Comprobamos que la query no está vacía
 		if (!path.equals("q=")) {
@@ -506,6 +530,42 @@ public class Query {
 		}
 
 		return descriptionQuery;
+
+	}
+
+	/**
+	 * 
+	 * Genera la cadena con los parámetros para la cadena que aparece en el Readme
+	 * del repositorio.
+	 * 
+	 * @return Cadena con los parámetros para la cadena que aparece en el Readme del
+	 *         repositorio.
+	 */
+	private String generateInReadme() {
+
+		String inReadmeQuery = "";
+		String[] generateParams;
+
+		if (inReadme != null && !inReadme.equals("")) {
+
+			// Creamos la consulta
+			generateParams = generateParamsQuery(inReadme);
+
+			for (String i : generateParams) {
+
+				inReadmeQuery += "+" + i;
+
+			}
+
+			if (generateParams.length > 0) {
+
+				inReadmeQuery += "+in:readme";
+
+			}
+
+		}
+
+		return inReadmeQuery;
 
 	}
 

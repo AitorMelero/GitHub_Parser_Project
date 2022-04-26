@@ -291,16 +291,20 @@ public class Search {
 			String repoName = ro.get("name").getAsString();
 			String description = ro.get("description").getAsString();
 			long starsNumber = ro.get("stargazers_count").getAsLong();
-			JsonObject license =  null;
+			JsonObject license = null;
 			String licenseString = "";
 			if (!ro.get("license").isJsonNull()) {
 				license = ro.get("license").getAsJsonObject();
-				licenseString = license.get("spdx_id").getAsString() + " license";
+				String licenseId = license.get("spdx_id").getAsString();
+				if (!licenseId.equals("NOASSERTION")) {
+					licenseString = licenseId + " license";
+				}
 			}
 			String dateCreated = ro.get("created_at").getAsString().split("T")[0];
 			String dateUpdated = ro.get("pushed_at").getAsString().split("T")[0];
 			JsonElement topics = ro.get("topics");
-			Type listType = new TypeToken<ArrayList<String>>() {}.getType();
+			Type listType = new TypeToken<ArrayList<String>>() {
+			}.getType();
 			ArrayList<String> topicsList = new Gson().fromJson(topics, listType);
 			long totalSize = ro.get("size").getAsLong();
 			String mainLanguage = null;

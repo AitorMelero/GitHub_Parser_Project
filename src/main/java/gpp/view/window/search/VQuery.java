@@ -24,6 +24,7 @@ public class VQuery extends JPanel {
 	private VSearchFieldContainer inRepositoryNameField; // campo de palabras en nombre del repositorio
 	private VSearchFieldContainer repositoryField; // autor y nombre del repositorio
 	private VSearchFieldContainer descriptionField; // cadena que aparece en la descripción del repositorio
+	private VSearchFieldContainer inReadmeField; // campo para las palabras que aparecen en el Readme del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -57,6 +58,9 @@ public class VQuery extends JPanel {
 
 		descriptionField = new VSearchFieldContainer("Palabras en la descripción", "");
 		container.add(descriptionField);
+
+		inReadmeField = new VSearchFieldContainer("Palabras en el Readme", "");
+		container.add(inReadmeField);
 
 	}
 
@@ -105,6 +109,17 @@ public class VQuery extends JPanel {
 	 */
 	public VSearchFieldContainer getDescriptionField() {
 		return descriptionField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor para los parámtros de las palabras del Readme del
+	 * repositorio.
+	 * 
+	 * @return Campo con las palabras que aparecen en el Readme del repositorio.
+	 */
+	public VSearchFieldContainer getInReadmeField() {
+		return inReadmeField;
 	}
 
 }
