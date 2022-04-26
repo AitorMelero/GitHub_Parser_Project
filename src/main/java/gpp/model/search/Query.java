@@ -350,6 +350,7 @@ public class Query {
 		setPath("q=");
 		setPath(path + generateOwner());
 		setPath(path + generateInRepositoryName());
+		setPath(path + generateRepository());
 
 		// Comprobamos que la query no está vacía
 		if (!path.equals("q=")) {
@@ -425,6 +426,26 @@ public class Query {
 
 		return inRepositoryNameQuery;
 
+	}
+	
+	/**
+	 * 
+	 * Genera la cadena con los parámetros para buscar un repositorio en concreto.
+	 * 
+	 * @return Cadena a enviar en la consulta de repositorios en concreto.
+	 */
+	private String generateRepository() {
+		
+		String repositoryQuery = "";
+		
+		if (repository != null) {
+			
+			repositoryQuery = "+repo:" + repository.replace(" ", "");
+			
+		}
+		
+		return repositoryQuery;
+		
 	}
 
 	/**
