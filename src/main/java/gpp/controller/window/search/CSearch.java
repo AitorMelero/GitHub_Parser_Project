@@ -62,6 +62,7 @@ public class CSearch implements ActionListener {
 			String owner = windows.getSearchView().getQueryWindow().getOwnerField().getParamTextField().getText();
 			String inRepositoryName = windows.getSearchView().getQueryWindow().getInRepositoryNameField().getParamTextField().getText();
 			String repository = windows.getSearchView().getQueryWindow().getRepositoryField().getParamTextField().getText();
+			String description = windows.getSearchView().getQueryWindow().getDescriptionField().getParamTextField().getText();
 
 			// Creamos la búsqueda
 			Search s = new Search("Búsquedas prueba", gppSystem.getUser());
@@ -69,6 +70,7 @@ public class CSearch implements ActionListener {
 			q.setOwner(owner);
 			q.setInRepositoryName(inRepositoryName);
 			q.setRepository(repository);
+			q.setDescription(description);
 			q.generateQueryPath();
 			
 			System.out.println("CONSULTA: " + q.getPath());

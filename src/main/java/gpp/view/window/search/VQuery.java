@@ -23,6 +23,7 @@ public class VQuery extends JPanel {
 	private VSearchFieldContainer ownerField; // campo de autores
 	private VSearchFieldContainer inRepositoryNameField; // campo de palabras en nombre del repositorio
 	private VSearchFieldContainer repositoryField; // autor y nombre del repositorio
+	private VSearchFieldContainer descriptionField; // cadena que aparece en la descripción del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -50,9 +51,12 @@ public class VQuery extends JPanel {
 
 		inRepositoryNameField = new VSearchFieldContainer("En el repositorio", "");
 		container.add(inRepositoryNameField);
-		
+
 		repositoryField = new VSearchFieldContainer("Autor/Nombre del repositorio", "");
 		container.add(repositoryField);
+
+		descriptionField = new VSearchFieldContainer("Palabras en la descripción", "");
+		container.add(descriptionField);
 
 	}
 
@@ -90,6 +94,17 @@ public class VQuery extends JPanel {
 	 */
 	public VSearchFieldContainer getRepositoryField() {
 		return repositoryField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor para los parámetros de las palabras de la descripción
+	 * del repositorio.
+	 * 
+	 * @return Campo con palabras de la descripción del repositorio.
+	 */
+	public VSearchFieldContainer getDescriptionField() {
+		return descriptionField;
 	}
 
 }

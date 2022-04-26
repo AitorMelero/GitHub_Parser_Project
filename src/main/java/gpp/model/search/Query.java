@@ -13,6 +13,7 @@ public class Query {
 	private String owner; // nombre del propietario del repositorio
 	private String inRepositoryName; // cadena que aparece en el nombre del repositorio
 	private String repository; // repositorio concreto con propietario y nombre
+	private String description; // cadena que aparece en la descripción del repositorio
 	private String createdDate; // fecha de creación del repositorio
 	private String mainLanguage; // lenguaje principal del repositorio
 	private String starsNumber; // número de estrellas del repositorio
@@ -109,6 +110,29 @@ public class Query {
 	 */
 	public void setRepository(String repository) {
 		this.repository = repository;
+	}
+
+	/**
+	 * 
+	 * Devuelve la cadena con las cadenas que aparecen en la descripción del
+	 * repositorio.
+	 * 
+	 * @return Cadena con cadenas que aparecen en la descripción.
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * 
+	 * Modifica la cadena con cadenas que aparecen en la descripción del
+	 * repositorio.
+	 * 
+	 * @param description. Cadena con cadenas que aparecen en la descripción del
+	 *                     repositorio.
+	 */
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	/**
@@ -351,6 +375,7 @@ public class Query {
 		setPath(path + generateOwner());
 		setPath(path + generateInRepositoryName());
 		setPath(path + generateRepository());
+		setPath(path + generateDescription());
 
 		// Comprobamos que la query no está vacía
 		if (!path.equals("q=")) {
@@ -377,7 +402,7 @@ public class Query {
 
 		String ownerQuery = "";
 
-		if (owner != null) {
+		if (owner != null && !owner.equals("")) {
 
 			// Creamos la consulta
 			for (String o : generateParamsQuery(owner)) {
@@ -405,7 +430,7 @@ public class Query {
 		String inRepositoryNameQuery = "";
 		String[] generateParams;
 
-		if (inRepositoryName != null) {
+		if (inRepositoryName != null && !inRepositoryName.equals("")) {
 
 			// Creamos la consulta
 			generateParams = generateParamsQuery(inRepositoryName);
@@ -427,7 +452,7 @@ public class Query {
 		return inRepositoryNameQuery;
 
 	}
-	
+
 	/**
 	 * 
 	 * Genera la cadena con los parámetros para buscar un repositorio en concreto.
@@ -435,17 +460,53 @@ public class Query {
 	 * @return Cadena a enviar en la consulta de repositorios en concreto.
 	 */
 	private String generateRepository() {
-		
+
 		String repositoryQuery = "";
-		
-		if (repository != null) {
-			
+
+		if (repository != null && !repository.equals("")) {
+
 			repositoryQuery = "+repo:" + repository.replace(" ", "");
-			
+
 		}
-		
+
 		return repositoryQuery;
-		
+
+	}
+
+	/**
+	 * 
+	 * Genera la cadena con los parámetros para la cadena que aparece en la
+	 * descripción del repositorio.
+	 * 
+	 * @return Cadena con los parámetros para la cadena que aparece en la
+	 *         descripción del repositorio.
+	 */
+	private String generateDescription() {
+
+		String descriptionQuery = "";
+		String[] generateParams;
+
+		if (description != null && !description.equals("")) {
+
+			// Creamos la consulta
+			generateParams = generateParamsQuery(description);
+
+			for (String i : generateParams) {
+
+				descriptionQuery += "+" + i;
+
+			}
+
+			if (generateParams.length > 0) {
+
+				descriptionQuery += "+in:description";
+
+			}
+
+		}
+
+		return descriptionQuery;
+
 	}
 
 	/**
