@@ -25,6 +25,7 @@ public class VQuery extends JPanel {
 	private VSearchFieldContainer repositoryField; // autor y nombre del repositorio
 	private VSearchFieldContainer descriptionField; // cadena que aparece en la descripción del repositorio
 	private VSearchFieldContainer inReadmeField; // campo para las palabras que aparecen en el Readme del repositorio
+	private VSearchFieldContainer createdField; // campo de fecha de creación del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -61,6 +62,9 @@ public class VQuery extends JPanel {
 
 		inReadmeField = new VSearchFieldContainer("Palabras en el Readme", "");
 		container.add(inReadmeField);
+
+		createdField = new VSearchFieldContainer("Fecha de creación", "");
+		container.add(createdField);
 
 	}
 
@@ -120,6 +124,18 @@ public class VQuery extends JPanel {
 	 */
 	public VSearchFieldContainer getInReadmeField() {
 		return inReadmeField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor para los parámetros de la fecha de creación del
+	 * repositorio.
+	 * 
+	 * @return Contenedor con los parámetros con la fecha de creación del
+	 *         repositorio.
+	 */
+	public VSearchFieldContainer getCreatedField() {
+		return createdField;
 	}
 
 }

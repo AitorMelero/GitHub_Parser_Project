@@ -400,6 +400,7 @@ public class Query {
 		setPath(path + generateRepository());
 		setPath(path + generateDescription());
 		setPath(path + generateInReadme());
+		setPath(path + generateCreatedDate());
 
 		// Comprobamos que la query no está vacía
 		if (!path.equals("q=")) {
@@ -566,6 +567,43 @@ public class Query {
 		}
 
 		return inReadmeQuery;
+
+	}
+
+	/**
+	 * 
+	 * Genera la cadena con los parámetros para la fecha de creación del
+	 * repositorio.
+	 * 
+	 * @return Cadena con los parámetros para la fecha de creación del repositorio.
+	 */
+	private String generateCreatedDate() {
+
+		String createdDateQuery = "";
+		String[] generateParams;
+
+		if (createdDate != null && !createdDate.equals("")) {
+
+			// Creamos la consulta
+			generateParams = generateParamsQuery(createdDate);
+
+			for (int i = 0; i < generateParams.length; i++) {
+
+				if (i == 0) {
+
+					createdDateQuery = "+created:" + generateParams[i];
+
+				} else {
+
+					createdDateQuery += "+" + generateParams[i];
+
+				}
+
+			}
+
+		}
+
+		return createdDateQuery;
 
 	}
 
