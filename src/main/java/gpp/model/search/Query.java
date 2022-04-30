@@ -423,6 +423,7 @@ public class Query {
 		setPath(path + generateInReadme());
 		setPath(path + generateCreatedDate());
 		setPath(path + generateUpdatedDate());
+		setPath(path + generateMainLanguage());
 
 		// Comprobamos que la query no está vacía
 		if (!path.equals("q=")) {
@@ -664,6 +665,35 @@ public class Query {
 		}
 
 		return updatedDateQuery;
+
+	}
+
+	/**
+	 * 
+	 * Genera la cadena con los parámetros para el lenguaje principal del
+	 * repositorio.
+	 * 
+	 * @return Cadena con los parámetros para el lenguaje principal del repositorio.
+	 */
+	private String generateMainLanguage() {
+
+		String mainLanguageQuery = "";
+		String[] generateParams;
+
+		if (mainLanguage != null && !mainLanguage.equals("")) {
+
+			// Creamos la consulta
+			generateParams = generateParamsQuery(mainLanguage);
+
+			for (String i : generateParams) {
+
+				mainLanguageQuery += "+language:" + i;
+
+			}
+
+		}
+
+		return mainLanguageQuery;
 
 	}
 

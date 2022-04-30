@@ -27,6 +27,7 @@ public class VQuery extends JPanel {
 	private VSearchFieldContainer inReadmeField; // campo para las palabras que aparecen en el Readme del repositorio
 	private VSearchFieldContainer createdField; // campo de fecha de creación del repositorio
 	private VSearchFieldContainer updatedField; // campo de fecha de actualización del repositorio
+	private VSearchFieldContainer mainLanguageField; // campo con el lenguaje principal del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -69,6 +70,9 @@ public class VQuery extends JPanel {
 
 		updatedField = new VSearchFieldContainer("Fecha del último push", "");
 		container.add(updatedField);
+
+		mainLanguageField = new VSearchFieldContainer("Lenguaje principal", "");
+		container.add(mainLanguageField);
 
 	}
 
@@ -152,6 +156,16 @@ public class VQuery extends JPanel {
 	 */
 	public VSearchFieldContainer getUpdatedField() {
 		return updatedField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor con el lenguaje principal del repositorio.
+	 * 
+	 * @return Contenedor con el lenguaje principal del repositorio.
+	 */
+	public VSearchFieldContainer getMainLanguageField() {
+		return mainLanguageField;
 	}
 
 }

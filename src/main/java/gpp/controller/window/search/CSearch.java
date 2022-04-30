@@ -69,6 +69,8 @@ public class CSearch implements ActionListener {
 			String inReadme = windows.getSearchView().getQueryWindow().getInReadmeField().getParamTextField().getText();
 			String created = windows.getSearchView().getQueryWindow().getCreatedField().getParamTextField().getText();
 			String updated = windows.getSearchView().getQueryWindow().getUpdatedField().getParamTextField().getText();
+			String mainLanguage = windows.getSearchView().getQueryWindow().getMainLanguageField().getParamTextField()
+					.getText();
 
 			// Creamos la búsqueda
 			Search s = new Search("Búsquedas prueba", gppSystem.getUser());
@@ -80,6 +82,7 @@ public class CSearch implements ActionListener {
 			q.setInReadme(inReadme);
 			q.setCreatedDate(created);
 			q.setUpdatedDate(updated);
+			q.setMainLanguage(mainLanguage);
 			q.generateQueryPath();
 
 			System.out.println("CONSULTA: " + q.getPath());
