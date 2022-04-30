@@ -22,7 +22,6 @@ public class Query {
 	private String forksNumber; // número de forks del repositorio
 	private String followersNumber; // número de seguidores del repositorio
 	private String size; // tamaño total del repositorio
-	private String pushedTo; // fecha del último push del repositorio
 	private String license; // licencia del repositorio
 	private String topics; // topics del repositorio
 	private String topicsNumber; // número de topics del repositorio
@@ -302,26 +301,6 @@ public class Query {
 
 	/**
 	 * 
-	 * Devuelve la cadena con la fecha del último push del repositorio.
-	 * 
-	 * @return Cadena con la fecha del último push del repositorio.
-	 */
-	public String getPushedTo() {
-		return pushedTo;
-	}
-
-	/**
-	 * 
-	 * Modifica la cadena con la fecha del último push del repositorio.
-	 * 
-	 * @param pushedTo. Cadena con la fecha del último push del repositorio.
-	 */
-	public void setPushedTo(String pushedTo) {
-		this.pushedTo = pushedTo;
-	}
-
-	/**
-	 * 
 	 * Devuelve la cadena con la licencia del repositorio.
 	 * 
 	 * @return Cadena de la licencia del repositorio.
@@ -449,6 +428,7 @@ public class Query {
 		setPath(path + generateForksNumber());
 		setPath(path + generateFollowersNumber());
 		setPath(path + generateSize());
+		setPath(path + generateLicense());
 
 		// Comprobamos que la query no está vacía
 		if (!path.equals("q=")) {
@@ -837,6 +817,35 @@ public class Query {
 		}
 
 		return sizeQuery;
+
+	}
+	
+	/**
+	 * 
+	 * Genera la cadena con los parámetros para la licencia del
+	 * repositorio.
+	 * 
+	 * @return Cadena con los parámetros para la licencia del repositorio.
+	 */
+	private String generateLicense() {
+
+		String licenseQuery = "";
+		String[] generateParams;
+
+		if (license != null && !license.equals("")) {
+
+			// Creamos la consulta
+			generateParams = generateParamsQuery(license);
+
+			for (String i : generateParams) {
+
+				licenseQuery += "+license:" + i;
+
+			}
+
+		}
+
+		return licenseQuery;
 
 	}
 

@@ -31,6 +31,7 @@ public class VQuery extends JPanel {
 	private VSearchFieldContainer forksNumberField; // campo con el número de forks del repositorio
 	private VSearchFieldContainer followersNumberField; // campo con el número de seguidores del repositorio
 	private VSearchFieldContainer sizeField; // campo con el número de KB del repositorio
+	private VSearchFieldContainer licenseField; // campo con la licencia del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -88,6 +89,9 @@ public class VQuery extends JPanel {
 
 		sizeField = new VSearchFieldContainer("Tamaño en KB", "");
 		container.add(sizeField);
+
+		licenseField = new VSearchFieldContainer("Licencia", "");
+		container.add(licenseField);
 
 	}
 
@@ -221,6 +225,16 @@ public class VQuery extends JPanel {
 	 */
 	public VSearchFieldContainer getSizeField() {
 		return sizeField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor con la licencia del repositorio.
+	 * 
+	 * @return Contenedor con la licencia del repositorio.
+	 */
+	public VSearchFieldContainer getLicenseField() {
+		return licenseField;
 	}
 
 }
