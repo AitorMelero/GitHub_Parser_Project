@@ -20,6 +20,7 @@ public class Query {
 	private String mainLanguage; // lenguaje principal del repositorio
 	private String starsNumber; // número de estrellas del repositorio
 	private String forksNumber; // número de forks del repositorio
+	private String followersNumber; // número de seguidores del repositorio
 	private String size; // tamaño total del repositorio
 	private String pushedTo; // fecha del último push del repositorio
 	private String license; // licencia del repositorio
@@ -261,6 +262,26 @@ public class Query {
 
 	/**
 	 * 
+	 * Devuelve la cadena con el número de seguidores del repositorio.
+	 * 
+	 * @return Cadena con el número de seguidores del repositorio.
+	 */
+	public String getFollowersNumber() {
+		return followersNumber;
+	}
+
+	/**
+	 * 
+	 * Modifica la cadena con el número de seguidores del repositorio.
+	 * 
+	 * @param followersNumber. Cadena con el número de seguidores del repositorio.
+	 */
+	public void setFollowersNumber(String followersNumber) {
+		this.followersNumber = followersNumber;
+	}
+
+	/**
+	 * 
 	 * Devuelve la cadena con el tamaño del repositorio.
 	 * 
 	 * @return Cadena con el tamaño del repositorio.
@@ -426,6 +447,7 @@ public class Query {
 		setPath(path + generateMainLanguage());
 		setPath(path + generateStarsNumber());
 		setPath(path + generateForksNumber());
+		setPath(path + generateFollowersNumber());
 
 		// Comprobamos que la query no está vacía
 		if (!path.equals("q=")) {
@@ -754,6 +776,36 @@ public class Query {
 		}
 
 		return forksNumberQuery;
+
+	}
+
+	/**
+	 * 
+	 * Genera la cadena con los parámetros para el número de seguidores del
+	 * repositorio.
+	 * 
+	 * @return Cadena con los parámetros para el número de seguidores del
+	 *         repositorio.
+	 */
+	private String generateFollowersNumber() {
+
+		String followersNumberQuery = "";
+		String[] generateParams;
+
+		if (followersNumber != null && !followersNumber.equals("")) {
+
+			// Creamos la consulta
+			generateParams = generateParamsQuery(followersNumber);
+
+			for (int i = 0; i < generateParams.length; i++) {
+
+				followersNumberQuery += "+followers:" + generateParams[i];
+
+			}
+
+		}
+
+		return followersNumberQuery;
 
 	}
 

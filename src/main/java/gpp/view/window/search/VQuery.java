@@ -29,6 +29,7 @@ public class VQuery extends JPanel {
 	private VSearchFieldContainer mainLanguageField; // campo con el lenguaje principal del repositorio
 	private VSearchFieldContainer starsNumberField; // campo con el número de estrellas del repositorio
 	private VSearchFieldContainer forksNumberField; // campo con el número de forks del repositorio
+	private VSearchFieldContainer followersNumberField; // campo con el número de seguidores del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -80,6 +81,9 @@ public class VQuery extends JPanel {
 
 		forksNumberField = new VSearchFieldContainer("Número de forks", "");
 		container.add(forksNumberField);
+
+		followersNumberField = new VSearchFieldContainer("Número de seguidores", "");
+		container.add(followersNumberField);
 
 	}
 
@@ -193,6 +197,16 @@ public class VQuery extends JPanel {
 	 */
 	public VSearchFieldContainer getForksNumberField() {
 		return forksNumberField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor con el número de seguidores del repositorio.
+	 * 
+	 * @return Contenedor con el número de seguidores del repositorio.
+	 */
+	public VSearchFieldContainer getFollowersNumberField() {
+		return followersNumberField;
 	}
 
 }
