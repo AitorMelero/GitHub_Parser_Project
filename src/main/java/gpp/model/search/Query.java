@@ -461,21 +461,14 @@ public class Query {
 		// Orden
 		generateSortOrderOption();
 
+		// Number pages
+		generateRepositoriesMaxNumber();
+
 		// Comprobamos que la query no está vacía
-		/*if (!path.equals("q=")) {
-
-			setPath(path + ";");
-
-		} else {
-
-			setPath("");
-
-		}*/
-		
 		if (path.equals("q=")) {
-			
+
 			setPath("");
-			
+
 		}
 
 	}
@@ -979,6 +972,48 @@ public class Query {
 
 				setOrderOption("desc");
 
+			}
+
+		}
+
+	}
+
+	/**
+	 * 
+	 * Genera la cadena con el número de repositorios máximo a devolver.
+	 * 
+	 * @return Cadena con el número de repositorios máximo a devolver.
+	 */
+	private void generateRepositoriesMaxNumber() {
+
+		if (repositoriesMaxNumber == null) {
+
+			// Por defecto 50
+			repositoriesMaxNumber = "50";
+
+		} else {
+
+			repositoriesMaxNumber = repositoriesMaxNumber.replace(" ", "");
+
+			try {
+
+				int maxNumber = Integer.parseInt(getRepositoriesMaxNumber());
+				
+				// Como máximo 1000 repositorios de búsqueda
+				if (maxNumber > 1000) {
+					
+					repositoriesMaxNumber = "50";
+					
+				}
+
+			} catch (NumberFormatException e) {
+
+				repositoriesMaxNumber = "50";
+
+			} catch (Exception e) {
+				
+				repositoriesMaxNumber = "50";
+				
 			}
 
 		}

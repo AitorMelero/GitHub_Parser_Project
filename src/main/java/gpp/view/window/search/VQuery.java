@@ -36,6 +36,7 @@ public class VQuery extends JPanel {
 	private VSearchFieldContainer topicsNumberField; // campo con el número de topics del repositorio
 	private VSearchFieldContainer sortOptionField; // campo de tipo de orden de los resultados
 	private VSearchFieldContainer orderOptionField; // campo de tipo de orden ascendente o descendente de los resultados
+	private VSearchFieldContainer repositoriesMaxNumberField; // número máximo de repositorios a buscar
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -108,6 +109,10 @@ public class VQuery extends JPanel {
 
 		orderOptionField = new VSearchFieldContainer("Orden descendente o ascendente", "");
 		container.add(orderOptionField);
+
+		repositoriesMaxNumberField = new VSearchFieldContainer("Número máximo de repositorios (1000 máx.)",
+				"");
+		container.add(repositoriesMaxNumberField);
 
 	}
 
@@ -293,6 +298,16 @@ public class VQuery extends JPanel {
 	 */
 	public VSearchFieldContainer getOrderOptionField() {
 		return orderOptionField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor con el número máximo de repositorios a devolver.
+	 * 
+	 * @return Contenedor con el número máximo de repositorios a devolver.
+	 */
+	public VSearchFieldContainer getRepositoriesMaxNumberField() {
+		return repositoriesMaxNumberField;
 	}
 
 }

@@ -193,23 +193,58 @@ public class Search {
 	 */
 	public void search() {
 
-		// Realizamos la búsqueda
-		query.setRepositoriesMaxNumber("4"); // 1000 de prueba, BORRAR
+		// Variables para las páginas
 		int pagesNumber = 1;
-		JsonObject resultQuery = GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(), query.getSortOption(),
-				query.getOrderOption(), 4, pagesNumber);
+		int maxRepositoriesToSearch = 0;
+		int repositoriesSearched = 0;
+		int repositoriesMaxNumber = Integer.parseInt(query.getRepositoriesMaxNumber());
+		int perPage = 100;
+		if (repositoriesMaxNumber < 100) {
+
+			perPage = repositoriesMaxNumber;
+
+		}
+
+		// Realizamos la búsqueda
+		JsonObject resultQuery = GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(),
+				query.getSortOption(), query.getOrderOption(), perPage, pagesNumber);
+
+		// Comprobamos si hay resultados
 		JsonArray resultRepos = new JsonArray();
 		if (!resultQuery.get("items").isJsonNull()) {
+
 			resultRepos = resultQuery.get("items").getAsJsonArray();
+
 		}
-		int repositoriesMaxNumber = Integer.parseInt(query.getRepositoriesMaxNumber());
+
+		// Calculamos los repositorios encontrados
 		long totalCount = resultQuery.get("total_count").getAsLong();
+		if (totalCount > repositoriesMaxNumber) {
+
+			maxRepositoriesToSearch = repositoriesMaxNumber;
+
+		} else {
+
+			maxRepositoriesToSearch = (int) totalCount;
+
+		}
+
+		if (totalCount < perPage) {
+
+			repositoriesSearched += totalCount;
+
+		} else {
+
+			repositoriesSearched += perPage;
+
+		}
 
 		// Guardamos los resultados de la primera página
 		setCurrentPageNumber(1);
 		result.add(resultQuery);
 		createRepositoriesFromResult(resultRepos);
 
+		// Modificamos el número de páginas a devolver
 		if (repositoriesMaxNumber > 100 && totalCount > 100) {
 
 			// Sacamos el número de páginas que necesitamos devolver
@@ -238,8 +273,15 @@ public class Search {
 			// Vamos guardando los resultados
 			for (int i = 1; i < pagesNumber; i++) {
 
-				resultQuery = GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(), "best-match", "desc",
-						100, i + 1);
+				// Sacamos el número de repositorios por página
+				if ((maxRepositoriesToSearch - repositoriesSearched) < 100) {
+
+					perPage = (maxRepositoriesToSearch - repositoriesSearched);
+
+				}
+
+				resultQuery = GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(),
+						query.getSortOption(), query.getOrderOption(), perPage, i + 1);
 				resultRepos = resultQuery.get("items").getAsJsonArray();
 
 				// Guardamos los resultados

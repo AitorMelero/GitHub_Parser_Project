@@ -82,6 +82,8 @@ public class CSearch implements ActionListener {
 					.getText();
 			String orderOption = windows.getSearchView().getQueryWindow().getOrderOptionField().getParamTextField()
 					.getText();
+			String repositoriesMaxNumber = windows.getSearchView().getQueryWindow().getRepositoriesMaxNumberField()
+					.getParamTextField().getText();
 
 			// Creamos la búsqueda
 			Search s = new Search("Búsquedas prueba", GPPSystem.getUser());
@@ -103,9 +105,8 @@ public class CSearch implements ActionListener {
 			q.setTopicsNumber(topicsNumber);
 			q.setSortOption(sortOption);
 			q.setOrderOption(orderOption);
+			q.setRepositoriesMaxNumber(repositoriesMaxNumber);
 			q.generateQueryPath();
-
-			System.out.println("CONSULTA: " + q.getPath());
 
 			// Realizamos la búsqueda
 			s.search();
