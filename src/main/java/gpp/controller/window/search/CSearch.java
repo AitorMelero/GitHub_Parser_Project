@@ -78,6 +78,10 @@ public class CSearch implements ActionListener {
 			String topics = windows.getSearchView().getQueryWindow().getTopicsField().getParamTextField().getText();
 			String topicsNumber = windows.getSearchView().getQueryWindow().getTopicsNumberField().getParamTextField()
 					.getText();
+			String sortOption = windows.getSearchView().getQueryWindow().getSortOptionField().getParamTextField()
+					.getText();
+			String orderOption = windows.getSearchView().getQueryWindow().getOrderOptionField().getParamTextField()
+					.getText();
 
 			// Creamos la búsqueda
 			Search s = new Search("Búsquedas prueba", GPPSystem.getUser());
@@ -97,6 +101,8 @@ public class CSearch implements ActionListener {
 			q.setLicense(license);
 			q.setTopics(topics);
 			q.setTopicsNumber(topicsNumber);
+			q.setSortOption(sortOption);
+			q.setOrderOption(orderOption);
 			q.generateQueryPath();
 
 			System.out.println("CONSULTA: " + q.getPath());

@@ -196,9 +196,12 @@ public class Search {
 		// Realizamos la búsqueda
 		query.setRepositoriesMaxNumber("4"); // 1000 de prueba, BORRAR
 		int pagesNumber = 1;
-		JsonObject resultQuery = GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(), "best-match",
-				"desc", 4, pagesNumber);
-		JsonArray resultRepos = resultQuery.get("items").getAsJsonArray();
+		JsonObject resultQuery = GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(), query.getSortOption(),
+				query.getOrderOption(), 4, pagesNumber);
+		JsonArray resultRepos = new JsonArray();
+		if (!resultQuery.get("items").isJsonNull()) {
+			resultRepos = resultQuery.get("items").getAsJsonArray();
+		}
 		int repositoriesMaxNumber = Integer.parseInt(query.getRepositoriesMaxNumber());
 		long totalCount = resultQuery.get("total_count").getAsLong();
 

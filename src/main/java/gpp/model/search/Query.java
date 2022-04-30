@@ -26,6 +26,7 @@ public class Query {
 	private String topics; // topics del repositorio
 	private String topicsNumber; // número de topics del repositorio
 	private String sortOption; // opción de orden del resultado
+	private String orderOption; // opción de orden ascendente o descendente del resultado
 	private String repositoriesMaxNumber; // número máximos de repositorios a devolver (máx. 1000)
 
 	/**************************************************************************
@@ -381,6 +382,30 @@ public class Query {
 
 	/**
 	 * 
+	 * Devuelve la cadena con la opción de orden ascendente o descendente
+	 * correspondiente.
+	 * 
+	 * @return Cadena con la opción de orden ascendente o descendente
+	 *         correspondiente.
+	 */
+	public String getOrderOption() {
+		return orderOption;
+	}
+
+	/**
+	 * 
+	 * Modifica la cadena con la opción de orden ascendente o descendente
+	 * correspondiente.
+	 * 
+	 * @param orderOption. Cadena con la opción de orden ascendente o descendente
+	 *                     correspondiente.
+	 */
+	public void setOrderOption(String orderOption) {
+		this.orderOption = orderOption;
+	}
+
+	/**
+	 * 
 	 * Devuelve la cadena con el número máximo de repositorios a devolver en la
 	 * búsqueda.
 	 * 
@@ -415,6 +440,7 @@ public class Query {
 	 */
 	public void generateQueryPath() {
 
+		// Path
 		setPath("q=");
 		setPath(path + generateOwner());
 		setPath(path + generateInRepositoryName());
@@ -432,8 +458,11 @@ public class Query {
 		setPath(path + generateTopics());
 		setPath(path + generateTopicsNumber());
 
+		// Orden
+		generateSortOrderOption();
+
 		// Comprobamos que la query no está vacía
-		if (!path.equals("q=")) {
+		/*if (!path.equals("q=")) {
 
 			setPath(path + ";");
 
@@ -441,6 +470,12 @@ public class Query {
 
 			setPath("");
 
+		}*/
+		
+		if (path.equals("q=")) {
+			
+			setPath("");
+			
 		}
 
 	}
@@ -791,14 +826,12 @@ public class Query {
 		return followersNumberQuery;
 
 	}
-	
+
 	/**
 	 * 
-	 * Genera la cadena con los parámetros para el número de KB del
-	 * repositorio.
+	 * Genera la cadena con los parámetros para el número de KB del repositorio.
 	 * 
-	 * @return Cadena con los parámetros para el número de KB del
-	 *         repositorio.
+	 * @return Cadena con los parámetros para el número de KB del repositorio.
 	 */
 	private String generateSize() {
 
@@ -821,11 +854,10 @@ public class Query {
 		return sizeQuery;
 
 	}
-	
+
 	/**
 	 * 
-	 * Genera la cadena con los parámetros para la licencia del
-	 * repositorio.
+	 * Genera la cadena con los parámetros para la licencia del repositorio.
 	 * 
 	 * @return Cadena con los parámetros para la licencia del repositorio.
 	 */
@@ -850,11 +882,10 @@ public class Query {
 		return licenseQuery;
 
 	}
-	
+
 	/**
 	 * 
-	 * Genera la cadena con los parámetros para los topics del
-	 * repositorio.
+	 * Genera la cadena con los parámetros para los topics del repositorio.
 	 * 
 	 * @return Cadena con los parámetros para los topics del repositorio.
 	 */
@@ -879,14 +910,12 @@ public class Query {
 		return topicsQuery;
 
 	}
-	
+
 	/**
 	 * 
-	 * Genera la cadena con los parámetros para el número de topics del
-	 * repositorio.
+	 * Genera la cadena con los parámetros para el número de topics del repositorio.
 	 * 
-	 * @return Cadena con los parámetros para el número de topics del
-	 *         repositorio.
+	 * @return Cadena con los parámetros para el número de topics del repositorio.
 	 */
 	private String generateTopicsNumber() {
 
@@ -907,6 +936,52 @@ public class Query {
 		}
 
 		return topicsNumberQuery;
+
+	}
+
+	/**
+	 * 
+	 * Genera la cadena con los parámetros para el criterio de orden de los
+	 * resultados.
+	 * 
+	 * @return Cadena con los parámetros para el criterio de orden de los
+	 *         resultados.
+	 */
+	private void generateSortOrderOption() {
+
+		// Sort
+		if (sortOption == null) {
+
+			sortOption = "best-match";
+
+		} else {
+
+			setSortOption(sortOption.replace(" ", ""));
+
+			if (!sortOption.equals("stars") && !sortOption.equals("forks") && !sortOption.equals("updated")) {
+
+				setSortOption("best-match");
+
+			}
+
+		}
+
+		// Order
+		if (orderOption == null) {
+
+			orderOption = "desc";
+
+		} else {
+
+			setOrderOption(orderOption.replace(" ", ""));
+
+			if (!orderOption.equals("asc")) {
+
+				setOrderOption("desc");
+
+			}
+
+		}
 
 	}
 

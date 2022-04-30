@@ -34,6 +34,8 @@ public class VQuery extends JPanel {
 	private VSearchFieldContainer licenseField; // campo con la licencia del repositorio
 	private VSearchFieldContainer topicsField; // campo para los topics del repositorio
 	private VSearchFieldContainer topicsNumberField; // campo con el número de topics del repositorio
+	private VSearchFieldContainer sortOptionField; // campo de tipo de orden de los resultados
+	private VSearchFieldContainer orderOptionField; // campo de tipo de orden ascendente o descendente de los resultados
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -100,6 +102,12 @@ public class VQuery extends JPanel {
 
 		topicsNumberField = new VSearchFieldContainer("Número de topics", "");
 		container.add(topicsNumberField);
+
+		sortOptionField = new VSearchFieldContainer("Ordenar por", "");
+		container.add(sortOptionField);
+
+		orderOptionField = new VSearchFieldContainer("Orden descendente o ascendente", "");
+		container.add(orderOptionField);
 
 	}
 
@@ -263,6 +271,28 @@ public class VQuery extends JPanel {
 	 */
 	public VSearchFieldContainer getTopicsNumberField() {
 		return topicsNumberField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor con el tipo de orden a seguir en los resultados.
+	 * 
+	 * @return Contenedor con el tipo de orden a seguir en los resultados.
+	 */
+	public VSearchFieldContainer getSortOptionField() {
+		return sortOptionField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor con el tipo de orden ascendente o descendente a seguir
+	 * en los resultados.
+	 * 
+	 * @return Contenedor con el tipo de orden ascendente o descendente a seguir en
+	 *         los resultados.
+	 */
+	public VSearchFieldContainer getOrderOptionField() {
+		return orderOptionField;
 	}
 
 }
