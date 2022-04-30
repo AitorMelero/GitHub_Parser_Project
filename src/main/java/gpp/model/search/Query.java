@@ -424,6 +424,7 @@ public class Query {
 		setPath(path + generateCreatedDate());
 		setPath(path + generateUpdatedDate());
 		setPath(path + generateMainLanguage());
+		setPath(path + generateStarsNumber());
 
 		// Comprobamos que la query no está vacía
 		if (!path.equals("q=")) {
@@ -694,6 +695,36 @@ public class Query {
 		}
 
 		return mainLanguageQuery;
+
+	}
+
+	/**
+	 * 
+	 * Genera la cadena con los parámetros para el número de estrellas del
+	 * repositorio.
+	 * 
+	 * @return Cadena con los parámetros para el número de estrellas del
+	 *         repositorio.
+	 */
+	private String generateStarsNumber() {
+
+		String starsNumberQuery = "";
+		String[] generateParams;
+
+		if (starsNumber != null && !starsNumber.equals("")) {
+
+			// Creamos la consulta
+			generateParams = generateParamsQuery(starsNumber);
+
+			for (int i = 0; i < generateParams.length; i++) {
+
+				starsNumberQuery += "+stars:" + generateParams[i];
+
+			}
+
+		}
+
+		return starsNumberQuery;
 
 	}
 

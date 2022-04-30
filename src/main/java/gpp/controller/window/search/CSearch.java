@@ -3,11 +3,7 @@ package gpp.controller.window.search;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import gpp.GPPSystem;
-import gpp.model.github.api.caller.GitHubAPICaller;
 import gpp.model.search.Query;
 import gpp.model.search.Search;
 import gpp.view.VWindow;
@@ -71,9 +67,11 @@ public class CSearch implements ActionListener {
 			String updated = windows.getSearchView().getQueryWindow().getUpdatedField().getParamTextField().getText();
 			String mainLanguage = windows.getSearchView().getQueryWindow().getMainLanguageField().getParamTextField()
 					.getText();
+			String starsNumber = windows.getSearchView().getQueryWindow().getStarsNumberField().getParamTextField()
+					.getText();
 
 			// Creamos la búsqueda
-			Search s = new Search("Búsquedas prueba", gppSystem.getUser());
+			Search s = new Search("Búsquedas prueba", GPPSystem.getUser());
 			Query q = s.getQuery();
 			q.setOwner(owner);
 			q.setInRepositoryName(inRepositoryName);
@@ -83,6 +81,7 @@ public class CSearch implements ActionListener {
 			q.setCreatedDate(created);
 			q.setUpdatedDate(updated);
 			q.setMainLanguage(mainLanguage);
+			q.setStarsNumber(starsNumber);
 			q.generateQueryPath();
 
 			System.out.println("CONSULTA: " + q.getPath());

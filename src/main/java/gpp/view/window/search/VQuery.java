@@ -28,6 +28,7 @@ public class VQuery extends JPanel {
 	private VSearchFieldContainer createdField; // campo de fecha de creación del repositorio
 	private VSearchFieldContainer updatedField; // campo de fecha de actualización del repositorio
 	private VSearchFieldContainer mainLanguageField; // campo con el lenguaje principal del repositorio
+	private VSearchFieldContainer starsNumberField; // campo con el número de estrellas del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -73,6 +74,9 @@ public class VQuery extends JPanel {
 
 		mainLanguageField = new VSearchFieldContainer("Lenguaje principal", "");
 		container.add(mainLanguageField);
+
+		starsNumberField = new VSearchFieldContainer("Número de estrellas", "");
+		container.add(starsNumberField);
 
 	}
 
@@ -166,6 +170,16 @@ public class VQuery extends JPanel {
 	 */
 	public VSearchFieldContainer getMainLanguageField() {
 		return mainLanguageField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor con el número de estrellas del repositorio.
+	 * 
+	 * @return Contenedor con el número de estrellas del repositorio.
+	 */
+	public VSearchFieldContainer getStarsNumberField() {
+		return starsNumberField;
 	}
 
 }
