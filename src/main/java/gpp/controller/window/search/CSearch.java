@@ -60,11 +60,15 @@ public class CSearch implements ActionListener {
 
 			// Sacamos los valores de los campos de búsqueda
 			String owner = windows.getSearchView().getQueryWindow().getOwnerField().getParamTextField().getText();
-			String inRepositoryName = windows.getSearchView().getQueryWindow().getInRepositoryNameField().getParamTextField().getText();
-			String repository = windows.getSearchView().getQueryWindow().getRepositoryField().getParamTextField().getText();
-			String description = windows.getSearchView().getQueryWindow().getDescriptionField().getParamTextField().getText();
+			String inRepositoryName = windows.getSearchView().getQueryWindow().getInRepositoryNameField()
+					.getParamTextField().getText();
+			String repository = windows.getSearchView().getQueryWindow().getRepositoryField().getParamTextField()
+					.getText();
+			String description = windows.getSearchView().getQueryWindow().getDescriptionField().getParamTextField()
+					.getText();
 			String inReadme = windows.getSearchView().getQueryWindow().getInReadmeField().getParamTextField().getText();
 			String created = windows.getSearchView().getQueryWindow().getCreatedField().getParamTextField().getText();
+			String updated = windows.getSearchView().getQueryWindow().getUpdatedField().getParamTextField().getText();
 
 			// Creamos la búsqueda
 			Search s = new Search("Búsquedas prueba", gppSystem.getUser());
@@ -75,33 +79,34 @@ public class CSearch implements ActionListener {
 			q.setDescription(description);
 			q.setInReadme(inReadme);
 			q.setCreatedDate(created);
+			q.setUpdatedDate(updated);
 			q.generateQueryPath();
-			
+
 			System.out.println("CONSULTA: " + q.getPath());
-			
+
 			// Realizamos la búsqueda
 			s.search();
-			
+
 			// Filtramos la búsqueda
 			s.filter();
-			
+
 			// Cambiamos a la pantalla de resultados
 			gppSystem.setCurrentSearch(s);
-			windows.getSearchResultView().setSearchResultCurrent(s,1);
+			windows.getSearchResultView().setSearchResultCurrent(s, 1);
 			windows.setCard("VSearchResult");
 
 		} else if (e.getActionCommand().equals("Buscar general")) {
-			
+
 			windows.getSearchView().setCard("VQuery");
-			
+
 		} else if (e.getActionCommand().equals("Filtros generales")) {
-			
+
 			windows.getSearchView().setCard("VFilter");
-			
+
 		} else if (e.getActionCommand().equals("Filtros por lenguaje")) {
-			
+
 			windows.getSearchView().setCard("VFilterLanguage");
-			
+
 		}
 
 	}

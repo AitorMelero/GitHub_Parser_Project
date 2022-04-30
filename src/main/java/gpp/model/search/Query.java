@@ -16,6 +16,7 @@ public class Query {
 	private String description; // cadena que aparece en la descripción del repositorio
 	private String inReadme; // cadena que aparece en el Readme del repositorio
 	private String createdDate; // fecha de creación del repositorio
+	private String updatedDate; // fecha de actualización del repositorio
 	private String mainLanguage; // lenguaje principal del repositorio
 	private String starsNumber; // número de estrellas del repositorio
 	private String forksNumber; // número de forks del repositorio
@@ -176,6 +177,26 @@ public class Query {
 	 */
 	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	/**
+	 * 
+	 * Devuelve la cadena de la fecha de actualización del repositorio.
+	 * 
+	 * @return Cadena con la fecha de actualización del repositorio.
+	 */
+	public String getUpdatedDate() {
+		return updatedDate;
+	}
+
+	/**
+	 * 
+	 * Modifica la cadena con la fecha de actualización del repositorio.
+	 * 
+	 * @param updatedDate. Cadena con la fecha de actualización del repositorio.
+	 */
+	public void setUpdatedDate(String updatedDate) {
+		this.updatedDate = updatedDate;
 	}
 
 	/**
@@ -401,6 +422,7 @@ public class Query {
 		setPath(path + generateDescription());
 		setPath(path + generateInReadme());
 		setPath(path + generateCreatedDate());
+		setPath(path + generateUpdatedDate());
 
 		// Comprobamos que la query no está vacía
 		if (!path.equals("q=")) {
@@ -604,6 +626,44 @@ public class Query {
 		}
 
 		return createdDateQuery;
+
+	}
+
+	/**
+	 * 
+	 * Genera la cadena con los parámetros para la fecha de actualización del
+	 * repositorio.
+	 * 
+	 * @return Cadena con los parámetros para la fecha de actualización del
+	 *         repositorio.
+	 */
+	private String generateUpdatedDate() {
+
+		String updatedDateQuery = "";
+		String[] generateParams;
+
+		if (updatedDate != null && !updatedDate.equals("")) {
+
+			// Creamos la consulta
+			generateParams = generateParamsQuery(updatedDate);
+
+			for (int i = 0; i < generateParams.length; i++) {
+
+				if (i == 0) {
+
+					updatedDateQuery = "+pushed:" + generateParams[i];
+
+				} else {
+
+					updatedDateQuery += "+" + generateParams[i];
+
+				}
+
+			}
+
+		}
+
+		return updatedDateQuery;
 
 	}
 
