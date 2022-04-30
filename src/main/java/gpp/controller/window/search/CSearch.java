@@ -73,6 +73,7 @@ public class CSearch implements ActionListener {
 					.getText();
 			String followersNumber = windows.getSearchView().getQueryWindow().getFollowersNumberField()
 					.getParamTextField().getText();
+			String size = windows.getSearchView().getQueryWindow().getSizeField().getParamTextField().getText();
 
 			// Creamos la búsqueda
 			Search s = new Search("Búsquedas prueba", GPPSystem.getUser());
@@ -88,6 +89,7 @@ public class CSearch implements ActionListener {
 			q.setStarsNumber(starsNumber);
 			q.setForksNumber(forksNumber);
 			q.setFollowersNumber(followersNumber);
+			q.setSize(size);
 			q.generateQueryPath();
 
 			System.out.println("CONSULTA: " + q.getPath());

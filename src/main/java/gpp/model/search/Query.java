@@ -448,6 +448,7 @@ public class Query {
 		setPath(path + generateStarsNumber());
 		setPath(path + generateForksNumber());
 		setPath(path + generateFollowersNumber());
+		setPath(path + generateSize());
 
 		// Comprobamos que la query no está vacía
 		if (!path.equals("q=")) {
@@ -806,6 +807,36 @@ public class Query {
 		}
 
 		return followersNumberQuery;
+
+	}
+	
+	/**
+	 * 
+	 * Genera la cadena con los parámetros para el número de KB del
+	 * repositorio.
+	 * 
+	 * @return Cadena con los parámetros para el número de KB del
+	 *         repositorio.
+	 */
+	private String generateSize() {
+
+		String sizeQuery = "";
+		String[] generateParams;
+
+		if (size != null && !size.equals("")) {
+
+			// Creamos la consulta
+			generateParams = generateParamsQuery(size);
+
+			for (int i = 0; i < generateParams.length; i++) {
+
+				sizeQuery += "+size:" + generateParams[i];
+
+			}
+
+		}
+
+		return sizeQuery;
 
 	}
 
