@@ -429,6 +429,7 @@ public class Query {
 		setPath(path + generateFollowersNumber());
 		setPath(path + generateSize());
 		setPath(path + generateLicense());
+		setPath(path + generateTopics());
 
 		// Comprobamos que la query no está vacía
 		if (!path.equals("q=")) {
@@ -846,6 +847,35 @@ public class Query {
 		}
 
 		return licenseQuery;
+
+	}
+	
+	/**
+	 * 
+	 * Genera la cadena con los parámetros para los topics del
+	 * repositorio.
+	 * 
+	 * @return Cadena con los parámetros para los topics del repositorio.
+	 */
+	private String generateTopics() {
+
+		String topicsQuery = "";
+		String[] generateParams;
+
+		if (topics != null && !topics.equals("")) {
+
+			// Creamos la consulta
+			generateParams = generateParamsQuery(topics);
+
+			for (String i : generateParams) {
+
+				topicsQuery += "+topic:" + i;
+
+			}
+
+		}
+
+		return topicsQuery;
 
 	}
 
