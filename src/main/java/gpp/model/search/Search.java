@@ -289,7 +289,10 @@ public class Search {
 			JsonObject ro = (JsonObject) re;
 			String ownerName = ro.get("full_name").getAsString().split("/")[0];
 			String repoName = ro.get("name").getAsString();
-			String description = ro.get("description").getAsString();
+			String description = "";
+			if (!ro.get("description").isJsonNull()) {
+				description = ro.get("description").getAsString();
+			}
 			long starsNumber = ro.get("stargazers_count").getAsLong();
 			JsonObject license = null;
 			String licenseString = "";

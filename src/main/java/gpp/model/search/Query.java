@@ -425,6 +425,7 @@ public class Query {
 		setPath(path + generateUpdatedDate());
 		setPath(path + generateMainLanguage());
 		setPath(path + generateStarsNumber());
+		setPath(path + generateForksNumber());
 
 		// Comprobamos que la query no está vacía
 		if (!path.equals("q=")) {
@@ -725,6 +726,34 @@ public class Query {
 		}
 
 		return starsNumberQuery;
+
+	}
+
+	/**
+	 * 
+	 * Genera la cadena con los parámetros para el número de forks del repositorio.
+	 * 
+	 * @return Cadena con los parámetros para el número de forks del repositorio.
+	 */
+	private String generateForksNumber() {
+
+		String forksNumberQuery = "";
+		String[] generateParams;
+
+		if (forksNumber != null && !forksNumber.equals("")) {
+
+			// Creamos la consulta
+			generateParams = generateParamsQuery(forksNumber);
+
+			for (int i = 0; i < generateParams.length; i++) {
+
+				forksNumberQuery += "+forks:" + generateParams[i];
+
+			}
+
+		}
+
+		return forksNumberQuery;
 
 	}
 

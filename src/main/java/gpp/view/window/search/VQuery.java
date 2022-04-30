@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 import gpp.view.component.VSearchFieldContainer;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
-import java.awt.Color;
 
 /**
  * 
@@ -29,6 +28,7 @@ public class VQuery extends JPanel {
 	private VSearchFieldContainer updatedField; // campo de fecha de actualización del repositorio
 	private VSearchFieldContainer mainLanguageField; // campo con el lenguaje principal del repositorio
 	private VSearchFieldContainer starsNumberField; // campo con el número de estrellas del repositorio
+	private VSearchFieldContainer forksNumberField; // campo con el número de forks del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -77,6 +77,9 @@ public class VQuery extends JPanel {
 
 		starsNumberField = new VSearchFieldContainer("Número de estrellas", "");
 		container.add(starsNumberField);
+
+		forksNumberField = new VSearchFieldContainer("Número de forks", "");
+		container.add(forksNumberField);
 
 	}
 
@@ -180,6 +183,16 @@ public class VQuery extends JPanel {
 	 */
 	public VSearchFieldContainer getStarsNumberField() {
 		return starsNumberField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor con el número de forks del repositorio.
+	 * 
+	 * @return Contenedor con el número de forks del repositorio.
+	 */
+	public VSearchFieldContainer getForksNumberField() {
+		return forksNumberField;
 	}
 
 }
