@@ -19,8 +19,9 @@ public class VFilter extends JPanel {
 
 	private JScrollPane scrollContainer; // contenedor con scroll general
 	private JPanel container; // contenedor dentro del scroll
-	private VSearchFieldContainer ownerField; // campo de autores
-	private VSearchFieldContainer inRepositoryNameField; // campo de palabras en nombre del repositorio
+	private VSearchFieldContainer ownerField; // campo de filtro de autores
+	private VSearchFieldContainer inRepositoryNameField; // campo de filtro de palabras en nombre del repositorio
+	private VSearchFieldContainer descriptionField; // campo de filtro de palabras en la descripción del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -49,6 +50,9 @@ public class VFilter extends JPanel {
 		inRepositoryNameField = new VSearchFieldContainer("En el repositorio", "");
 		container.add(inRepositoryNameField);
 
+		descriptionField = new VSearchFieldContainer("Palabras en la descripción", "");
+		container.add(descriptionField);
+
 	}
 
 	/**************************************************************************
@@ -75,6 +79,18 @@ public class VFilter extends JPanel {
 	 */
 	public VSearchFieldContainer getInRepositoryNameField() {
 		return inRepositoryNameField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor para los parámetros del filtro de cadenas en la
+	 * descripción del repositorio.
+	 * 
+	 * @return Contenedor para los parámetros del filtro de cadenas en la
+	 *         descripción del repositorio.
+	 */
+	public VSearchFieldContainer getDescriptionField() {
+		return descriptionField;
 	}
 
 }

@@ -358,9 +358,13 @@ public class Filter {
 			return false;
 
 		} else if (!filterInRepositoryName(repository)) {
-			
+
 			return false;
-			
+
+		} else if (!filterDescription(repository)) {
+
+			return false;
+
 		}
 
 		return isValid;
@@ -399,7 +403,7 @@ public class Filter {
 		} else {
 
 			owner = "";
-			
+
 			isValid = true;
 
 		}
@@ -407,14 +411,13 @@ public class Filter {
 		return isValid;
 
 	}
-	
+
 	/**
 	 * 
 	 * Filtra un repositorio por cadenas en el nombre.
 	 * 
 	 * @param repository. Repositorio a filtrar.
-	 * @return True si el repositorio cumple el filtro, false en caso
-	 *         contrario.
+	 * @return True si el repositorio cumple el filtro, false en caso contrario.
 	 */
 	private boolean filterInRepositoryName(Repository repository) {
 
@@ -424,7 +427,7 @@ public class Filter {
 		// Comprobamos que el filtro no está vacío
 		if (inRepositoryName != null && !inRepositoryName.equals("")) {
 
-			// Sacamos los autores a comparar
+			// Sacamos los valores a comparar
 			inRepositoryNameList = inRepositoryName.replace(" ", "").split(",");
 
 			for (int i = 0; i < inRepositoryNameList.length && !isValid; i++) {
@@ -440,7 +443,55 @@ public class Filter {
 		} else {
 
 			inRepositoryName = "";
-			
+
+			isValid = true;
+
+		}
+
+		return isValid;
+
+	}
+
+	/**
+	 * 
+	 * Filtra un repositorio por cadenas en la descripción.
+	 * 
+	 * @param repository. Repositorio a filtrar.
+	 * @return True si el repositorio cumple el filtro, false en caso contrario.
+	 */
+	private boolean filterDescription(Repository repository) {
+
+		boolean isValid = false;
+		String[] descriptionList;
+		String descriptionLowerCase = "";
+
+		// Sacamos la descripción en minúsculas
+		if (repository.getDescription() != null) {
+
+			descriptionLowerCase = repository.getDescription().toLowerCase();
+
+		}
+
+		// Comprobamos que el filtro no está vacío
+		if (description != null && !description.equals("") && !descriptionLowerCase.equals("")) {
+
+			// Sacamos los valores a comparar
+			descriptionList = description.replace(" ", "").split(",");
+
+			for (int i = 0; i < descriptionList.length && !isValid; i++) {
+
+				if (descriptionLowerCase.contains(descriptionList[i].toLowerCase())) {
+
+					isValid = true;
+
+				}
+
+			}
+
+		} else {
+
+			description = "";
+
 			isValid = true;
 
 		}

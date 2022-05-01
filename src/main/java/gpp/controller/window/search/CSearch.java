@@ -91,6 +91,8 @@ public class CSearch implements ActionListener {
 					.getText();
 			String inRepositoryNameFilter = windows.getSearchView().getFilterWindow().getInRepositoryNameField()
 					.getParamTextField().getText();
+			String descriptionFilter = windows.getSearchView().getFilterWindow().getDescriptionField()
+					.getParamTextField().getText();
 
 			// Creamos la búsqueda
 			Search s = new Search("Búsquedas prueba", GPPSystem.getUser());
@@ -119,6 +121,7 @@ public class CSearch implements ActionListener {
 			Filter f = s.getFilter();
 			f.setOwner(ownerFilter);
 			f.setInRepositoryName(inRepositoryNameFilter);
+			f.setDescription(descriptionFilter);
 
 			// Realizamos la búsqueda
 			s.search();
