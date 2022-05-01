@@ -71,7 +71,7 @@ public class VRepositoryContainer extends JButton {
 		String dateUpdated = repository.getDateUpdated();
 
 		container = new JPanel();
-		container.setBounds(0, 0, 790, 125);
+		container.setBounds(0, 0, 807, 125);
 		container.setBackground(VColor.getGRAY_MENU());
 		container.setBorder(BorderFactory.createLineBorder(VColor.getGRAY_FOCUS_MENU()));
 		extraInfo = new JPanel();
@@ -115,9 +115,9 @@ public class VRepositoryContainer extends JButton {
 		this.setOpaque(true);
 
 		// this.setBounds(20, 144, 800, 125);
-		this.setMinimumSize(new Dimension(790, 125));
-		this.setMaximumSize(new Dimension(790, 125));
-		this.setPreferredSize(new Dimension(790, 125));
+		this.setMinimumSize(new Dimension(807, 125));
+		this.setMaximumSize(new Dimension(807, 125));
+		this.setPreferredSize(new Dimension(807, 125));
 		this.add(container);
 		this.setActionCommand(repository.getOwnerName() + "/" + repository.getName());
 

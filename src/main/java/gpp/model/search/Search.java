@@ -27,6 +27,7 @@ public class Search {
 	private String name; // nombre asignado por el usuario a la búsqueda
 	private JsonArray result; // resultado de la búsqueda
 	private Query query; // datos de la consulta de la búsqueda
+	private Filter filter; // filtro generales de resultados
 	private User user; // usuario que realiza la búsqueda
 	private ArrayList<Repository> listRepoResult; // lista de repositorios del resultado
 	private int currentPageNumber; // número actual de la página del resultado actual
@@ -49,6 +50,7 @@ public class Search {
 		this.name = name;
 		result = new JsonArray();
 		query = new Query();
+		filter = new Filter();
 		this.user = user;
 		this.listRepoResult = new ArrayList<Repository>();
 		this.currentPageNumber = -1;
@@ -138,6 +140,26 @@ public class Search {
 	 */
 	public void setQuery(Query query) {
 		this.query = query;
+	}
+
+	/**
+	 * 
+	 * Devuelve el filtro general de los resultados.
+	 * 
+	 * @return Filtro general de los resultados.
+	 */
+	public Filter getFilter() {
+		return filter;
+	}
+
+	/**
+	 * 
+	 * Modifica el filtro general de los resultados.
+	 * 
+	 * @param filter. Filtro general de los resultados.
+	 */
+	public void setFilter(Filter filter) {
+		this.filter = filter;
 	}
 
 	/**
@@ -302,6 +324,7 @@ public class Search {
 	public void filter() {
 
 		int i = 1;
+		ArrayList<Repository> listRepoFilter = new ArrayList<Repository>();
 
 		// listRepoResult.get(3).generateFullInfo();
 
@@ -309,11 +332,22 @@ public class Search {
 
 			System.out.println("Clonando " + i + " de " + listRepoResult.size());
 
+			// Generamos la información completa del repositorio
 			r.generateFullInfo();
+
+			// Filtramos el repositorio
+			if (filter.filterRepository(r)) {
+
+				listRepoFilter.add(r);
+
+			}
 
 			i++;
 
 		}
+
+		// Modificamos la lista de resultados con la lista de filtrados
+		this.setListRepoResult(listRepoFilter);
 
 	}
 

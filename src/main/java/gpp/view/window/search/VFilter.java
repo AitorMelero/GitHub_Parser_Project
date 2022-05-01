@@ -41,11 +41,10 @@ public class VFilter extends JPanel {
 		add(scrollContainer);
 
 		container = new JPanel();
-		container.setBackground(Color.MAGENTA);
 		scrollContainer.setViewportView(container);
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
-		ownerField = new VSearchFieldContainer("Filtro 1", "");
+		ownerField = new VSearchFieldContainer("Autores del repositorio", "");
 		container.add(ownerField);
 
 		inRepositoryNameField = new VSearchFieldContainer("Filtro 2", "");

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import gpp.GPPSystem;
+import gpp.model.search.Filter;
 import gpp.model.search.Query;
 import gpp.model.search.Search;
 import gpp.view.VWindow;
@@ -84,6 +85,9 @@ public class CSearch implements ActionListener {
 					.getText();
 			String repositoriesMaxNumber = windows.getSearchView().getQueryWindow().getRepositoriesMaxNumberField()
 					.getParamTextField().getText();
+			
+			// Sacamos los valores de los filtros generales
+			String ownerFilter = windows.getSearchView().getFilterWindow().getOwnerField().getParamTextField().getText();
 
 			// Creamos la búsqueda
 			Search s = new Search("Búsquedas prueba", GPPSystem.getUser());
@@ -107,6 +111,10 @@ public class CSearch implements ActionListener {
 			q.setOrderOption(orderOption);
 			q.setRepositoriesMaxNumber(repositoriesMaxNumber);
 			q.generateQueryPath();
+			
+			// Creamos el filtro
+			Filter f = s.getFilter();
+			f.setOwner(ownerFilter);
 
 			// Realizamos la búsqueda
 			s.search();
