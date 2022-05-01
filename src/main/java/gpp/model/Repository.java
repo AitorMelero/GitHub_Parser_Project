@@ -29,6 +29,8 @@ public class Repository {
 	private String clonePath; // path donde está clonado el repositorio, null si no está clonado
 	private String description; // descripción del repositorio
 	private long starsNumber; // número de estrellas del repositorio
+	private long forksNumber; // número de forks del repositorio
+	private long watchersNumber; // número de watchers del repositorio
 	private String license; // licencia del repositorio
 	private String dateCreated; // fecha de creación
 	private String dateUpdated; // fecha de actualización
@@ -71,6 +73,8 @@ public class Repository {
 
 		this.description = "";
 		this.starsNumber = 0;
+		this.forksNumber = 0;
+		this.watchersNumber = 0;
 		this.license = "";
 		this.dateCreated = "";
 		this.dateUpdated = "";
@@ -147,7 +151,7 @@ public class Repository {
 	public void setClonePath(String clonePath) {
 		this.clonePath = clonePath;
 	}
-	
+
 	/**
 	 * 
 	 * Devuelve la descripción del repositorio.
@@ -187,7 +191,47 @@ public class Repository {
 	public void setStarsNumber(long starsNumber) {
 		this.starsNumber = starsNumber;
 	}
-	
+
+	/**
+	 * 
+	 * Devuelve el número de forks del repositorio.
+	 * 
+	 * @return Número de forks del repositorio.
+	 */
+	public long getForksNumber() {
+		return forksNumber;
+	}
+
+	/**
+	 * 
+	 * Modifica el número de forks del repositorio.
+	 * 
+	 * @param forksNumber. Número de forks del repositorio.
+	 */
+	public void setForksNumber(long forksNumber) {
+		this.forksNumber = forksNumber;
+	}
+
+	/**
+	 * 
+	 * Devuelve el número de watchers del repositorio.
+	 * 
+	 * @return Número de watchers del repositorio.
+	 */
+	public long getWatchersNumber() {
+		return watchersNumber;
+	}
+
+	/**
+	 * 
+	 * Modifica el número de watchers del repositorio.
+	 * 
+	 * @param watchersNumber. Número de watchers del repositorio.
+	 */
+	public void setWatchersNumber(long watchersNumber) {
+		this.watchersNumber = watchersNumber;
+	}
+
 	/**
 	 * 
 	 * Devuelve la licencia del repositorio.
@@ -207,7 +251,7 @@ public class Repository {
 	public void setLicense(String license) {
 		this.license = license;
 	}
-	
+
 	/**
 	 * 
 	 * Devuelve la cadena de la fecha de creación del repositorio.

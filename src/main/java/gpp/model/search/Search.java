@@ -339,6 +339,8 @@ public class Search {
 				description = ro.get("description").getAsString();
 			}
 			long starsNumber = ro.get("stargazers_count").getAsLong();
+			long forksNumber = ro.get("forks_count").getAsLong();
+			long watchersNumber = ro.get("watchers_count").getAsLong();
 			JsonObject license = null;
 			String licenseString = "";
 			if (!ro.get("license").isJsonNull()) {
@@ -364,6 +366,8 @@ public class Search {
 			repoResult = new Repository(ownerName, repoName);
 			repoResult.setDescription(description);
 			repoResult.setStarsNumber(starsNumber);
+			repoResult.setForksNumber(forksNumber);
+			repoResult.setWatchersNumber(watchersNumber);
 			repoResult.setLicense(licenseString);
 			repoResult.setDateCreated(dateCreated);
 			repoResult.setDateUpdated(dateUpdated);

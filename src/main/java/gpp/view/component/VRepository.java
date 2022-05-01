@@ -58,7 +58,7 @@ public class VRepository extends JPanel {
 		infoContainerScroll = new JScrollPane();
 		infoContainer = new JPanel();
 		infoContainerScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		//infoContainerScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		// infoContainerScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		infoContainerScroll.setBounds(20, 144, 807, 465);
 		infoContainer.setLayout(new BoxLayout(infoContainer, BoxLayout.Y_AXIS));
 
@@ -99,6 +99,8 @@ public class VRepository extends JPanel {
 		infoContainer.add(addInfoField("Descripción: ", repo.getDescription()));
 		infoContainer.add(addInfoField("Nº de ficheros: ", repo.getFilesNumber() + ""));
 		infoContainer.add(addInfoField("Número de estrellas: ", repo.getStarsNumber() + ""));
+		infoContainer.add(addInfoField("Número de forks: ", repo.getForksNumber() + ""));
+		//infoContainer.add(addInfoField("Número de visitas: ", repo.getWatchersNumber() + ""));
 		infoContainer.add(addInfoField("Licencia: ", repo.getLicense()));
 		infoContainer.add(addInfoField("Fecha de creación: ", repo.getDateCreated()));
 		infoContainer.add(addInfoField("Fecha de actualización: ", repo.getDateUpdated()));
@@ -116,9 +118,11 @@ public class VRepository extends JPanel {
 		}
 		VSearchFieldContainer extensionContainer = addInfoField("Extensiones: ", extensionsList);
 		infoContainer.add(extensionContainer);
-		//extensionContainer.getParamTextField().setMinimumSize(new Dimension(430, 20));
-		//extensionContainer.getParamTextField().setMaximumSize(new Dimension(1000, 20));
-		//extensionContainer.setPreferredSize(new Dimension(430, 20));
+		// extensionContainer.getParamTextField().setMinimumSize(new Dimension(430,
+		// 20));
+		// extensionContainer.getParamTextField().setMaximumSize(new Dimension(1000,
+		// 20));
+		// extensionContainer.setPreferredSize(new Dimension(430, 20));
 		String topicsList = "";
 		for (int i = 0; i < repo.getTopics().size(); i++) {
 
