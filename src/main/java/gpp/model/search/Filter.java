@@ -357,6 +357,10 @@ public class Filter {
 
 			return false;
 
+		} else if (!filterInRepositoryName(repository)) {
+			
+			return false;
+			
 		}
 
 		return isValid;
@@ -395,6 +399,47 @@ public class Filter {
 		} else {
 
 			owner = "";
+			
+			isValid = true;
+
+		}
+
+		return isValid;
+
+	}
+	
+	/**
+	 * 
+	 * Filtra un repositorio por cadenas en el nombre.
+	 * 
+	 * @param repository. Repositorio a filtrar.
+	 * @return True si el repositorio cumple el filtro, false en caso
+	 *         contrario.
+	 */
+	private boolean filterInRepositoryName(Repository repository) {
+
+		boolean isValid = false;
+		String[] inRepositoryNameList;
+
+		// Comprobamos que el filtro no está vacío
+		if (inRepositoryName != null && !inRepositoryName.equals("")) {
+
+			// Sacamos los autores a comparar
+			inRepositoryNameList = inRepositoryName.replace(" ", "").split(",");
+
+			for (int i = 0; i < inRepositoryNameList.length && !isValid; i++) {
+
+				if (repository.getName().contains(inRepositoryNameList[i])) {
+
+					isValid = true;
+
+				}
+
+			}
+
+		} else {
+
+			inRepositoryName = "";
 			
 			isValid = true;
 

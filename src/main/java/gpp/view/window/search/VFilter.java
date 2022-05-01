@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 import gpp.view.component.VSearchFieldContainer;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
-import java.awt.Color;
 
 /**
  * 
@@ -47,7 +46,7 @@ public class VFilter extends JPanel {
 		ownerField = new VSearchFieldContainer("Autores del repositorio", "");
 		container.add(ownerField);
 
-		inRepositoryNameField = new VSearchFieldContainer("Filtro 2", "");
+		inRepositoryNameField = new VSearchFieldContainer("En el repositorio", "");
 		container.add(inRepositoryNameField);
 
 	}
