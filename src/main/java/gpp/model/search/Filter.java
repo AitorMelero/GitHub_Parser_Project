@@ -377,6 +377,10 @@ public class Filter {
 
 			return false;
 
+		} else if (!filterStarsNumber(repository)) {
+
+			return false;
+
 		}
 
 		return isValid;
@@ -646,6 +650,36 @@ public class Filter {
 
 	/**
 	 * 
+	 * Filtra un repositorio por número de estrellas.
+	 * 
+	 * @param repository. Repositorio a filtrar.
+	 * @return True si el repositorio cumple el filtro, false en caso contrario.
+	 */
+	private boolean filterStarsNumber(Repository repository) {
+
+		boolean isValid = false;
+
+		if (starsNumber != null && !starsNumber.replace(" ", "").equals("")) {
+
+			if (repository.getStarsNumber() >= 0) {
+
+				isValid = compareQuantityString(repository.getStarsNumber(), starsNumber.replace(" ", ""));
+
+			}
+
+		} else {
+
+			starsNumber = "";
+			isValid = true;
+
+		}
+
+		return isValid;
+
+	}
+
+	/**
+	 * 
 	 * Compara la cadena de la fecha del repositorio con la cadena de la fecha a
 	 * comparar.
 	 * 
@@ -809,9 +843,134 @@ public class Filter {
 
 			dateValid = false;
 
+		} catch (Exception e) {
+
+			dateValid = false;
+
 		}
 
 		return dateValid;
+
+	}
+
+	/**
+	 * 
+	 * Compara dos cantidades una en formato de cadena y la otra de tipo long.
+	 * 
+	 * @param repositoryQuantity. Cantidad de una propiedad del repositorio.
+	 * @param compareQuantity.    Cantidad a comparar.
+	 * @return True si se cumple la comparación, false en caso contrario.
+	 */
+	private boolean compareQuantityString(Long repositoryQuantity, String compareQuantity) {
+
+		boolean isValid = true;
+		long qRepo = repositoryQuantity;
+		long qComp = 0;
+		String[] compareList = compareQuantity.split("\\.\\.");
+
+		try {
+
+			if (compareQuantity.contains("..")) {
+				
+				System.out.println("SPLIT ..: " + compareList.length);
+				
+				for (int i = 0; i < compareList.length; i++) {
+					
+					System.out.println("STRING: " + compareList[i]);
+					
+				}
+
+				if (compareList.length != 2) {
+
+					isValid = false;
+
+				} else {
+
+					qComp = Long.parseLong(compareList[0]);
+
+					if (qRepo < qComp) {
+
+						isValid = false;
+
+					} else {
+
+						qComp = Long.parseLong(compareList[1]);
+
+						if (qRepo > qComp) {
+
+							isValid = false;
+
+						}
+
+					}
+
+				}
+
+			} else if (compareQuantity.substring(1, 2).equals("=")) {
+
+				if (compareQuantity.substring(0, 1).equals("<")) {
+
+					qComp = Long.parseLong(compareQuantity.substring(2));
+
+					if (qRepo > qComp) {
+
+						isValid = false;
+
+					}
+
+				} else if (compareQuantity.substring(0, 1).equals(">")) {
+
+					qComp = Long.parseLong(compareQuantity.substring(2));
+
+					if (qRepo < qComp) {
+
+						isValid = false;
+
+					}
+
+				} else {
+
+					isValid = false;
+
+				}
+
+			} else if (compareQuantity.substring(0, 1).equals("<")) {
+
+				qComp = Long.parseLong(compareQuantity.substring(1));
+
+				if (qRepo >= qComp) {
+
+					isValid = false;
+
+				}
+
+			} else if (compareQuantity.substring(0, 1).equals(">")) {
+
+				qComp = Long.parseLong(compareQuantity.substring(1));
+
+				if (qRepo <= qComp) {
+
+					isValid = false;
+
+				}
+
+			} else {
+
+				isValid = false;
+
+			}
+
+		} catch (NumberFormatException e) {
+
+			isValid = false;
+
+		} catch (Exception e) {
+
+			isValid = false;
+
+		}
+
+		return isValid;
 
 	}
 

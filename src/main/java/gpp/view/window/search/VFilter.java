@@ -25,6 +25,7 @@ public class VFilter extends JPanel {
 	private VSearchFieldContainer createdDateField; // campo de filtro de fecha de creación del repositorio
 	private VSearchFieldContainer updatedDateField; // campo de filtro de fecha de actualización del repositorio
 	private VSearchFieldContainer mainLanguageField; // campo de filtro de lenguaje principal del repositorio
+	private VSearchFieldContainer starsNumberField; // campo de filtro de número de estrellas del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -64,6 +65,9 @@ public class VFilter extends JPanel {
 
 		mainLanguageField = new VSearchFieldContainer("Lenguaje principal", "");
 		container.add(mainLanguageField);
+
+		starsNumberField = new VSearchFieldContainer("Número de estrellas", "");
+		container.add(starsNumberField);
 
 	}
 
@@ -133,6 +137,16 @@ public class VFilter extends JPanel {
 	 */
 	public VSearchFieldContainer getMainLanguageField() {
 		return mainLanguageField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor con el filtro de número de estreallas.
+	 * 
+	 * @return Contenedor con el filtro de número de estrellas.
+	 */
+	public VSearchFieldContainer getStarsNumberField() {
+		return starsNumberField;
 	}
 
 }

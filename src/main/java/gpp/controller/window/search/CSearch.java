@@ -99,6 +99,8 @@ public class CSearch implements ActionListener {
 					.getParamTextField().getText();
 			String mainLanguageFilter = windows.getSearchView().getFilterWindow().getMainLanguageField()
 					.getParamTextField().getText();
+			String starsNumberFilter = windows.getSearchView().getFilterWindow().getStarsNumberField()
+					.getParamTextField().getText();
 
 			// Creamos la búsqueda
 			Search s = new Search("Búsquedas prueba", GPPSystem.getUser());
@@ -131,6 +133,7 @@ public class CSearch implements ActionListener {
 			f.setCreatedDate(createdDateFilter);
 			f.setUpdatedDate(updatedDateFilter);
 			f.setMainLanguage(mainLanguageFilter);
+			f.setStarsNumber(starsNumberFilter);
 
 			// Realizamos la búsqueda
 			s.search();
