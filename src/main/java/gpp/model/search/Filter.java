@@ -365,6 +365,10 @@ public class Filter {
 
 			return false;
 
+		} else if (!filterCreatedDate(repository)) {
+
+			return false;
+
 		}
 
 		return isValid;
@@ -497,6 +501,214 @@ public class Filter {
 		}
 
 		return isValid;
+
+	}
+
+	/**
+	 * 
+	 * Filtra un repositorio por fecha de creación.
+	 * 
+	 * @param repository. Repositorio a filtrar.
+	 * @return True si el repositorio cumple el filtro, false en caso contrario.
+	 */
+	private boolean filterCreatedDate(Repository repository) {
+
+		boolean isValid = true;
+		String[] createdDateList;
+
+		// Sacamos las cadenas con las fechas
+		if (createdDate != null && !createdDate.replace(" ", "").equals("")) {
+
+			createdDateList = createdDate.replace(" ", "").split(",");
+
+			for (int i = 0; i < createdDateList.length && isValid; i++) {
+
+				if (!compareStringDate(repository.getDateCreated(), createdDateList[i])) {
+
+					isValid = false;
+
+				}
+
+			}
+
+		} else {
+
+			createdDate = "";
+
+		}
+
+		return isValid;
+
+	}
+
+	/**
+	 * 
+	 * Compara la cadena de la fecha del repositorio con la cadena de la fecha a
+	 * comparar.
+	 * 
+	 * @param repositoryDate. Cadena con la fecha del repositorio a comparar.
+	 * @param compareDate.    Cadena con la fecha a comparar.
+	 * @return True si se cumple la comparación, false en caso contrario.
+	 */
+	private boolean compareStringDate(String repositoryDate, String compareDate) {
+
+		boolean dateValid = true;
+		String[] repositoryDateList = repositoryDate.split("-");
+		String[] compareDateList = compareDate.split("-");
+		int repositoryYear = Integer.parseInt(repositoryDateList[0]);
+		int repositoryMonth = Integer.parseInt(repositoryDateList[1]);
+		int repositoryDay = Integer.parseInt(repositoryDateList[2]);
+		int compareYear = 0;
+		int compareMonth = 0;
+		int compareDay = 0;
+		String comparator = "";
+
+		try {
+
+			// Sacamos la comparación a hacer
+			if (compareDate.substring(1, 2).equals("=")
+					&& (compareDate.substring(0, 1).equals("<") || compareDate.substring(0, 1).equals(">"))) {
+
+				comparator = compareDate.substring(0, 2);
+				compareYear = Integer.parseInt(compareDateList[0].substring(2));
+				compareMonth = Integer.parseInt(compareDateList[1].substring(0));
+				compareDay = Integer.parseInt(compareDateList[2].substring(0));
+
+				// Comparamos
+				if (comparator.substring(0, 1).equals("<")) {
+
+					if (repositoryYear > compareYear) {
+
+						dateValid = false;
+
+					} else if (repositoryYear == compareYear) {
+
+						if (repositoryMonth > compareMonth) {
+
+							dateValid = false;
+
+						} else if (repositoryMonth == compareMonth) {
+
+							if (repositoryDay > compareDay) {
+
+								dateValid = false;
+
+							}
+
+						}
+
+					}
+
+				} else if (comparator.substring(0, 1).equals(">")) {
+
+					if (repositoryYear < compareYear) {
+
+						dateValid = false;
+
+					} else if (repositoryYear == compareYear) {
+
+						if (repositoryMonth < compareMonth) {
+
+							dateValid = false;
+
+						} else if (repositoryMonth == compareMonth) {
+
+							if (repositoryDay < compareDay) {
+
+								dateValid = false;
+
+							}
+
+						}
+
+					}
+
+				} else {
+
+					dateValid = false;
+
+				}
+
+			} else if (compareDate.substring(0, 1).equals("<") || compareDate.substring(0, 1).equals(">")) {
+
+				comparator = compareDate.substring(0, 1);
+				compareYear = Integer.parseInt(compareDateList[0].substring(1));
+				compareMonth = Integer.parseInt(compareDateList[1].substring(0));
+				compareDay = Integer.parseInt(compareDateList[2].substring(0));
+
+				// Comparamos
+				if (comparator.substring(0).equals("<")) {
+
+					if (repositoryYear > compareYear) {
+
+						dateValid = false;
+
+					} else if (repositoryYear == compareYear) {
+
+						if (repositoryMonth > compareMonth) {
+
+							dateValid = false;
+
+						} else if (repositoryMonth == compareMonth) {
+
+							if (repositoryDay >= compareDay) {
+
+								dateValid = false;
+
+							}
+
+						}
+
+					}
+
+				} else if (comparator.substring(0).equals(">")) {
+
+					if (repositoryYear < compareYear) {
+
+						dateValid = false;
+
+					} else if (repositoryYear == compareYear) {
+
+						if (repositoryMonth < compareMonth) {
+
+							dateValid = false;
+
+						} else if (repositoryMonth == compareMonth) {
+
+							if (repositoryDay <= compareDay) {
+
+								dateValid = false;
+
+							}
+
+						}
+
+					}
+
+				}
+
+			} else {
+
+				compareYear = Integer.parseInt(compareDateList[0].substring(0));
+				compareMonth = Integer.parseInt(compareDateList[1].substring(0));
+				compareDay = Integer.parseInt(compareDateList[2].substring(0));
+
+				if (!(repositoryYear == compareYear && repositoryMonth == compareMonth
+						&& repositoryDay == compareDay)) {
+
+					dateValid = false;
+
+				}
+
+			}
+
+		} catch (NumberFormatException e) {
+
+			dateValid = false;
+
+		}
+
+		return dateValid;
 
 	}
 

@@ -22,6 +22,7 @@ public class VFilter extends JPanel {
 	private VSearchFieldContainer ownerField; // campo de filtro de autores
 	private VSearchFieldContainer inRepositoryNameField; // campo de filtro de palabras en nombre del repositorio
 	private VSearchFieldContainer descriptionField; // campo de filtro de palabras en la descripción del repositorio
+	private VSearchFieldContainer createdDateField; // campo de filtro de fecha de creación del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -52,6 +53,9 @@ public class VFilter extends JPanel {
 
 		descriptionField = new VSearchFieldContainer("Palabras en la descripción", "");
 		container.add(descriptionField);
+
+		createdDateField = new VSearchFieldContainer("Fecha de creación", "");
+		container.add(createdDateField);
 
 	}
 
@@ -91,6 +95,16 @@ public class VFilter extends JPanel {
 	 */
 	public VSearchFieldContainer getDescriptionField() {
 		return descriptionField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor con el filtro de la fecha de creación.
+	 * 
+	 * @return Contenedor con la fecha de creación.
+	 */
+	public VSearchFieldContainer getCreatedDateField() {
+		return createdDateField;
 	}
 
 }
