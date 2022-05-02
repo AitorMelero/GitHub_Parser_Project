@@ -397,6 +397,10 @@ public class Filter {
 
 			return false;
 
+		} else if (!filterTopicsNumber(repository)) {
+
+			return false;
+
 		}
 
 		return isValid;
@@ -876,6 +880,36 @@ public class Filter {
 
 	/**
 	 * 
+	 * Filtra un repositorio por número de topics.
+	 * 
+	 * @param repository. Repositorio a filtrar.
+	 * @return True si el repositorio cumple el filtro, false en caso contrario.
+	 */
+	private boolean filterTopicsNumber(Repository repository) {
+
+		boolean isValid = false;
+
+		if (topicsNumber != null && !topicsNumber.replace(" ", "").equals("")) {
+			
+			if (repository.getTopics() != null && repository.getTopics().size() >= 0) {
+
+				isValid = compareQuantityString(Long.valueOf(repository.getTopics().size()), topicsNumber.replace(" ", ""));
+
+			}
+
+		} else {
+
+			topicsNumber = "";
+			isValid = true;
+
+		}
+
+		return isValid;
+
+	}
+
+	/**
+	 * 
 	 * Compara la cadena de la fecha del repositorio con la cadena de la fecha a
 	 * comparar.
 	 * 
@@ -1068,14 +1102,6 @@ public class Filter {
 
 			if (compareQuantity.contains("..")) {
 
-				System.out.println("SPLIT ..: " + compareList.length);
-
-				for (int i = 0; i < compareList.length; i++) {
-
-					System.out.println("STRING: " + compareList[i]);
-
-				}
-
 				if (compareList.length != 2) {
 
 					isValid = false;
@@ -1102,7 +1128,7 @@ public class Filter {
 
 				}
 
-			} else if (compareQuantity.substring(1, 2).equals("=")) {
+			} else if (compareQuantity.length() > 1 && compareQuantity.substring(1, 2).equals("=")) {
 
 				if (compareQuantity.substring(0, 1).equals("<")) {
 

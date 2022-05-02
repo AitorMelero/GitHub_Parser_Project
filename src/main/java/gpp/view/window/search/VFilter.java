@@ -30,6 +30,7 @@ public class VFilter extends JPanel {
 	private VSearchFieldContainer sizeField; // campo de filtro para el tamaño del repositorio
 	private VSearchFieldContainer licenseField; // campo de filtro para la licencia del repositorio
 	private VSearchFieldContainer topicsField; // campo de filtro para los topics
+	private VSearchFieldContainer topicsNumberField; // campo de filtro para número de topics
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -84,6 +85,9 @@ public class VFilter extends JPanel {
 
 		topicsField = new VSearchFieldContainer("Topics", "");
 		container.add(topicsField);
+
+		topicsNumberField = new VSearchFieldContainer("Número de topics", "");
+		container.add(topicsNumberField);
 
 	}
 
@@ -203,6 +207,16 @@ public class VFilter extends JPanel {
 	 */
 	public VSearchFieldContainer getTopicsField() {
 		return topicsField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor con el filtro del número de topics.
+	 * 
+	 * @return Contenedor con el filtro del número de topics.
+	 */
+	public VSearchFieldContainer getTopicsNumberField() {
+		return topicsNumberField;
 	}
 
 }
