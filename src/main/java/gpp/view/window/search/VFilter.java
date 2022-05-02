@@ -27,6 +27,7 @@ public class VFilter extends JPanel {
 	private VSearchFieldContainer mainLanguageField; // campo de filtro de lenguaje principal del repositorio
 	private VSearchFieldContainer starsNumberField; // campo de filtro de número de estrellas del repositorio
 	private VSearchFieldContainer forksNumberField; // campo de filtro de número de forks del repositorio
+	private VSearchFieldContainer sizeField; // campo de filtro para el tamaño del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -72,6 +73,9 @@ public class VFilter extends JPanel {
 
 		forksNumberField = new VSearchFieldContainer("Número de forks", "");
 		container.add(forksNumberField);
+
+		sizeField = new VSearchFieldContainer("Tamaño en KB", "");
+		container.add(sizeField);
 
 	}
 
@@ -161,6 +165,16 @@ public class VFilter extends JPanel {
 	 */
 	public VSearchFieldContainer getForksNumberField() {
 		return forksNumberField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor con el filtro del tamaño.
+	 * 
+	 * @return Contenedor con el filtro del tamaño.
+	 */
+	public VSearchFieldContainer getSizeField() {
+		return sizeField;
 	}
 
 }

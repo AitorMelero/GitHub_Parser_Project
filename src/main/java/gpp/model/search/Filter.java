@@ -385,6 +385,10 @@ public class Filter {
 
 			return false;
 
+		} else if (!filterSize(repository)) {
+
+			return false;
+
 		}
 
 		return isValid;
@@ -714,6 +718,36 @@ public class Filter {
 
 	/**
 	 * 
+	 * Filtra un repositorio por tamaño.
+	 * 
+	 * @param repository. Repositorio a filtrar.
+	 * @return True si el repositorio cumple el filtro, false en caso contrario.
+	 */
+	private boolean filterSize(Repository repository) {
+
+		boolean isValid = false;
+
+		if (size != null && !size.replace(" ", "").equals("")) {
+
+			if (repository.getTotalSize() >= 0) {
+
+				isValid = compareQuantityString(repository.getTotalSize(), size.replace(" ", ""));
+
+			}
+
+		} else {
+
+			size = "";
+			isValid = true;
+
+		}
+
+		return isValid;
+
+	}
+
+	/**
+	 * 
 	 * Compara la cadena de la fecha del repositorio con la cadena de la fecha a
 	 * comparar.
 	 * 
@@ -991,11 +1025,11 @@ public class Filter {
 			} else {
 
 				qComp = Long.parseLong(compareQuantity);
-				
+
 				if (qRepo != qComp) {
-					
+
 					isValid = false;
-					
+
 				}
 
 			}

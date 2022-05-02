@@ -103,6 +103,7 @@ public class CSearch implements ActionListener {
 					.getParamTextField().getText();
 			String forksNumberFilter = windows.getSearchView().getFilterWindow().getForksNumberField()
 					.getParamTextField().getText();
+			String sizeFilter = windows.getSearchView().getFilterWindow().getSizeField().getParamTextField().getText();
 
 			// Creamos la búsqueda
 			Search s = new Search("Búsquedas prueba", GPPSystem.getUser());
@@ -137,6 +138,7 @@ public class CSearch implements ActionListener {
 			f.setMainLanguage(mainLanguageFilter);
 			f.setStarsNumber(starsNumberFilter);
 			f.setForksNumber(forksNumberFilter);
+			f.setSize(sizeFilter);
 
 			// Realizamos la búsqueda
 			s.search();
