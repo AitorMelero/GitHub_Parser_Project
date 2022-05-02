@@ -369,6 +369,10 @@ public class Filter {
 
 			return false;
 
+		} else if (!filterUpdatedDate(repository)) {
+
+			return false;
+
 		}
 
 		return isValid;
@@ -534,6 +538,43 @@ public class Filter {
 		} else {
 
 			createdDate = "";
+
+		}
+
+		return isValid;
+
+	}
+
+	/**
+	 * 
+	 * Filtra un repositorio por fecha de actualización.
+	 * 
+	 * @param repository. Repositorio a filtrar.
+	 * @return True si el repositorio cumple el filtro, false en caso contrario.
+	 */
+	private boolean filterUpdatedDate(Repository repository) {
+
+		boolean isValid = true;
+		String[] updatedDateList;
+
+		// Sacamos las cadenas con las fechas
+		if (updatedDate != null && !updatedDate.replace(" ", "").equals("")) {
+
+			updatedDateList = updatedDate.replace(" ", "").split(",");
+
+			for (int i = 0; i < updatedDateList.length && isValid; i++) {
+
+				if (!compareStringDate(repository.getDateUpdated(), updatedDateList[i])) {
+
+					isValid = false;
+
+				}
+
+			}
+
+		} else {
+
+			updatedDate = "";
 
 		}
 

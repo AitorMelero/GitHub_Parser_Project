@@ -23,6 +23,7 @@ public class VFilter extends JPanel {
 	private VSearchFieldContainer inRepositoryNameField; // campo de filtro de palabras en nombre del repositorio
 	private VSearchFieldContainer descriptionField; // campo de filtro de palabras en la descripción del repositorio
 	private VSearchFieldContainer createdDateField; // campo de filtro de fecha de creación del repositorio
+	private VSearchFieldContainer updatedDateField; // campo de filtro de fecha de actualización del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -56,6 +57,9 @@ public class VFilter extends JPanel {
 
 		createdDateField = new VSearchFieldContainer("Fecha de creación", "");
 		container.add(createdDateField);
+
+		updatedDateField = new VSearchFieldContainer("Fecha del último push", "");
+		container.add(updatedDateField);
 
 	}
 
@@ -105,6 +109,16 @@ public class VFilter extends JPanel {
 	 */
 	public VSearchFieldContainer getCreatedDateField() {
 		return createdDateField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor con el filtro de la fecha del último push.
+	 * 
+	 * @return Contenedor con la fecha del último push.
+	 */
+	public VSearchFieldContainer getUpdatedDateField() {
+		return updatedDateField;
 	}
 
 }

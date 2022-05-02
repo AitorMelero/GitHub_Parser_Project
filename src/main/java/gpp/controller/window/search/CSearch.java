@@ -95,6 +95,8 @@ public class CSearch implements ActionListener {
 					.getParamTextField().getText();
 			String createdDateFilter = windows.getSearchView().getFilterWindow().getCreatedDateField()
 					.getParamTextField().getText();
+			String updatedDateFilter = windows.getSearchView().getFilterWindow().getUpdatedDateField()
+					.getParamTextField().getText();
 
 			// Creamos la búsqueda
 			Search s = new Search("Búsquedas prueba", GPPSystem.getUser());
@@ -125,6 +127,7 @@ public class CSearch implements ActionListener {
 			f.setInRepositoryName(inRepositoryNameFilter);
 			f.setDescription(descriptionFilter);
 			f.setCreatedDate(createdDateFilter);
+			f.setUpdatedDate(updatedDateFilter);
 
 			// Realizamos la búsqueda
 			s.search();
