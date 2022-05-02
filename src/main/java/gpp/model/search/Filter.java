@@ -405,6 +405,10 @@ public class Filter {
 
 			return false;
 
+		} else if (!filterExtensions(repository)) {
+
+			return false;
+
 		} else if (!filterAvgSize(repository)) {
 
 			return false;
@@ -941,6 +945,68 @@ public class Filter {
 
 			filesNumber = "";
 			isValid = true;
+
+		}
+
+		return isValid;
+
+	}
+
+	/**
+	 * 
+	 * Filtra un repositorio por extensiones.
+	 * 
+	 * @param repository. Repositorio a filtrar.
+	 * @return True si el repositorio cumple el filtro, false en caso contrario.
+	 */
+	private boolean filterExtensions(Repository repository) {
+
+		boolean isValid = false;
+		String[] extensionsList;
+		String extensionsLowerCase = "";
+
+		// Sacamos la descripción en minúsculas
+		if (repository.getExtensionsList() != null && repository.getExtensionsList().size() >= 1) {
+
+			// Comprobamos que el filtro no está vacío
+			if (extensions != null && !extensions.replace(" ", "").equals("")) {
+
+				// Sacamos los valores a comparar
+				extensionsList = extensions.replace(" ", "").split(",");
+
+				for (String ext : repository.getExtensionsList()) {
+
+					extensionsLowerCase = ext.toLowerCase();
+
+					for (int j = 0; j < extensionsList.length && !isValid; j++) {
+
+						if (extensionsLowerCase.equals(extensionsList[j].toLowerCase())) {
+
+							isValid = true;
+
+						}
+
+					}
+
+				}
+
+			} else {
+
+				extensions = "";
+
+				isValid = true;
+
+			}
+
+		} else {
+
+			if (extensions == null || extensions.replace(" ", "").equals("")) {
+
+				extensions = "";
+
+				isValid = true;
+
+			}
 
 		}
 

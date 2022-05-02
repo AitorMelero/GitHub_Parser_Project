@@ -114,6 +114,8 @@ public class CSearch implements ActionListener {
 					.getParamTextField().getText();
 			String avgSizeFilter = windows.getSearchView().getFilterWindow().getAvgSizeField().getParamTextField()
 					.getText();
+			String extensionsFilter = windows.getSearchView().getFilterWindow().getExtensionsField().getParamTextField()
+					.getText();
 
 			// Creamos la búsqueda
 			Search s = new Search("Búsquedas prueba", GPPSystem.getUser());
@@ -154,6 +156,7 @@ public class CSearch implements ActionListener {
 			f.setTopicsNumber(topicsNumberFilter);
 			f.setFilesNumber(filesNumberFilter);
 			f.setAvgSize(avgSizeFilter);
+			f.setExtensions(extensionsFilter);
 
 			// Realizamos la búsqueda
 			s.search();
