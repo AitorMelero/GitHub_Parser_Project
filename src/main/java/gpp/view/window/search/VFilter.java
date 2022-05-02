@@ -26,6 +26,7 @@ public class VFilter extends JPanel {
 	private VSearchFieldContainer updatedDateField; // campo de filtro de fecha de actualización del repositorio
 	private VSearchFieldContainer mainLanguageField; // campo de filtro de lenguaje principal del repositorio
 	private VSearchFieldContainer starsNumberField; // campo de filtro de número de estrellas del repositorio
+	private VSearchFieldContainer forksNumberField; // campo de filtro de número de forks del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -68,6 +69,9 @@ public class VFilter extends JPanel {
 
 		starsNumberField = new VSearchFieldContainer("Número de estrellas", "");
 		container.add(starsNumberField);
+
+		forksNumberField = new VSearchFieldContainer("Número de forks", "");
+		container.add(forksNumberField);
 
 	}
 
@@ -147,6 +151,16 @@ public class VFilter extends JPanel {
 	 */
 	public VSearchFieldContainer getStarsNumberField() {
 		return starsNumberField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor con el filtro de número de forks.
+	 * 
+	 * @return Contenedor con el filtro de número de forks.
+	 */
+	public VSearchFieldContainer getForksNumberField() {
+		return forksNumberField;
 	}
 
 }

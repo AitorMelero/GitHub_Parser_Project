@@ -381,6 +381,10 @@ public class Filter {
 
 			return false;
 
+		} else if (!filterForksNumber(repository)) {
+
+			return false;
+
 		}
 
 		return isValid;
@@ -680,6 +684,36 @@ public class Filter {
 
 	/**
 	 * 
+	 * Filtra un repositorio por número de forks.
+	 * 
+	 * @param repository. Repositorio a filtrar.
+	 * @return True si el repositorio cumple el filtro, false en caso contrario.
+	 */
+	private boolean filterForksNumber(Repository repository) {
+
+		boolean isValid = false;
+
+		if (forksNumber != null && !forksNumber.replace(" ", "").equals("")) {
+
+			if (repository.getForksNumber() >= 0) {
+
+				isValid = compareQuantityString(repository.getForksNumber(), forksNumber.replace(" ", ""));
+
+			}
+
+		} else {
+
+			forksNumber = "";
+			isValid = true;
+
+		}
+
+		return isValid;
+
+	}
+
+	/**
+	 * 
 	 * Compara la cadena de la fecha del repositorio con la cadena de la fecha a
 	 * comparar.
 	 * 
@@ -871,13 +905,13 @@ public class Filter {
 		try {
 
 			if (compareQuantity.contains("..")) {
-				
+
 				System.out.println("SPLIT ..: " + compareList.length);
-				
+
 				for (int i = 0; i < compareList.length; i++) {
-					
+
 					System.out.println("STRING: " + compareList[i]);
-					
+
 				}
 
 				if (compareList.length != 2) {
@@ -956,7 +990,13 @@ public class Filter {
 
 			} else {
 
-				isValid = false;
+				qComp = Long.parseLong(compareQuantity);
+				
+				if (qRepo != qComp) {
+					
+					isValid = false;
+					
+				}
 
 			}
 
