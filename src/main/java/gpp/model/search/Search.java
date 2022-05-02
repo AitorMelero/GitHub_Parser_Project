@@ -391,7 +391,7 @@ public class Search {
 			}.getType();
 			ArrayList<String> topicsList = new Gson().fromJson(topics, listType);
 			long totalSize = ro.get("size").getAsLong();
-			String mainLanguage = null;
+			String mainLanguage = "";
 			if (!ro.get("language").isJsonNull()) {
 				mainLanguage = ro.get("language").getAsString();
 			}

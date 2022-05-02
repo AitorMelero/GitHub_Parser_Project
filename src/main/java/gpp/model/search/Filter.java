@@ -373,6 +373,10 @@ public class Filter {
 
 			return false;
 
+		} else if (!filterMainLanguage(repository)) {
+
+			return false;
+
 		}
 
 		return isValid;
@@ -575,6 +579,64 @@ public class Filter {
 		} else {
 
 			updatedDate = "";
+
+		}
+
+		return isValid;
+
+	}
+
+	/**
+	 * 
+	 * Filtra un repositorio por lenguaje principal.
+	 * 
+	 * @param repository. Repositorio a filtrar.
+	 * @return True si el repositorio cumple el filtro, false en caso contrario.
+	 */
+	private boolean filterMainLanguage(Repository repository) {
+
+		boolean isValid = false;
+		String[] mainLanguagesList;
+		String mainLanguageLowerCase = "";
+
+		// Sacamos la descripción en minúsculas
+		if (repository.getMainLanguage() != null && !repository.getMainLanguage().equals("")) {
+
+			mainLanguageLowerCase = repository.getMainLanguage().toLowerCase();
+
+			// Comprobamos que el filtro no está vacío
+			if (mainLanguage != null && !mainLanguage.replace(" ", "").equals("")) {
+
+				// Sacamos los valores a comparar
+				mainLanguagesList = mainLanguage.replace(" ", "").split(",");
+
+				for (int i = 0; i < mainLanguagesList.length && !isValid; i++) {
+
+					if (mainLanguageLowerCase.equals(mainLanguagesList[i].toLowerCase())) {
+
+						isValid = true;
+
+					}
+
+				}
+
+			} else {
+
+				mainLanguage = "";
+
+				isValid = true;
+
+			}
+
+		} else {
+
+			if (mainLanguage == null || mainLanguage.replace(" ", "").equals("")) {
+
+				mainLanguage = "";
+
+				isValid = true;
+
+			}
 
 		}
 

@@ -24,6 +24,7 @@ public class VFilter extends JPanel {
 	private VSearchFieldContainer descriptionField; // campo de filtro de palabras en la descripción del repositorio
 	private VSearchFieldContainer createdDateField; // campo de filtro de fecha de creación del repositorio
 	private VSearchFieldContainer updatedDateField; // campo de filtro de fecha de actualización del repositorio
+	private VSearchFieldContainer mainLanguageField; // campo de filtro de lenguaje principal del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -60,6 +61,9 @@ public class VFilter extends JPanel {
 
 		updatedDateField = new VSearchFieldContainer("Fecha del último push", "");
 		container.add(updatedDateField);
+
+		mainLanguageField = new VSearchFieldContainer("Lenguaje principal", "");
+		container.add(mainLanguageField);
 
 	}
 
@@ -119,6 +123,16 @@ public class VFilter extends JPanel {
 	 */
 	public VSearchFieldContainer getUpdatedDateField() {
 		return updatedDateField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor con el filtro del lenguaje principal.
+	 * 
+	 * @return Contenedor con el filtro del lenguaje principal.
+	 */
+	public VSearchFieldContainer getMainLanguageField() {
+		return mainLanguageField;
 	}
 
 }
