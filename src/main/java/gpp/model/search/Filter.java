@@ -389,6 +389,10 @@ public class Filter {
 
 			return false;
 
+		} else if (!filterLicense(repository)) {
+
+			return false;
+
 		}
 
 		return isValid;
@@ -739,6 +743,64 @@ public class Filter {
 
 			size = "";
 			isValid = true;
+
+		}
+
+		return isValid;
+
+	}
+
+	/**
+	 * 
+	 * Filtra un repositorio por licencia.
+	 * 
+	 * @param repository. Repositorio a filtrar.
+	 * @return True si el repositorio cumple el filtro, false en caso contrario.
+	 */
+	private boolean filterLicense(Repository repository) {
+
+		boolean isValid = false;
+		String[] licenseList;
+		String licenseLowerCase = "";
+
+		// Sacamos la descripción en minúsculas
+		if (repository.getLicense() != null && !repository.getLicense().equals("")) {
+
+			licenseLowerCase = repository.getLicense().replace(" license", "").toLowerCase();
+
+			// Comprobamos que el filtro no está vacío
+			if (license != null && !license.replace(" ", "").equals("")) {
+
+				// Sacamos los valores a comparar
+				licenseList = license.replace(" ", "").split(",");
+
+				for (int i = 0; i < licenseList.length && !isValid; i++) {
+
+					if (licenseLowerCase.equals(licenseList[i].toLowerCase())) {
+
+						isValid = true;
+
+					}
+
+				}
+
+			} else {
+
+				license = "";
+
+				isValid = true;
+
+			}
+
+		} else {
+
+			if (license == null || license.replace(" ", "").equals("")) {
+
+				license = "";
+
+				isValid = true;
+
+			}
 
 		}
 
