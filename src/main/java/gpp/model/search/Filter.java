@@ -402,9 +402,13 @@ public class Filter {
 			return false;
 
 		} else if (!filterFilesNumber(repository)) {
-			
+
 			return false;
-			
+
+		} else if (!filterAvgSize(repository)) {
+
+			return false;
+
 		}
 
 		return isValid;
@@ -894,10 +898,11 @@ public class Filter {
 		boolean isValid = false;
 
 		if (topicsNumber != null && !topicsNumber.replace(" ", "").equals("")) {
-			
+
 			if (repository.getTopics() != null && repository.getTopics().size() >= 0) {
 
-				isValid = compareQuantityString(Long.valueOf(repository.getTopics().size()), topicsNumber.replace(" ", ""));
+				isValid = compareQuantityString(Long.valueOf(repository.getTopics().size()),
+						topicsNumber.replace(" ", ""));
 
 			}
 
@@ -911,7 +916,7 @@ public class Filter {
 		return isValid;
 
 	}
-	
+
 	/**
 	 * 
 	 * Filtra un repositorio por número de ficheros.
@@ -924,16 +929,47 @@ public class Filter {
 		boolean isValid = false;
 
 		if (filesNumber != null && !filesNumber.replace(" ", "").equals("")) {
-			
+
 			if (repository.getFilesNumber() >= 0) {
 
-				isValid = compareQuantityString(Long.valueOf(repository.getFilesNumber()), filesNumber.replace(" ", ""));
+				isValid = compareQuantityString(Long.valueOf(repository.getFilesNumber()),
+						filesNumber.replace(" ", ""));
 
 			}
 
 		} else {
 
 			filesNumber = "";
+			isValid = true;
+
+		}
+
+		return isValid;
+
+	}
+
+	/**
+	 * 
+	 * Filtra un repositorio por número de medio de tamaño de los ficheros.
+	 * 
+	 * @param repository. Repositorio a filtrar.
+	 * @return True si el repositorio cumple el filtro, false en caso contrario.
+	 */
+	private boolean filterAvgSize(Repository repository) {
+
+		boolean isValid = false;
+
+		if (avgSize != null && !avgSize.replace(" ", "").equals("")) {
+
+			if (repository.getAvgSize() >= 0) {
+
+				isValid = compareQuantityString(repository.getAvgSize(), avgSize.replace(" ", ""));
+
+			}
+
+		} else {
+
+			avgSize = "";
 			isValid = true;
 
 		}

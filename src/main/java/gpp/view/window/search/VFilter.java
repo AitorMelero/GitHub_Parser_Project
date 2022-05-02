@@ -32,6 +32,7 @@ public class VFilter extends JPanel {
 	private VSearchFieldContainer topicsField; // campo de filtro para los topics
 	private VSearchFieldContainer topicsNumberField; // campo de filtro para número de topics
 	private VSearchFieldContainer filesNumberField; // campo de filtro para número de ficheros
+	private VSearchFieldContainer avgSizeField; // campo de filtro para número medio de tamaño por ficheros
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -92,6 +93,9 @@ public class VFilter extends JPanel {
 
 		filesNumberField = new VSearchFieldContainer("Número de ficheros", "");
 		container.add(filesNumberField);
+
+		avgSizeField = new VSearchFieldContainer("Tamaño medio de ficheros en KB", "");
+		container.add(avgSizeField);
 
 	}
 
@@ -231,6 +235,16 @@ public class VFilter extends JPanel {
 	 */
 	public VSearchFieldContainer getFilesNumberField() {
 		return filesNumberField;
+	}
+
+	/**
+	 * 
+	 * Devuelve el contenedor con el filtro del tamaño medio.
+	 * 
+	 * @return Contenedor con el filtro del tamaño medio.
+	 */
+	public VSearchFieldContainer getAvgSizeField() {
+		return avgSizeField;
 	}
 
 }
