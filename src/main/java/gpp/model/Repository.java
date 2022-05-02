@@ -1,8 +1,6 @@
 package gpp.model;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -441,7 +439,15 @@ public class Repository {
 		File f = new File(clonePath);
 		getFullInfo(f);
 		// Calculamos el tamaño medio de ficheros
-		avgSize = totalSize / filesNumber;
+		if (totalSize == 0 || filesNumber == 0) {
+
+			avgSize = 0;
+
+		} else {
+
+			avgSize = totalSize / filesNumber;
+
+		}
 
 		// Borramos el repositorio si no estaba ya clonado
 		if (!repoIsClone) {

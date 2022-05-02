@@ -393,6 +393,10 @@ public class Filter {
 
 			return false;
 
+		} else if (!filterTopics(repository)) {
+
+			return false;
+
 		}
 
 		return isValid;
@@ -797,6 +801,68 @@ public class Filter {
 			if (license == null || license.replace(" ", "").equals("")) {
 
 				license = "";
+
+				isValid = true;
+
+			}
+
+		}
+
+		return isValid;
+
+	}
+
+	/**
+	 * 
+	 * Filtra un repositorio por topics.
+	 * 
+	 * @param repository. Repositorio a filtrar.
+	 * @return True si el repositorio cumple el filtro, false en caso contrario.
+	 */
+	private boolean filterTopics(Repository repository) {
+
+		boolean isValid = false;
+		String[] topicsList;
+		String topicsLowerCase = "";
+
+		// Sacamos la descripción en minúsculas
+		if (repository.getTopics() != null && repository.getTopics().size() >= 1) {
+
+			// Comprobamos que el filtro no está vacío
+			if (topics != null && !topics.replace(" ", "").equals("")) {
+
+				// Sacamos los valores a comparar
+				topicsList = topics.replace(" ", "").split(",");
+
+				for (int i = 0; i < repository.getTopics().size() && !isValid; i++) {
+
+					topicsLowerCase = repository.getTopics().get(i).toLowerCase();
+
+					for (int j = 0; j < topicsList.length && !isValid; j++) {
+
+						if (topicsLowerCase.equals(topicsList[j].toLowerCase())) {
+
+							isValid = true;
+
+						}
+
+					}
+
+				}
+
+			} else {
+
+				topics = "";
+
+				isValid = true;
+
+			}
+
+		} else {
+
+			if (topics == null || topics.replace(" ", "").equals("")) {
+
+				topics = "";
 
 				isValid = true;
 
