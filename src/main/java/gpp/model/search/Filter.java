@@ -401,6 +401,10 @@ public class Filter {
 
 			return false;
 
+		} else if (!filterFilesNumber(repository)) {
+			
+			return false;
+			
 		}
 
 		return isValid;
@@ -900,6 +904,36 @@ public class Filter {
 		} else {
 
 			topicsNumber = "";
+			isValid = true;
+
+		}
+
+		return isValid;
+
+	}
+	
+	/**
+	 * 
+	 * Filtra un repositorio por número de ficheros.
+	 * 
+	 * @param repository. Repositorio a filtrar.
+	 * @return True si el repositorio cumple el filtro, false en caso contrario.
+	 */
+	private boolean filterFilesNumber(Repository repository) {
+
+		boolean isValid = false;
+
+		if (filesNumber != null && !filesNumber.replace(" ", "").equals("")) {
+			
+			if (repository.getFilesNumber() >= 0) {
+
+				isValid = compareQuantityString(Long.valueOf(repository.getFilesNumber()), filesNumber.replace(" ", ""));
+
+			}
+
+		} else {
+
+			filesNumber = "";
 			isValid = true;
 
 		}
