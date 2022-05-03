@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
@@ -31,8 +32,8 @@ import gpp.model.languageparser.LanguageParserErrorListener;
 public class JavaLanguageParser extends LanguageParser implements IGeneralLanguageParserConditional,
 		IGeneralLanguageParserLoop, IGeneralLanguageParserExpression, IGeneralLanguageParserFlow, IJavaLanguageParser {
 
-	public static final int COMMENTS = 0;
-	public static final int[] namesProperties = { COMMENTS };
+	public static final int COMMENTS = 0, IMPORTS = 1, IF = 2;
+	public static final int[] namesProperties = { COMMENTS, IMPORTS, IF };
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -52,20 +53,28 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 		for (int np : namesProperties) {
 
 			super.getPropertiesMap().put(np, 0l);
-			
-			switch(np) {
-			
+
+			switch (np) {
+
 			case COMMENTS:
-				super.getPropertiesVisualMap().put("Número de comentarios: ", super.getPropertiesMap().get(np));
+				super.getPropertiesVisualMap().put("Número de comentarios: ", 0l);
+				break;
+
+			case IMPORTS:
+				super.getPropertiesVisualMap().put("Número de imports: ", 0l);
 				break;
 				
+			case IF:
+				super.getPropertiesVisualMap().put("Número de if: ", 0l);
+				break;
+
 			default:
 				break;
-			
+
 			}
 
 		}
-		
+
 		String[] ext = { "java" };
 		super.setExtensions(ext);
 
@@ -88,7 +97,7 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 			super.getPropertiesMap().put(np, 0l);
 
 		}
-		
+
 		String[] ext = { "java" };
 		super.setExtensions(ext);
 
@@ -108,6 +117,7 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 		this.setParser(new JavaParser(this.getTokensStream()));
 		this.getParser().removeErrorListeners();
 		this.getParser().addErrorListener(LanguageParserErrorListener.INSTANCE);
+		System.gc();
 		this.parse();
 		this.generateRulesContextList(this.getContext());
 	}
@@ -129,6 +139,10 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 
 				System.out.println("Error syntax: " + e.getMessage());
 
+			} catch (RecognitionException e) {
+				
+				System.out.println("ERROR TE PILLE");
+				
 			}
 
 		}
@@ -672,10 +686,15 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 		HashMap<String, Long> visualProperties = super.getPropertiesVisualMap();
 		List<Token> tokens = super.getTokens();
 		int actualType = 0;
+		List<RuleContext> rulesContext = super.getRulesContexts();
 
 		// Tipos de tokens
 		final int comment = JavaLexer.COMMENT;
 		final int comment2 = JavaLexer.LINE_COMMENT;
+		final int ifToken = JavaParser.IF;
+
+		// Tipos de contextos
+		final JavaParser.ImportDeclarationContext imports = new JavaParser.ImportDeclarationContext(null, 0);
 
 		// Contamos tokens
 		for (int i = 0; i < tokens.size(); i++) {
@@ -689,9 +708,26 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 				properties.put(COMMENTS, properties.get(COMMENTS) + 1);
 				visualProperties.put("Número de comentarios: ", properties.get(COMMENTS));
 				break;
+				
+			case ifToken:
+				properties.put(IF, properties.get(IF) + 1);
+				visualProperties.put("Número de if: ", properties.get(IF));
+				break;
 
 			default:
 				break;
+
+			}
+
+		}
+
+		// Contamos contextos
+		for (int i = 0; i < rulesContext.size(); i++) {
+
+			if (rulesContext.get(i).getClass().isInstance(imports)) {
+
+				properties.put(IMPORTS, properties.get(IMPORTS) + 1);
+				visualProperties.put("Número de imports: ", properties.get(IMPORTS));
 
 			}
 

@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -466,9 +467,11 @@ public class Repository {
 			cloneRepo();
 
 		}
-		
+
 		// Inicializamos a 0 los valores de las propiedades del lenguaje
-		languageProperties.clearProperties();
+		if (languageProperties != null) {
+			languageProperties.clearProperties();
+		}
 
 		// Recorremos el repositorio fichero a fichero
 		File f = new File(clonePath);
@@ -578,31 +581,37 @@ public class Repository {
 
 				// Guardamos las extensiones
 				if (fileName.contains(".")) {
-					
+
 					extension = fileName.substring(fileName.lastIndexOf(".") + 1);
 
 					extensionsList.add(extension);
-					
-					// Analizamos las propiedades del lenguaje si corresponde
-					for (int i = 0; i < languageProperties.getExtensions().length && !fileLanguageAnalyze; i++) {
-						
-						if (languageProperties.getExtensions()[i].equals(extension)) {
-							
-							try {
-								
-								languageProperties.setFile(f);
-								languageProperties.generateAllValues();
-								
-							} catch (IOException e) {
 
-								System.out.println("NO SE HA PODIDO ANALIZAR EL FICHERO A PARTIR DEL LENGUAJE");
+					// Analizamos las propiedades del lenguaje si corresponde
+					if (languageProperties != null) {
+
+						for (int i = 0; i < languageProperties.getExtensions().length && !fileLanguageAnalyze; i++) {
+
+							if (languageProperties.getExtensions()[i].equals(extension)) {
 								
+								try {
+
+									languageProperties.setFile(f);
+									languageProperties.generateAllValues();
+
+								} catch (IOException e) {
+
+									System.out.println("NO SE HA PODIDO ANALIZAR EL FICHERO A PARTIR DEL LENGUAJE");
+
+								} catch (StackOverflowError e) {
+									System.out.println("ERROR STACK OVERFLOW ERROR");
+								}
+
+								fileLanguageAnalyze = true;
+
 							}
-							
-							fileLanguageAnalyze = true;
-							
+
 						}
-						
+
 					}
 
 				}

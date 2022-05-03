@@ -142,9 +142,13 @@ public class VRepository extends JPanel {
 		infoContainer.add(addInfoField("Lenguaje principal: ", repo.getMainLanguage()));
 		
 		// Añadimos información por lenguaje
-		for (String k: repo.getLanguageProperties().getPropertiesVisualMap().keySet()) {
+		if (repo.getLanguageProperties() != null) {
 			
-			infoContainer.add(addInfoField(k, repo.getLanguageProperties().getPropertiesVisualMap().get(k) + ""));
+			for (String k: repo.getLanguageProperties().getPropertiesVisualMap().keySet()) {
+				
+				infoContainer.add(addInfoField(k, repo.getLanguageProperties().getPropertiesVisualMap().get(k) + ""));
+				
+			}
 			
 		}
 
