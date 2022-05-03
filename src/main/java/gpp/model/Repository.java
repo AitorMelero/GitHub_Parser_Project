@@ -43,6 +43,7 @@ public class Repository {
 	private long totalSize; // tamaño total del repositorio (sacado de la api y puede ser 0)
 	private long avgSize; // tamaño medio de ficheros (en caso de un tamaño total de 0, será 0 la media)
 	private String mainLanguage; // lenguaje principal del repositorio
+	private long mainLanguagesFilesNumber; // número de ficheros del lenguaje principal
 	private LanguageParser languageProperties; // propiedades sobre el lenguaje principal del repositorio
 
 	/**************************************************************************
@@ -88,6 +89,7 @@ public class Repository {
 		this.totalSize = 0;
 		this.avgSize = 0;
 		this.mainLanguage = null;
+		this.mainLanguagesFilesNumber = 0;
 		this.languageProperties = null;
 
 	}
@@ -437,6 +439,27 @@ public class Repository {
 
 	/**
 	 * 
+	 * Devuelve el número de ficheros analizados por lenguaje particular.
+	 * 
+	 * @return Número de ficheros analizados por lenguaje particular.
+	 */
+	public long getMainLanguagesFilesNumber() {
+		return mainLanguagesFilesNumber;
+	}
+
+	/**
+	 * 
+	 * Modifica el número de ficheros analizados por lenguaje particular.
+	 * 
+	 * @param mainLanguagesFilesNumber. Número de ficheros analizados por lenguaje
+	 *                                  particular.
+	 */
+	public void setMainLanguagesFilesNumber(long mainLanguagesFilesNumber) {
+		this.mainLanguagesFilesNumber = mainLanguagesFilesNumber;
+	}
+
+	/**
+	 * 
 	 * Devuelve las propiedades parseadas del lenguaje principal.
 	 * 
 	 * @return Propiedades parseadas del lenguaje principal.
@@ -592,6 +615,8 @@ public class Repository {
 						for (int i = 0; i < languageProperties.getExtensions().length && !fileLanguageAnalyze; i++) {
 
 							if (languageProperties.getExtensions()[i].equals(extension)) {
+								
+								this.mainLanguagesFilesNumber++;
 								
 								try {
 

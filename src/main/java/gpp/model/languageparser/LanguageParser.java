@@ -110,7 +110,8 @@ public abstract class LanguageParser implements IGeneralLanguageParser {
 
 	private void setCode() throws IOException {
 		this.code = readFile(Charset.forName("UTF-8"));
-		// Cada vez que cambia el codigo cambiamos el parser
+		// Cada vez que cambia el codigo cambiamos las reglas de contexto y el parser
+		this.rulesContexts = null;
 		this.generateParser();
 	}
 
@@ -190,6 +191,13 @@ public abstract class LanguageParser implements IGeneralLanguageParser {
 	 * @param ctx. Contexto.
 	 */
 	public void generateRulesContextList(RuleContext ctx) {
+
+		// Creamos de 0 las reglas si no están creadas
+		if (this.rulesContexts == null) {
+
+			this.rulesContexts = new ArrayList<RuleContext>();
+
+		}
 
 		// Incluimos la regla a la lista de reglas
 		this.getRulesContexts().add(ctx);

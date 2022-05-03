@@ -34,9 +34,11 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 
 	public static final int COMMENTS = 0, IMPORTS = 1, IF = 2, ELSE = 3, FOR = 4, WHILE = 5, CONTINUE = 6, BREAK = 7,
 			ARRAYS = 8, LAMBDAS = 9, METHODS = 10, VARIABLES = 11, LOCAL_VARIABLES = 12, STATIC = 13, PUBLIC = 14,
-			PRIVATE = 15, PROTECTED = 16;
+			PRIVATE = 15, PROTECTED = 16, ABSTRACT = 17, CLASSES = 18, YIELD = 19, ASSERT = 20, TRY = 21,
+			ANNOTATION = 22, PERSONAL_CONSTRUCTOR = 23;
 	public static final int[] namesProperties = { COMMENTS, IMPORTS, IF, ELSE, FOR, WHILE, CONTINUE, BREAK, ARRAYS,
-			LAMBDAS, METHODS, VARIABLES, LOCAL_VARIABLES, STATIC, PUBLIC, PRIVATE, PROTECTED };
+			LAMBDAS, METHODS, VARIABLES, LOCAL_VARIABLES, STATIC, PUBLIC, PRIVATE, PROTECTED, ABSTRACT, CLASSES, YIELD,
+			ASSERT, TRY, ANNOTATION, PERSONAL_CONSTRUCTOR };
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -127,6 +129,34 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 				super.getPropertiesVisualMap().put("Número de campos protected: ", 0l);
 				break;
 
+			case ABSTRACT:
+				super.getPropertiesVisualMap().put("Número de campos abstract: ", 0l);
+				break;
+
+			case CLASSES:
+				super.getPropertiesVisualMap().put("Número de clases: ", 0l);
+				break;
+
+			case YIELD:
+				super.getPropertiesVisualMap().put("Número de yield: ", 0l);
+				break;
+
+			case ASSERT:
+				super.getPropertiesVisualMap().put("Número de assert: ", 0l);
+				break;
+
+			case TRY:
+				super.getPropertiesVisualMap().put("Número de try: ", 0l);
+				break;
+
+			case ANNOTATION:
+				super.getPropertiesVisualMap().put("Número de annotations: ", 0l);
+				break;
+
+			case PERSONAL_CONSTRUCTOR:
+				super.getPropertiesVisualMap().put("Número de declaraciones constructor: ", 0l);
+				break;
+
 			default:
 				break;
 
@@ -176,7 +206,6 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 		this.setParser(new JavaParser(this.getTokensStream()));
 		this.getParser().removeErrorListeners();
 		this.getParser().addErrorListener(LanguageParserErrorListener.INSTANCE);
-		System.gc();
 		this.parse();
 		this.generateRulesContextList(this.getContext());
 	}
@@ -506,9 +535,10 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 	@Override
 	public int getNumberClasses() {
 
-		JavaParser.ClassDeclarationContext ctx = new JavaParser.ClassDeclarationContext(null, 0);
+		// JavaParser.ClassDeclarationContext ctx = new
+		// JavaParser.ClassDeclarationContext(null, 0);
 
-		return this.getCountOfRuleContext(ctx);
+		return this.getCountOfToken(JavaParser.CLASS);
 
 	}
 
@@ -759,6 +789,11 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 		final int publicToken = JavaParser.PUBLIC;
 		final int privateToken = JavaParser.PRIVATE;
 		final int protectedToken = JavaParser.PROTECTED;
+		final int abstractToken = JavaParser.ABSTRACT;
+		final int classesToken = JavaParser.CLASS;
+		final int yieldToken = JavaParser.YIELD;
+		final int assertToken = JavaParser.ASSERT;
+		final int tryToken = JavaParser.TRY;
 
 		// Tipos de contextos
 		final JavaParser.ImportDeclarationContext imports = new JavaParser.ImportDeclarationContext(null, 0);
@@ -771,6 +806,9 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 		final JavaParser.MethodDeclarationContext methodsCtx = new JavaParser.MethodDeclarationContext(null, 0);
 		final JavaParser.VariableDeclaratorContext variablesCtx = new JavaParser.VariableDeclaratorContext(null, 0);
 		final JavaParser.LocalVariableDeclarationContext localVariablesCtx = new JavaParser.LocalVariableDeclarationContext(
+				null, 0);
+		final JavaParser.AnnotationContext annotationCtx = new JavaParser.AnnotationContext(null, 0);
+		final JavaParser.ConstructorDeclarationContext personalConstructorCtx = new JavaParser.ConstructorDeclarationContext(
 				null, 0);
 
 		// Contamos tokens
@@ -831,6 +869,31 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 				visualProperties.put("Número de campos protected: ", properties.get(PROTECTED));
 				break;
 
+			case abstractToken:
+				properties.put(ABSTRACT, properties.get(ABSTRACT) + 1);
+				visualProperties.put("Número de campos abstract: ", properties.get(ABSTRACT));
+				break;
+
+			case classesToken:
+				properties.put(CLASSES, properties.get(CLASSES) + 1);
+				visualProperties.put("Número de clases: ", properties.get(CLASSES));
+				break;
+
+			case yieldToken:
+				properties.put(YIELD, properties.get(YIELD) + 1);
+				visualProperties.put("Número de yield: ", properties.get(YIELD));
+				break;
+
+			case assertToken:
+				properties.put(ASSERT, properties.get(ASSERT) + 1);
+				visualProperties.put("Número de assert: ", properties.get(ASSERT));
+				break;
+
+			case tryToken:
+				properties.put(TRY, properties.get(TRY) + 1);
+				visualProperties.put("Número de try: ", properties.get(TRY));
+				break;
+
 			default:
 				break;
 
@@ -876,6 +939,16 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 
 				properties.put(LOCAL_VARIABLES, properties.get(LOCAL_VARIABLES) + 1);
 				visualProperties.put("Número de variables locales: ", properties.get(LOCAL_VARIABLES));
+
+			} else if (rulesContext.get(i).getClass().isInstance(annotationCtx)) {
+
+				properties.put(ANNOTATION, properties.get(ANNOTATION) + 1);
+				visualProperties.put("Número de annotations: ", properties.get(ANNOTATION));
+
+			} else if (rulesContext.get(i).getClass().isInstance(personalConstructorCtx)) {
+
+				properties.put(PERSONAL_CONSTRUCTOR, properties.get(PERSONAL_CONSTRUCTOR) + 1);
+				visualProperties.put("Número de declaraciones constructor: ", properties.get(PERSONAL_CONSTRUCTOR));
 
 			}
 
