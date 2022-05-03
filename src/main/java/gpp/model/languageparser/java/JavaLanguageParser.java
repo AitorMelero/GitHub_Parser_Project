@@ -32,8 +32,11 @@ import gpp.model.languageparser.LanguageParserErrorListener;
 public class JavaLanguageParser extends LanguageParser implements IGeneralLanguageParserConditional,
 		IGeneralLanguageParserLoop, IGeneralLanguageParserExpression, IGeneralLanguageParserFlow, IJavaLanguageParser {
 
-	public static final int COMMENTS = 0, IMPORTS = 1, IF = 2;
-	public static final int[] namesProperties = { COMMENTS, IMPORTS, IF };
+	public static final int COMMENTS = 0, IMPORTS = 1, IF = 2, ELSE = 3, FOR = 4, WHILE = 5, CONTINUE = 6, BREAK = 7,
+			ARRAYS = 8, LAMBDAS = 9, METHODS = 10, VARIABLES = 11, LOCAL_VARIABLES = 12, STATIC = 13, PUBLIC = 14,
+			PRIVATE = 15, PROTECTED = 16;
+	public static final int[] namesProperties = { COMMENTS, IMPORTS, IF, ELSE, FOR, WHILE, CONTINUE, BREAK, ARRAYS,
+			LAMBDAS, METHODS, VARIABLES, LOCAL_VARIABLES, STATIC, PUBLIC, PRIVATE, PROTECTED };
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -63,9 +66,65 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 			case IMPORTS:
 				super.getPropertiesVisualMap().put("Número de imports: ", 0l);
 				break;
-				
+
 			case IF:
 				super.getPropertiesVisualMap().put("Número de if: ", 0l);
+				break;
+
+			case ELSE:
+				super.getPropertiesVisualMap().put("Número de else: ", 0l);
+				break;
+
+			case FOR:
+				super.getPropertiesVisualMap().put("Número de for: ", 0l);
+				break;
+
+			case WHILE:
+				super.getPropertiesVisualMap().put("Número de while: ", 0l);
+				break;
+
+			case CONTINUE:
+				super.getPropertiesVisualMap().put("Número de continue: ", 0l);
+				break;
+
+			case BREAK:
+				super.getPropertiesVisualMap().put("Número de break: ", 0l);
+				break;
+
+			case ARRAYS:
+				super.getPropertiesVisualMap().put("Número de arrays: ", 0l);
+				break;
+
+			case LAMBDAS:
+				super.getPropertiesVisualMap().put("Número de lambdas: ", 0l);
+				break;
+
+			case METHODS:
+				super.getPropertiesVisualMap().put("Número de métodos: ", 0l);
+				break;
+
+			case VARIABLES:
+				super.getPropertiesVisualMap().put("Número de variables: ", 0l);
+				break;
+
+			case LOCAL_VARIABLES:
+				super.getPropertiesVisualMap().put("Número de variables locales: ", 0l);
+				break;
+
+			case STATIC:
+				super.getPropertiesVisualMap().put("Número de campos static: ", 0l);
+				break;
+
+			case PUBLIC:
+				super.getPropertiesVisualMap().put("Número de campos public: ", 0l);
+				break;
+
+			case PRIVATE:
+				super.getPropertiesVisualMap().put("Número de campos private: ", 0l);
+				break;
+
+			case PROTECTED:
+				super.getPropertiesVisualMap().put("Número de campos protected: ", 0l);
 				break;
 
 			default:
@@ -140,9 +199,9 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 				System.out.println("Error syntax: " + e.getMessage());
 
 			} catch (RecognitionException e) {
-				
+
 				System.out.println("ERROR TE PILLE");
-				
+
 			}
 
 		}
@@ -692,9 +751,27 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 		final int comment = JavaLexer.COMMENT;
 		final int comment2 = JavaLexer.LINE_COMMENT;
 		final int ifToken = JavaParser.IF;
+		final int elseToken = JavaParser.ELSE;
+		final int whileToken = JavaParser.WHILE;
+		final int continueToken = JavaParser.CONTINUE;
+		final int breakToken = JavaParser.BREAK;
+		final int staticToken = JavaParser.STATIC;
+		final int publicToken = JavaParser.PUBLIC;
+		final int privateToken = JavaParser.PRIVATE;
+		final int protectedToken = JavaParser.PROTECTED;
 
 		// Tipos de contextos
 		final JavaParser.ImportDeclarationContext imports = new JavaParser.ImportDeclarationContext(null, 0);
+		final JavaParser.ForControlContext forCtx = new JavaParser.ForControlContext(null, 0);
+		// Nota: se comprueba la creación de arrays, no se comprueba un array declarado
+		// sin inicializar ni tamaño especificado; e.g: int[] a;
+		final JavaParser.ArrayInitializerContext arrayCtx1 = new JavaParser.ArrayInitializerContext(null, 0);
+		final JavaParser.ArrayCreatorRestContext arrayCtx2 = new JavaParser.ArrayCreatorRestContext(null, 0);
+		final JavaParser.LambdaExpressionContext lambdasCtx = new JavaParser.LambdaExpressionContext(null, 0);
+		final JavaParser.MethodDeclarationContext methodsCtx = new JavaParser.MethodDeclarationContext(null, 0);
+		final JavaParser.VariableDeclaratorContext variablesCtx = new JavaParser.VariableDeclaratorContext(null, 0);
+		final JavaParser.LocalVariableDeclarationContext localVariablesCtx = new JavaParser.LocalVariableDeclarationContext(
+				null, 0);
 
 		// Contamos tokens
 		for (int i = 0; i < tokens.size(); i++) {
@@ -708,10 +785,50 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 				properties.put(COMMENTS, properties.get(COMMENTS) + 1);
 				visualProperties.put("Número de comentarios: ", properties.get(COMMENTS));
 				break;
-				
+
 			case ifToken:
 				properties.put(IF, properties.get(IF) + 1);
 				visualProperties.put("Número de if: ", properties.get(IF));
+				break;
+
+			case elseToken:
+				properties.put(ELSE, properties.get(ELSE) + 1);
+				visualProperties.put("Número de else: ", properties.get(ELSE));
+				break;
+
+			case whileToken:
+				properties.put(WHILE, properties.get(WHILE) + 1);
+				visualProperties.put("Número de while: ", properties.get(WHILE));
+				break;
+
+			case continueToken:
+				properties.put(CONTINUE, properties.get(CONTINUE) + 1);
+				visualProperties.put("Número de continue: ", properties.get(CONTINUE));
+				break;
+
+			case breakToken:
+				properties.put(BREAK, properties.get(BREAK) + 1);
+				visualProperties.put("Número de break: ", properties.get(BREAK));
+				break;
+
+			case staticToken:
+				properties.put(STATIC, properties.get(STATIC) + 1);
+				visualProperties.put("Número de campos static: ", properties.get(STATIC));
+				break;
+
+			case publicToken:
+				properties.put(PUBLIC, properties.get(PUBLIC) + 1);
+				visualProperties.put("Número de campos public: ", properties.get(PUBLIC));
+				break;
+
+			case privateToken:
+				properties.put(PRIVATE, properties.get(PRIVATE) + 1);
+				visualProperties.put("Número de campos private: ", properties.get(PRIVATE));
+				break;
+
+			case protectedToken:
+				properties.put(PROTECTED, properties.get(PROTECTED) + 1);
+				visualProperties.put("Número de campos protected: ", properties.get(PROTECTED));
 				break;
 
 			default:
@@ -728,6 +845,37 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 
 				properties.put(IMPORTS, properties.get(IMPORTS) + 1);
 				visualProperties.put("Número de imports: ", properties.get(IMPORTS));
+
+			} else if (rulesContext.get(i).getClass().isInstance(forCtx)) {
+
+				properties.put(FOR, properties.get(FOR) + 1);
+				visualProperties.put("Número de for: ", properties.get(FOR));
+
+			} else if (rulesContext.get(i).getClass().isInstance(arrayCtx1)
+					|| rulesContext.get(i).getClass().isInstance(arrayCtx2)) {
+
+				properties.put(ARRAYS, properties.get(ARRAYS) + 1);
+				visualProperties.put("Número de arrays: ", properties.get(ARRAYS));
+
+			} else if (rulesContext.get(i).getClass().isInstance(lambdasCtx)) {
+
+				properties.put(LAMBDAS, properties.get(LAMBDAS) + 1);
+				visualProperties.put("Número de lambdas: ", properties.get(LAMBDAS));
+
+			} else if (rulesContext.get(i).getClass().isInstance(methodsCtx)) {
+
+				properties.put(METHODS, properties.get(METHODS) + 1);
+				visualProperties.put("Número de métodos: ", properties.get(METHODS));
+
+			} else if (rulesContext.get(i).getClass().isInstance(variablesCtx)) {
+
+				properties.put(VARIABLES, properties.get(VARIABLES) + 1);
+				visualProperties.put("Número de variables: ", properties.get(VARIABLES));
+
+			} else if (rulesContext.get(i).getClass().isInstance(localVariablesCtx)) {
+
+				properties.put(LOCAL_VARIABLES, properties.get(LOCAL_VARIABLES) + 1);
+				visualProperties.put("Número de variables locales: ", properties.get(LOCAL_VARIABLES));
 
 			}
 
