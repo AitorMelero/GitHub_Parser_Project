@@ -29,10 +29,35 @@ public class PythonLanguageParser extends LanguageParser
 		implements IGeneralLanguageParserConditional, IGeneralLanguageParserLoop, IGeneralLanguageParserExpression,
 		IGeneralLanguageParserFlow, IPythonLanguageParser {
 
+	public static final String[] extensions = { "py" };
+	public static final int COMMENTS = 0;
+	public static final int[] namesProperties = { COMMENTS };
+
 	/**************************************************************************
 	 * CONSTRUCTOR
 	 * ************************************************************************
 	 */
+
+	/**
+	 * 
+	 * Constructor vacío.
+	 * 
+	 */
+	public PythonLanguageParser() {
+
+		super();
+
+		// Inicializamos la lista de propiedades
+		for (int np : namesProperties) {
+
+			super.getPropertiesMap().put(np, 0l);
+
+		}
+
+		String[] ext = { "py" };
+		super.setExtensions(ext);
+
+	}
 
 	/**
 	 * 
@@ -44,6 +69,16 @@ public class PythonLanguageParser extends LanguageParser
 	public PythonLanguageParser(File file) throws IOException {
 
 		super(file);
+
+		// Inicializamos la lista de propiedades
+		for (int np : namesProperties) {
+
+			super.getPropertiesMap().put(np, 0l);
+
+		}
+
+		String[] ext = { "py" };
+		super.setExtensions(ext);
 
 	}
 
@@ -590,6 +625,12 @@ public class PythonLanguageParser extends LanguageParser
 	public int getNumberAsync() {
 
 		return this.getCountOfToken(PythonParser.ASYNC);
+
+	}
+
+	@Override
+	public void generateAllValues() {
+		// TODO Auto-generated method stub
 
 	}
 

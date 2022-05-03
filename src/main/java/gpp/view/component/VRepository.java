@@ -140,6 +140,13 @@ public class VRepository extends JPanel {
 		infoContainer.add(addInfoField("Tamaño total: ", repo.getTotalSize() + " KB"));
 		infoContainer.add(addInfoField("Tamaño medio de ficheros: ", repo.getAvgSize() + " KB"));
 		infoContainer.add(addInfoField("Lenguaje principal: ", repo.getMainLanguage()));
+		
+		// Añadimos información por lenguaje
+		for (String k: repo.getLanguageProperties().getPropertiesVisualMap().keySet()) {
+			
+			infoContainer.add(addInfoField(k, repo.getLanguageProperties().getPropertiesVisualMap().get(k) + ""));
+			
+		}
 
 		infoContainerScroll.setViewportView(infoContainer);
 		infoContainerScroll.getViewport().setViewPosition(new Point(0, 0));

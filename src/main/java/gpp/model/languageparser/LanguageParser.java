@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -23,8 +24,10 @@ import org.antlr.v4.runtime.tree.ParseTree;
  */
 public abstract class LanguageParser implements IGeneralLanguageParser {
 
-	private File file; // fichero para parsear
-	private String code; // codigo para parsear
+	private String[] extensions;
+
+	private File file = null; // fichero para parsear
+	private String code = ""; // codigo para parsear
 
 	private Lexer lexer = null; // lexer
 	private CommonTokenStream tokensStream = null; // stream de tokens comunes
@@ -34,10 +37,30 @@ public abstract class LanguageParser implements IGeneralLanguageParser {
 	private List<Token> tokens = null; // tokens del fichero parseado
 	private List<RuleContext> rulesContexts = null; // reglas de contextos del fichero parseado
 
+	private HashMap<Integer, Long> propertiesMap = null; // diccionario con las propiedades y sus valores analizados
+	private HashMap<String, Long> propertiesVisualMap = null; // diccionario con los valores de las propiedades a
+																// mostrar
+
 	/**************************************************************************
 	 * CONSTRUCTOR
 	 * ************************************************************************
 	 */
+
+	/**
+	 * 
+	 * Constructor vacío.
+	 * 
+	 */
+	public LanguageParser() {
+
+		context = new RuleContext();
+		tokens = new ArrayList<Token>();
+		rulesContexts = new ArrayList<RuleContext>();
+
+		propertiesMap = new HashMap<Integer, Long>();
+		propertiesVisualMap = new HashMap<String, Long>();
+
+	}
 
 	/**
 	 * Constructor de parser del lenguaje.
@@ -54,12 +77,23 @@ public abstract class LanguageParser implements IGeneralLanguageParser {
 		// genera todo el parser a partir del fichero
 		setFile(file);
 
+		propertiesMap = new HashMap<Integer, Long>();
+		propertiesVisualMap = new HashMap<String, Long>();
+
 	}
 
 	/**************************************************************************
 	 * GETTERS Y SETTERS
 	 * ************************************************************************
 	 */
+
+	public String[] getExtensions() {
+		return this.extensions;
+	}
+
+	public void setExtensions(String[] extensions) {
+		this.extensions = extensions;
+	}
 
 	public File getFile() {
 		return this.file;
@@ -126,6 +160,22 @@ public abstract class LanguageParser implements IGeneralLanguageParser {
 
 	public void setRulesContexts(List<RuleContext> rulesContexts) {
 		this.rulesContexts = rulesContexts;
+	}
+
+	public HashMap<Integer, Long> getPropertiesMap() {
+		return propertiesMap;
+	}
+
+	public void setPropertiesMap(HashMap<Integer, Long> propertiesMap) {
+		this.propertiesMap = propertiesMap;
+	}
+
+	public HashMap<String, Long> getPropertiesVisualMap() {
+		return propertiesVisualMap;
+	}
+
+	public void setPropertiesVisualMap(HashMap<String, Long> propertiesVisualMap) {
+		this.propertiesVisualMap = propertiesVisualMap;
 	}
 
 	/**************************************************************************
@@ -274,6 +324,21 @@ public abstract class LanguageParser implements IGeneralLanguageParser {
 	}
 
 	/**
+	 * 
+	 * Inicializa los valores de las propiedades a 0.
+	 * 
+	 */
+	public void clearProperties() {
+
+		for (int k : propertiesMap.keySet()) {
+
+			propertiesMap.put(k, 0l);
+
+		}
+
+	}
+
+	/**
 	 * Genera la cadena con el contenido de un fichero.
 	 * 
 	 * @param file.     Fichero.
@@ -316,5 +381,12 @@ public abstract class LanguageParser implements IGeneralLanguageParser {
 	 * @param indentation. Identación
 	 */
 	public abstract void explore(RuleContext ctx, int indentation);
+
+	/**
+	 * 
+	 * Analiza todos las propiedades del lenguaje de una sola pasada al fichero.
+	 * 
+	 */
+	public abstract void generateAllValues();
 
 }

@@ -1,6 +1,7 @@
 package gpp.model;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,6 +13,9 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import gpp.GPPSystem;
+import gpp.model.languageparser.LanguageParser;
+import gpp.model.languageparser.java.JavaLanguageParser;
+import gpp.model.languageparser.python.PythonLanguageParser;
 
 /**
  * 
@@ -38,6 +42,7 @@ public class Repository {
 	private long totalSize; // tamaño total del repositorio (sacado de la api y puede ser 0)
 	private long avgSize; // tamaño medio de ficheros (en caso de un tamaño total de 0, será 0 la media)
 	private String mainLanguage; // lenguaje principal del repositorio
+	private LanguageParser languageProperties; // propiedades sobre el lenguaje principal del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -82,6 +87,7 @@ public class Repository {
 		this.totalSize = 0;
 		this.avgSize = 0;
 		this.mainLanguage = null;
+		this.languageProperties = null;
 
 	}
 
@@ -410,6 +416,32 @@ public class Repository {
 	 */
 	public void setMainLanguage(String mainLanguage) {
 		this.mainLanguage = mainLanguage;
+
+		// Cambiamos las propiedades del lenguaje si existe código para analizar el
+		// mismo
+		if (mainLanguage.toLowerCase().equals("java")) {
+
+			this.languageProperties = new JavaLanguageParser();
+
+		} else if (mainLanguage.toLowerCase().equals("python")) {
+
+			this.languageProperties = new PythonLanguageParser();
+
+		} else {
+
+			this.languageProperties = null;
+
+		}
+	}
+
+	/**
+	 * 
+	 * Devuelve las propiedades parseadas del lenguaje principal.
+	 * 
+	 * @return Propiedades parseadas del lenguaje principal.
+	 */
+	public LanguageParser getLanguageProperties() {
+		return languageProperties;
 	}
 
 	/**************************************************************************
@@ -434,6 +466,9 @@ public class Repository {
 			cloneRepo();
 
 		}
+		
+		// Inicializamos a 0 los valores de las propiedades del lenguaje
+		languageProperties.clearProperties();
 
 		// Recorremos el repositorio fichero a fichero
 		File f = new File(clonePath);
@@ -525,6 +560,8 @@ public class Repository {
 	private void getFullInfo(File f) {
 
 		String fileName = f.getName();
+		String extension = "";
+		boolean fileLanguageAnalyze = false;
 
 		if (!fileName.equals(".git")) {
 
@@ -541,8 +578,32 @@ public class Repository {
 
 				// Guardamos las extensiones
 				if (fileName.contains(".")) {
+					
+					extension = fileName.substring(fileName.lastIndexOf(".") + 1);
 
-					extensionsList.add(fileName.substring(fileName.lastIndexOf(".") + 1));
+					extensionsList.add(extension);
+					
+					// Analizamos las propiedades del lenguaje si corresponde
+					for (int i = 0; i < languageProperties.getExtensions().length && !fileLanguageAnalyze; i++) {
+						
+						if (languageProperties.getExtensions()[i].equals(extension)) {
+							
+							try {
+								
+								languageProperties.setFile(f);
+								languageProperties.generateAllValues();
+								
+							} catch (IOException e) {
+
+								System.out.println("NO SE HA PODIDO ANALIZAR EL FICHERO A PARTIR DEL LENGUAJE");
+								
+							}
+							
+							fileLanguageAnalyze = true;
+							
+						}
+						
+					}
 
 				}
 

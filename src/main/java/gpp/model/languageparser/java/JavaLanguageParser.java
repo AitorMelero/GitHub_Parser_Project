@@ -2,10 +2,13 @@ package gpp.model.languageparser.java;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -28,10 +31,45 @@ import gpp.model.languageparser.LanguageParserErrorListener;
 public class JavaLanguageParser extends LanguageParser implements IGeneralLanguageParserConditional,
 		IGeneralLanguageParserLoop, IGeneralLanguageParserExpression, IGeneralLanguageParserFlow, IJavaLanguageParser {
 
+	public static final int COMMENTS = 0;
+	public static final int[] namesProperties = { COMMENTS };
+
 	/**************************************************************************
 	 * CONSTRUCTOR
 	 * ************************************************************************
 	 */
+
+	/**
+	 * 
+	 * Constructor vacío.
+	 * 
+	 */
+	public JavaLanguageParser() {
+
+		super();
+
+		// Inicializamos la lista de propiedades
+		for (int np : namesProperties) {
+
+			super.getPropertiesMap().put(np, 0l);
+			
+			switch(np) {
+			
+			case COMMENTS:
+				super.getPropertiesVisualMap().put("Número de comentarios: ", super.getPropertiesMap().get(np));
+				break;
+				
+			default:
+				break;
+			
+			}
+
+		}
+		
+		String[] ext = { "java" };
+		super.setExtensions(ext);
+
+	}
 
 	/**
 	 * 
@@ -43,6 +81,16 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 	public JavaLanguageParser(File file) throws IOException {
 
 		super(file);
+
+		// Inicializamos la lista de propiedades
+		for (int np : namesProperties) {
+
+			super.getPropertiesMap().put(np, 0l);
+
+		}
+		
+		String[] ext = { "java" };
+		super.setExtensions(ext);
 
 	}
 
@@ -614,6 +662,40 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 	public int getNumberSynchronized() {
 
 		return this.getCountOfToken(JavaParser.SYNCHRONIZED);
+
+	}
+
+	@Override
+	public void generateAllValues() {
+
+		HashMap<Integer, Long> properties = super.getPropertiesMap();
+		HashMap<String, Long> visualProperties = super.getPropertiesVisualMap();
+		List<Token> tokens = super.getTokens();
+		int actualType = 0;
+
+		// Tipos de tokens
+		final int comment = JavaLexer.COMMENT;
+		final int comment2 = JavaLexer.LINE_COMMENT;
+
+		// Contamos tokens
+		for (int i = 0; i < tokens.size(); i++) {
+
+			actualType = tokens.get(i).getType();
+
+			switch (actualType) {
+
+			case comment:
+			case comment2:
+				properties.put(COMMENTS, properties.get(COMMENTS) + 1);
+				visualProperties.put("Número de comentarios: ", properties.get(COMMENTS));
+				break;
+
+			default:
+				break;
+
+			}
+
+		}
 
 	}
 
