@@ -36,10 +36,11 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 			ARRAYS = 8, LAMBDAS = 9, METHODS = 10, VARIABLES = 11, LOCAL_VARIABLES = 12, STATIC = 13, PUBLIC = 14,
 			PRIVATE = 15, PROTECTED = 16, ABSTRACT = 17, CLASSES = 18, YIELD = 19, ASSERT = 20, TRY = 21,
 			ANNOTATION = 22, PERSONAL_CONSTRUCTOR = 23, PERSONAL_INTERFACE = 24, IMPLEMENTS = 25, EXTENDS = 26,
-			THROWS = 27, THROW = 28;
+			THROWS = 27, THROW = 28, ENUM = 29, FINAL = 30, SWITCH = 31, INSTANCEOF = 32, SYNCHRONIZED = 33;
 	public static final int[] namesProperties = { COMMENTS, IMPORTS, IF, ELSE, FOR, WHILE, CONTINUE, BREAK, ARRAYS,
 			LAMBDAS, METHODS, VARIABLES, LOCAL_VARIABLES, STATIC, PUBLIC, PRIVATE, PROTECTED, ABSTRACT, CLASSES, YIELD,
-			ASSERT, TRY, ANNOTATION, PERSONAL_CONSTRUCTOR, PERSONAL_INTERFACE, IMPLEMENTS, EXTENDS, THROWS, THROW };
+			ASSERT, TRY, ANNOTATION, PERSONAL_CONSTRUCTOR, PERSONAL_INTERFACE, IMPLEMENTS, EXTENDS, THROWS, THROW,
+			ENUM, FINAL, SWITCH, INSTANCEOF, SYNCHRONIZED };
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -176,6 +177,26 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 
 			case THROW:
 				super.getPropertiesVisualMap().put("Número de throw: ", 0l);
+				break;
+
+			case ENUM:
+				super.getPropertiesVisualMap().put("Número de enum: ", 0l);
+				break;
+				
+			case FINAL:
+				super.getPropertiesVisualMap().put("Número de final: ", 0l);
+				break;
+				
+			case SWITCH:
+				super.getPropertiesVisualMap().put("Número de switch: ", 0l);
+				break;
+				
+			case INSTANCEOF:
+				super.getPropertiesVisualMap().put("Número de instanceof: ", 0l);
+				break;
+				
+			case SYNCHRONIZED:
+				super.getPropertiesVisualMap().put("Número de synchronized: ", 0l);
 				break;
 
 			default:
@@ -818,6 +839,10 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 		final int extendsToken = JavaParser.EXTENDS;
 		final int throwsToken = JavaParser.THROWS;
 		final int throwToken = JavaParser.THROW;
+		final int finalToken = JavaParser.FINAL;
+		final int switchToken = JavaParser.SWITCH;
+		final int instanceofToken = JavaParser.INSTANCEOF;
+		final int synchronizedToken = JavaParser.SYNCHRONIZED;
 
 		// Tipos de contextos
 		final JavaParser.ImportDeclarationContext imports = new JavaParser.ImportDeclarationContext(null, 0);
@@ -837,6 +862,7 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 				null, 0);
 		final JavaParser.InterfaceDeclarationContext personalInterfaceCtx = new JavaParser.InterfaceDeclarationContext(
 				null, 0);
+		final JavaParser.EnumDeclarationContext enumCtx = new JavaParser.EnumDeclarationContext(null, 0);
 
 		// Contamos tokens
 		for (int i = 0; i < tokens.size(); i++) {
@@ -935,6 +961,26 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 				properties.put(THROW, properties.get(THROW) + 1);
 				visualProperties.put("Número de throw: ", properties.get(THROW));
 				break;
+				
+			case finalToken:
+				properties.put(FINAL, properties.get(FINAL) + 1);
+				visualProperties.put("Número de final: ", properties.get(FINAL));
+				break;
+
+			case switchToken:
+				properties.put(SWITCH, properties.get(SWITCH) + 1);
+				visualProperties.put("Número de switch: ", properties.get(SWITCH));
+				break;
+				
+			case instanceofToken:
+				properties.put(INSTANCEOF, properties.get(INSTANCEOF) + 1);
+				visualProperties.put("Número de instanceof: ", properties.get(INSTANCEOF));
+				break;
+
+			case synchronizedToken:
+				properties.put(SYNCHRONIZED, properties.get(SYNCHRONIZED) + 1);
+				visualProperties.put("Número de synchronized: ", properties.get(SYNCHRONIZED));
+				break;
 
 			default:
 				break;
@@ -1001,6 +1047,11 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 
 				properties.put(PERSONAL_INTERFACE, properties.get(PERSONAL_INTERFACE) + 1);
 				visualProperties.put("Número de interfaces: ", properties.get(PERSONAL_INTERFACE));
+
+			} else if (rulesContext.get(i).getClass().isInstance(enumCtx)) {
+
+				properties.put(ENUM, properties.get(ENUM) + 1);
+				visualProperties.put("Número de enum: ", properties.get(ENUM));
 
 			}
 
