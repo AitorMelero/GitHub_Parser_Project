@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.swing.JOptionPane;
+
 import gpp.GPPSystem;
 import gpp.model.Repository;
 import gpp.model.search.Search;
@@ -76,7 +78,12 @@ public class CRepository implements ActionListener {
 
 		} else if (e.getActionCommand().equals("clone")) {
 			
-			windows.getRepositoryView().getRepository().cloneRepo();
+			try {
+				windows.getRepositoryView().getRepository().cloneRepo();
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(windows, "Error al clonar el repositorio",
+						"Error", JOptionPane.ERROR_MESSAGE);
+			}
 			
 		}
 

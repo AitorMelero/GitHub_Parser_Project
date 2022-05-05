@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import gpp.GPPSystem;
 import gpp.model.Repository;
 import gpp.model.search.Filter;
@@ -164,27 +166,45 @@ public class CSearch implements ActionListener {
 			// Realizamos la búsqueda
 			s.search();
 
-			// Filtramos la búsqueda
-			s.filter();
-			
-			// Filtramos la búsqueda por lenguaje
-			VFilterLanguage filterLanguage = windows.getSearchView().getFilterLanguageWindow();
-			ArrayList<Repository> repositoryFilterLanguage = new ArrayList<Repository>();
-			for (Repository repo: s.getListRepoResult()) {
-				
-				if (filterLanguage.filterLanguage(repo)) {
-					
-					repositoryFilterLanguage.add(repo);
-					
-				}
-				
-			}
-			s.setListRepoResult(repositoryFilterLanguage);
+			if (s.getListRepoResult().size() != 0) {
 
-			// Cambiamos a la pantalla de resultados
-			gppSystem.setCurrentSearch(s);
-			windows.getSearchResultView().setSearchResultCurrent(s, 1);
-			windows.setCard("VSearchResult");
+				// Filtramos la búsqueda
+				s.filter();
+
+				if (s.getListRepoResult().size() != 0) {
+
+					// Filtramos la búsqueda por lenguaje
+					VFilterLanguage filterLanguage = windows.getSearchView().getFilterLanguageWindow();
+					ArrayList<Repository> repositoryFilterLanguage = new ArrayList<Repository>();
+					for (Repository repo : s.getListRepoResult()) {
+
+						if (filterLanguage.filterLanguage(repo)) {
+
+							repositoryFilterLanguage.add(repo);
+
+						}
+
+					}
+					s.setListRepoResult(repositoryFilterLanguage);
+
+				}
+
+			}
+
+			// Si no hay resultados mostramos la info al usuario
+			if (s.getListRepoResult().size() == 0) {
+
+				JOptionPane.showMessageDialog(windows, "No coincide ningún repositorio con la consulta",
+						"No hay resultados", JOptionPane.INFORMATION_MESSAGE);
+
+			} else {
+
+				// Cambiamos a la pantalla de resultados
+				gppSystem.setCurrentSearch(s);
+				windows.getSearchResultView().setSearchResultCurrent(s, 1);
+				windows.setCard("VSearchResult");
+
+			}
 
 		} else if (e.getActionCommand().equals("Buscar general")) {
 

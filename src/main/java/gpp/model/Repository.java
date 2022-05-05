@@ -478,7 +478,7 @@ public class Repository {
 	 * Genera la información completa del repositorio.
 	 * 
 	 */
-	public void generateFullInfo() {
+	public void generateFullInfo() throws Exception {
 
 		boolean repoIsClone = true;
 
@@ -487,7 +487,19 @@ public class Repository {
 
 			repoIsClone = false;
 
-			cloneRepo();
+			try {
+				
+				cloneRepo();
+				
+			} catch (Exception e) {
+				
+				// Comprobamos si hay algún error al clonar el repositorio
+				File delDir = new File(GPPSystem.getUser().getClonePath() + ownerName + "/");
+				if (delDir != null && delDir.isDirectory() && delDir.listFiles().length == 0) {
+					delDir.delete();
+				}
+				throw e;
+			}
 
 		}
 
@@ -531,7 +543,7 @@ public class Repository {
 	 * Método para clonar el repositorio.
 	 * 
 	 */
-	public void cloneRepo() {
+	public void cloneRepo() throws Exception {
 
 		String repoUrl = "https://github.com/" + ownerName + "/" + name + ".git";
 		User user = GPPSystem.getUser();
@@ -544,20 +556,18 @@ public class Repository {
 
 			CredentialsProvider cp = new UsernamePasswordCredentialsProvider(user.getUsername(), user.getToken());
 
-			try {
-
-				// System.out.println("Cloning " + repoUrl + " into " + path);
-				Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory(Paths.get(path).toFile())
-						.call().close();
-				// System.out.println("Completed Cloning");
-
-			} catch (GitAPIException e) {
+			// System.out.println("Cloning " + repoUrl + " into " + path);
+			Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory(Paths.get(path).toFile())
+					.call().close();
+			// System.out.println("Completed Cloning");
+			
+			/*catch (GitAPIException e) {
 
 				System.out.println("Exception occurred while cloning repo");
 				e.printStackTrace();
 				this.setClonePath(null);
 
-			}
+			}*/
 
 		}
 

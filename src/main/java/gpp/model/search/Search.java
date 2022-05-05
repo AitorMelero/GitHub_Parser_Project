@@ -231,7 +231,14 @@ public class Search {
 		JsonObject resultQuery = GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(),
 				query.getSortOption(), query.getOrderOption(), perPage, pagesNumber);
 
-		// Comprobamos si hay resultados
+		// Comprobamos si hay error
+		if (resultQuery.has("error")) {
+
+			return;
+
+		}
+
+		// Sacamos los resultados
 		JsonArray resultRepos = new JsonArray();
 		if (!resultQuery.get("items").isJsonNull()) {
 
@@ -325,6 +332,7 @@ public class Search {
 
 		int i = 1;
 		ArrayList<Repository> listRepoFilter = new ArrayList<Repository>();
+		boolean repoIsCorrect = true;
 
 		// listRepoResult.get(3).generateFullInfo();
 
@@ -332,13 +340,23 @@ public class Search {
 
 			System.out.println("Clonando " + i + " de " + listRepoResult.size());
 
-			// Generamos la información completa del repositorio
-			r.generateFullInfo();
+			repoIsCorrect = true;
+
+			// Generamos la información completa del repositorio si no hay error
+			try {
+				r.generateFullInfo();
+			} catch (Exception e) {
+				repoIsCorrect = false;
+			}
 
 			// Filtramos el repositorio
-			if (filter.filterRepository(r)) {
+			if (repoIsCorrect) {
 
-				listRepoFilter.add(r);
+				if (filter.filterRepository(r)) {
+
+					listRepoFilter.add(r);
+
+				}
 
 			}
 
