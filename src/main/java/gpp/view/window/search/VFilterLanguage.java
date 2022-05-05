@@ -8,6 +8,7 @@ import gpp.model.Repository;
 import gpp.view.component.VColor;
 import gpp.view.component.VSearchFieldContainer;
 import gpp.view.window.search.language.JavaFilter;
+import gpp.view.window.search.language.PythonFilter;
 
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -29,6 +30,8 @@ public class VFilterLanguage extends JPanel {
 	private JPanel container; // contenedor dentro del scroll
 	private JLabel javaTitle; // título de java
 	private JavaFilter javaFilter; // filtros para el lenguaje java
+	private JLabel pythonTitle; // título de python
+	private PythonFilter pythonFilter; // filtros para el lenguaje python
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -53,15 +56,24 @@ public class VFilterLanguage extends JPanel {
 
 		// Creamos filtros de los lenguajes
 		javaFilter = new JavaFilter();
+		pythonFilter = new PythonFilter();
 
 		// Añadimos los contenedores con los filtros de los lenguajes
+		// JAVA
 		javaTitle = new JLabel("Java");
-		javaTitle.setBackground(VColor.getGRAY_MENU());
-		javaTitle.setFont(new Font("Dialog", Font.ITALIC, 32));
-		javaTitle.setForeground(VColor.getBLUE_REPOSITORY_TITLE());
-		javaTitle.setBorder(new EmptyBorder(10,30,0,0));
+		setTitleLanguageDesign(javaTitle);
 		container.add(javaTitle);
 		for (VSearchFieldContainer vc : javaFilter.getFieldsList()) {
+
+			container.add(vc);
+
+		}
+		
+		// PYTHON
+		pythonTitle = new JLabel("Python");
+		setTitleLanguageDesign(pythonTitle);
+		container.add(pythonTitle);
+		for (VSearchFieldContainer vc : pythonFilter.getFieldsList()) {
 
 			container.add(vc);
 
@@ -90,9 +102,28 @@ public class VFilterLanguage extends JPanel {
 
 			isValid = javaFilter.filterRepositoryLanguage(repository);
 
+		} else if (repository.getMainLanguage().toLowerCase().equals("python")) {
+			
+			isValid = pythonFilter.filterRepositoryLanguage(repository);
+			
 		}
 
 		return isValid;
+
+	}
+
+	/**
+	 * 
+	 * Modifica el diseño de los títulos del lenguaje.
+	 * 
+	 * @param title. Título del lenguaje
+	 */
+	private void setTitleLanguageDesign(JLabel title) {
+
+		title.setBackground(VColor.getGRAY_MENU());
+		title.setFont(new Font("Dialog", Font.ITALIC, 32));
+		title.setForeground(VColor.getBLUE_REPOSITORY_TITLE());
+		title.setBorder(new EmptyBorder(10, 30, 0, 0));
 
 	}
 

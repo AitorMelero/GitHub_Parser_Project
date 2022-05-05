@@ -1,9 +1,5 @@
 package gpp.view.window.search.language;
 
-import java.util.ArrayList;
-
-import gpp.model.Repository;
-import gpp.model.languageparser.LanguageParser;
 import gpp.model.languageparser.java.JavaLanguageParser;
 import gpp.view.component.VSearchFieldContainer;
 
