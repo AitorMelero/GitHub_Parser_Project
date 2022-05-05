@@ -510,10 +510,15 @@ public class Repository {
 
 		}
 
-		// Borramos el repositorio si no estaba ya clonado
+		// Borramos el repositorio si no estaba ya clonado y el directorio si está vacío
 		if (!repoIsClone) {
 
 			deleteCloneRepo(f);
+			
+			File delDir = new File(GPPSystem.getUser().getClonePath() + ownerName + "/");
+			if (delDir.isDirectory() && delDir.listFiles().length == 0) {
+				delDir.delete();
+			}
 
 			this.setClonePath(null);
 
@@ -615,9 +620,9 @@ public class Repository {
 						for (int i = 0; i < languageProperties.getExtensions().length && !fileLanguageAnalyze; i++) {
 
 							if (languageProperties.getExtensions()[i].equals(extension)) {
-								
+
 								this.mainLanguagesFilesNumber++;
-								
+
 								try {
 
 									languageProperties.setFile(f);

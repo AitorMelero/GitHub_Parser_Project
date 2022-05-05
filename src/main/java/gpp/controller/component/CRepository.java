@@ -74,6 +74,10 @@ public class CRepository implements ActionListener {
 
 			}
 
+		} else if (e.getActionCommand().equals("clone")) {
+			
+			windows.getRepositoryView().getRepository().cloneRepo();
+			
 		}
 
 	}

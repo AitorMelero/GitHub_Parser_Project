@@ -29,6 +29,7 @@ public class VRepository extends JPanel {
 	private JScrollPane infoContainerScroll; // contenedor con scroll
 	private JPanel infoContainer; // contenedor con la información del repositorio
 	private VSearchButton webButton; // botón para ver el repositorio en el navegador
+	private VSearchButton cloneButton; // botón para clonar el repositorio
 	private VSearchButton goBackButton; // botón para ir atrás
 	private JLabel infoGeneralTitle; // título de información general
 	private JLabel infoLanguageTitle; // título de información del lenguaje
@@ -84,6 +85,11 @@ public class VRepository extends JPanel {
 		goBackButton.setActionCommand("go back");
 		goBackButton.setBounds(636, 70, 191, 26);
 
+		// Botón de buscar
+		cloneButton = new VSearchButton("Clonar");
+		cloneButton.setActionCommand("clone");
+		cloneButton.setBounds(370, 70, 100, 26);
+
 		// Botón de navegar a la web
 		webButton = new VSearchButton("Ver en el navegador");
 		webButton.setActionCommand("go web");
@@ -94,6 +100,7 @@ public class VRepository extends JPanel {
 		this.add(title);
 		this.add(goBackButton);
 		this.add(webButton);
+		this.add(cloneButton);
 		this.add(infoContainerScroll);
 
 	}
@@ -211,6 +218,8 @@ public class VRepository extends JPanel {
 
 		goBackButton.addActionListener(action);
 		webButton.addActionListener(action);
+		cloneButton.addActionListener(action);
+		;
 
 	}
 
