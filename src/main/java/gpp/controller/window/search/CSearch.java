@@ -2,12 +2,15 @@ package gpp.controller.window.search;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import gpp.GPPSystem;
+import gpp.model.Repository;
 import gpp.model.search.Filter;
 import gpp.model.search.Query;
 import gpp.model.search.Search;
 import gpp.view.VWindow;
+import gpp.view.window.search.VFilterLanguage;
 
 /**
  * 
@@ -163,6 +166,20 @@ public class CSearch implements ActionListener {
 
 			// Filtramos la búsqueda
 			s.filter();
+			
+			// Filtramos la búsqueda por lenguaje
+			VFilterLanguage filterLanguage = windows.getSearchView().getFilterLanguageWindow();
+			ArrayList<Repository> repositoryFilterLanguage = new ArrayList<Repository>();
+			for (Repository repo: s.getListRepoResult()) {
+				
+				if (filterLanguage.filterLanguage(repo)) {
+					
+					repositoryFilterLanguage.add(repo);
+					
+				}
+				
+			}
+			s.setListRepoResult(repositoryFilterLanguage);
 
 			// Cambiamos a la pantalla de resultados
 			gppSystem.setCurrentSearch(s);

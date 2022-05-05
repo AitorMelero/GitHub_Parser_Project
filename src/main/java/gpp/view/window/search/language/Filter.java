@@ -1,8 +1,10 @@
 package gpp.view.window.search.language;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import gpp.model.Repository;
+import gpp.model.languageparser.LanguageParser;
 import gpp.view.component.VSearchFieldContainer;
 
 /**
@@ -15,6 +17,7 @@ import gpp.view.component.VSearchFieldContainer;
 public abstract class Filter {
 
 	private ArrayList<VSearchFieldContainer> fieldsList; // lista de campos de filtros
+	private HashMap<Integer, VSearchFieldContainer> fieldsListValues; // lista de campos de filtros asociados a valores
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -29,6 +32,7 @@ public abstract class Filter {
 	public Filter() {
 
 		fieldsList = new ArrayList<VSearchFieldContainer>();
+		fieldsListValues = new HashMap<Integer, VSearchFieldContainer>();
 
 	}
 
@@ -55,6 +59,26 @@ public abstract class Filter {
 	 */
 	public void setFieldsList(ArrayList<VSearchFieldContainer> fieldsList) {
 		this.fieldsList = fieldsList;
+	}
+
+	/**
+	 * 
+	 * Devuelve la lista con los valores del lenguaje asociados.
+	 * 
+	 * @return Lista con los vaores de lenguaje asociados.
+	 */
+	public HashMap<Integer, VSearchFieldContainer> getFieldsListValues() {
+		return fieldsListValues;
+	}
+
+	/**
+	 * 
+	 * Modifica la lista con los valores del lenguaje asociados.
+	 * 
+	 * @param fieldsListValues. Lista con los valores del lenguaje asociados.
+	 */
+	public void setFieldsListValues(HashMap<Integer, VSearchFieldContainer> fieldsListValues) {
+		this.fieldsListValues = fieldsListValues;
 	}
 
 	/**************************************************************************
@@ -188,6 +212,36 @@ public abstract class Filter {
 	 * @param repository. Repositorio a filtrar.
 	 * @return True si el repositorio cumple con los filtros del lenguaje.
 	 */
-	public abstract boolean filterRepositoryLanguage(Repository repository);
+	public boolean filterRepositoryLanguage(Repository repository) {
+		
+		boolean isValid = true;
+		LanguageParser languageProperties = repository.getLanguageProperties();
+		VSearchFieldContainer actualValue = null;
+		String valueString = "";
+
+		for (Integer k: fieldsListValues.keySet()) {
+			
+			actualValue = fieldsListValues.get(k);
+			valueString = actualValue.getParamTextField().getText().replace(" ", "");
+			
+			if (!valueString.equals("")) {
+				
+				if (!compareStringNumber(valueString, languageProperties.getPropertiesMap().get(k))) {
+					
+					return false;
+					
+				}
+				
+			} else {
+				
+				actualValue.getParamTextField().setText("");
+				
+			}
+			
+		}
+
+		return isValid;
+		
+	}
 
 }

@@ -33,7 +33,7 @@ public class VSearch extends JPanel {
 	private JPanel cards; // panel sobre el que situar las pantallas
 	private VQuery queryWindow; // ventana para los parámetros de la búsqueda
 	private VFilter filterWindow; // ventana para los parámetros de los filtros generales
-	private VFilterLanguage filterLanguageWindow;  // ventana para los parámetros de los filtros por lenguaje
+	private VFilterLanguage filterLanguageWindow; // ventana para los parámetros de los filtros por lenguaje
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -80,7 +80,7 @@ public class VSearch extends JPanel {
 		searchButton.setBounds(752, 57, 75, 26);
 		searchButton.setActionCommand("buscar");
 		this.add(searchButton);
-		
+
 		// Botones de parámetros
 		windowButtonContainer = new JPanel();
 		windowButtonContainer.setLocation(20, 96);
@@ -96,10 +96,10 @@ public class VSearch extends JPanel {
 		windowButtonContainer.setSize(new Dimension(407, 36));
 		windowButtonContainer.setBackground(VColor.getWHITE_MAIN());
 		this.add(windowButtonContainer);
-		
+
 		// Contenedor con parámetros
 		cards.setBounds(20, 144, 807, 465);
-		//this.add(queryWindow);
+		// this.add(queryWindow);
 		this.add(cards);
 
 	}
@@ -128,7 +128,7 @@ public class VSearch extends JPanel {
 	public void setQueryWindow(VQuery queryWindow) {
 		this.queryWindow = queryWindow;
 	}
-	
+
 	/**
 	 * 
 	 * Devuelve la ventana de los filtros generales.
@@ -147,6 +147,26 @@ public class VSearch extends JPanel {
 	 */
 	public void setFilterWindow(VFilter filterWindow) {
 		this.filterWindow = filterWindow;
+	}
+
+	/**
+	 * 
+	 * Devuelve la ventana de los fitros por lenguaje.
+	 * 
+	 * @return Ventana con los filtros por lenguaje.
+	 */
+	public VFilterLanguage getFilterLanguageWindow() {
+		return filterLanguageWindow;
+	}
+
+	/**
+	 * 
+	 * Modifica la ventana de los filtros por lenguaje.
+	 * 
+	 * @param filterLanguageWindow. Ventana de los filtros por lenguaje.
+	 */
+	public void setFilterLanguageWindow(VFilterLanguage filterLanguageWindow) {
+		this.filterLanguageWindow = filterLanguageWindow;
 	}
 
 	/**************************************************************************
@@ -168,7 +188,7 @@ public class VSearch extends JPanel {
 		filterLanguageWindowButton.addActionListener(action);
 
 	}
-	
+
 	/**
 	 * 
 	 * Cambia de pantalla.

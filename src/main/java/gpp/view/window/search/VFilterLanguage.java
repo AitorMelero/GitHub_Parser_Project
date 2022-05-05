@@ -1,12 +1,19 @@
 package gpp.view.window.search;
 
 import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import gpp.model.Repository;
+import gpp.view.component.VColor;
 import gpp.view.component.VSearchFieldContainer;
+import gpp.view.window.search.language.JavaFilter;
+
 import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.Font;
 
 /**
  * 
@@ -20,8 +27,8 @@ public class VFilterLanguage extends JPanel {
 
 	private JScrollPane scrollContainer; // contenedor con scroll general
 	private JPanel container; // contenedor dentro del scroll
-	private VSearchFieldContainer ownerField; // campo de autores
-	private VSearchFieldContainer inRepositoryNameField; // campo de palabras en nombre del repositorio
+	private JLabel javaTitle; // título de java
+	private JavaFilter javaFilter; // filtros para el lenguaje java
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -41,42 +48,52 @@ public class VFilterLanguage extends JPanel {
 		add(scrollContainer);
 
 		container = new JPanel();
-		container.setBackground(Color.MAGENTA);
 		scrollContainer.setViewportView(container);
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
-		ownerField = new VSearchFieldContainer("Lenguaje 1", "");
-		container.add(ownerField);
+		// Creamos filtros de los lenguajes
+		javaFilter = new JavaFilter();
 
-		inRepositoryNameField = new VSearchFieldContainer("Lenguaje 2", "");
-		container.add(inRepositoryNameField);
+		// Añadimos los contenedores con los filtros de los lenguajes
+		javaTitle = new JLabel("Java");
+		javaTitle.setBackground(VColor.getGRAY_MENU());
+		javaTitle.setFont(new Font("Dialog", Font.ITALIC, 32));
+		javaTitle.setForeground(VColor.getBLUE_REPOSITORY_TITLE());
+		javaTitle.setBorder(new EmptyBorder(10,30,0,0));
+		container.add(javaTitle);
+		for (VSearchFieldContainer vc : javaFilter.getFieldsList()) {
+
+			container.add(vc);
+
+		}
 
 	}
 
 	/**************************************************************************
-	 * GETTERS Y SETTERS
+	 * MÉTODOS
 	 * ************************************************************************
 	 */
 
 	/**
 	 * 
-	 * Devuelve el contenedor para el parámetro de autores del repositorio.
+	 * Filtra un repositorio por su lenguaje principal.
 	 * 
-	 * @return Contenedor para parámetro de autores del repositorio.
+	 * @param repository. Repositorio a filtrar.
+	 * @return True si se cumple los requisitos, false en caso contrario.
 	 */
-	public VSearchFieldContainer getOwnerField() {
-		return ownerField;
-	}
+	public boolean filterLanguage(Repository repository) {
 
-	/**
-	 * 
-	 * Devuelve el contenedor para el parámetro de cadenas en el nombre del
-	 * repositorio.
-	 * 
-	 * @return Contenedor para parámetro de cadenas en el nombre del repositorio.
-	 */
-	public VSearchFieldContainer getInRepositoryNameField() {
-		return inRepositoryNameField;
+		boolean isValid = true;
+
+		// Filtramos según el lenguaje correspondiente
+		if (repository.getMainLanguage().toLowerCase().equals("java")) {
+
+			isValid = javaFilter.filterRepositoryLanguage(repository);
+
+		}
+
+		return isValid;
+
 	}
 
 }
