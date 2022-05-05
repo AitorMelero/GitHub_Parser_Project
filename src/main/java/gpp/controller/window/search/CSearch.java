@@ -60,149 +60,162 @@ public class CSearch implements ActionListener {
 
 		if (e.getActionCommand().equals("buscar")) {
 
-			// Sacamos los valores de los campos de búsqueda
-			String owner = windows.getSearchView().getQueryWindow().getOwnerField().getParamTextField().getText();
-			String inRepositoryName = windows.getSearchView().getQueryWindow().getInRepositoryNameField()
-					.getParamTextField().getText();
-			String repository = windows.getSearchView().getQueryWindow().getRepositoryField().getParamTextField()
-					.getText();
-			String description = windows.getSearchView().getQueryWindow().getDescriptionField().getParamTextField()
-					.getText();
-			String inReadme = windows.getSearchView().getQueryWindow().getInReadmeField().getParamTextField().getText();
-			String created = windows.getSearchView().getQueryWindow().getCreatedField().getParamTextField().getText();
-			String updated = windows.getSearchView().getQueryWindow().getUpdatedField().getParamTextField().getText();
-			String mainLanguage = windows.getSearchView().getQueryWindow().getMainLanguageField().getParamTextField()
-					.getText();
-			String starsNumber = windows.getSearchView().getQueryWindow().getStarsNumberField().getParamTextField()
-					.getText();
-			String forksNumber = windows.getSearchView().getQueryWindow().getForksNumberField().getParamTextField()
-					.getText();
-			String followersNumber = windows.getSearchView().getQueryWindow().getFollowersNumberField()
-					.getParamTextField().getText();
-			String size = windows.getSearchView().getQueryWindow().getSizeField().getParamTextField().getText();
-			String license = windows.getSearchView().getQueryWindow().getLicenseField().getParamTextField().getText();
-			String topics = windows.getSearchView().getQueryWindow().getTopicsField().getParamTextField().getText();
-			String topicsNumber = windows.getSearchView().getQueryWindow().getTopicsNumberField().getParamTextField()
-					.getText();
-			String sortOption = windows.getSearchView().getQueryWindow().getSortOptionField().getParamTextField()
-					.getText();
-			String orderOption = windows.getSearchView().getQueryWindow().getOrderOptionField().getParamTextField()
-					.getText();
-			String repositoriesMaxNumber = windows.getSearchView().getQueryWindow().getRepositoriesMaxNumberField()
-					.getParamTextField().getText();
+			// Pedimos al usuario que introduzca el nombre de la consulta
+			String searchName = JOptionPane.showInputDialog(windows, "Debes introducir un nombre para la consulta",
+					"Nombre de la consulta", JOptionPane.QUESTION_MESSAGE);
 
-			// Sacamos los valores de los filtros generales
-			String ownerFilter = windows.getSearchView().getFilterWindow().getOwnerField().getParamTextField()
-					.getText();
-			String inRepositoryNameFilter = windows.getSearchView().getFilterWindow().getInRepositoryNameField()
-					.getParamTextField().getText();
-			String descriptionFilter = windows.getSearchView().getFilterWindow().getDescriptionField()
-					.getParamTextField().getText();
-			String createdDateFilter = windows.getSearchView().getFilterWindow().getCreatedDateField()
-					.getParamTextField().getText();
-			String updatedDateFilter = windows.getSearchView().getFilterWindow().getUpdatedDateField()
-					.getParamTextField().getText();
-			String mainLanguageFilter = windows.getSearchView().getFilterWindow().getMainLanguageField()
-					.getParamTextField().getText();
-			String starsNumberFilter = windows.getSearchView().getFilterWindow().getStarsNumberField()
-					.getParamTextField().getText();
-			String forksNumberFilter = windows.getSearchView().getFilterWindow().getForksNumberField()
-					.getParamTextField().getText();
-			String sizeFilter = windows.getSearchView().getFilterWindow().getSizeField().getParamTextField().getText();
-			String licenseFilter = windows.getSearchView().getFilterWindow().getLicenseField().getParamTextField()
-					.getText();
-			String topicsFilter = windows.getSearchView().getFilterWindow().getTopicsField().getParamTextField()
-					.getText();
-			String topicsNumberFilter = windows.getSearchView().getFilterWindow().getTopicsNumberField()
-					.getParamTextField().getText();
-			String filesNumberFilter = windows.getSearchView().getFilterWindow().getFilesNumberField()
-					.getParamTextField().getText();
-			String avgSizeFilter = windows.getSearchView().getFilterWindow().getAvgSizeField().getParamTextField()
-					.getText();
-			String extensionsFilter = windows.getSearchView().getFilterWindow().getExtensionsField().getParamTextField()
-					.getText();
+			if (searchName != null && !searchName.replace(" ", "").equals("")) {
 
-			// Creamos la búsqueda
-			Search s = new Search("Búsquedas prueba", GPPSystem.getUser());
-			Query q = s.getQuery();
-			q.setOwner(owner);
-			q.setInRepositoryName(inRepositoryName);
-			q.setRepository(repository);
-			q.setDescription(description);
-			q.setInReadme(inReadme);
-			q.setCreatedDate(created);
-			q.setUpdatedDate(updated);
-			q.setMainLanguage(mainLanguage);
-			q.setStarsNumber(starsNumber);
-			q.setForksNumber(forksNumber);
-			q.setFollowersNumber(followersNumber);
-			q.setSize(size);
-			q.setLicense(license);
-			q.setTopics(topics);
-			q.setTopicsNumber(topicsNumber);
-			q.setSortOption(sortOption);
-			q.setOrderOption(orderOption);
-			q.setRepositoriesMaxNumber(repositoriesMaxNumber);
-			q.generateQueryPath();
+				// Sacamos los valores de los campos de búsqueda
+				String owner = windows.getSearchView().getQueryWindow().getOwnerField().getParamTextField().getText();
+				String inRepositoryName = windows.getSearchView().getQueryWindow().getInRepositoryNameField()
+						.getParamTextField().getText();
+				String repository = windows.getSearchView().getQueryWindow().getRepositoryField().getParamTextField()
+						.getText();
+				String description = windows.getSearchView().getQueryWindow().getDescriptionField().getParamTextField()
+						.getText();
+				String inReadme = windows.getSearchView().getQueryWindow().getInReadmeField().getParamTextField()
+						.getText();
+				String created = windows.getSearchView().getQueryWindow().getCreatedField().getParamTextField()
+						.getText();
+				String updated = windows.getSearchView().getQueryWindow().getUpdatedField().getParamTextField()
+						.getText();
+				String mainLanguage = windows.getSearchView().getQueryWindow().getMainLanguageField()
+						.getParamTextField().getText();
+				String starsNumber = windows.getSearchView().getQueryWindow().getStarsNumberField().getParamTextField()
+						.getText();
+				String forksNumber = windows.getSearchView().getQueryWindow().getForksNumberField().getParamTextField()
+						.getText();
+				String followersNumber = windows.getSearchView().getQueryWindow().getFollowersNumberField()
+						.getParamTextField().getText();
+				String size = windows.getSearchView().getQueryWindow().getSizeField().getParamTextField().getText();
+				String license = windows.getSearchView().getQueryWindow().getLicenseField().getParamTextField()
+						.getText();
+				String topics = windows.getSearchView().getQueryWindow().getTopicsField().getParamTextField().getText();
+				String topicsNumber = windows.getSearchView().getQueryWindow().getTopicsNumberField()
+						.getParamTextField().getText();
+				String sortOption = windows.getSearchView().getQueryWindow().getSortOptionField().getParamTextField()
+						.getText();
+				String orderOption = windows.getSearchView().getQueryWindow().getOrderOptionField().getParamTextField()
+						.getText();
+				String repositoriesMaxNumber = windows.getSearchView().getQueryWindow().getRepositoriesMaxNumberField()
+						.getParamTextField().getText();
 
-			// Creamos el filtro
-			Filter f = s.getFilter();
-			f.setOwner(ownerFilter);
-			f.setInRepositoryName(inRepositoryNameFilter);
-			f.setDescription(descriptionFilter);
-			f.setCreatedDate(createdDateFilter);
-			f.setUpdatedDate(updatedDateFilter);
-			f.setMainLanguage(mainLanguageFilter);
-			f.setStarsNumber(starsNumberFilter);
-			f.setForksNumber(forksNumberFilter);
-			f.setSize(sizeFilter);
-			f.setLicense(licenseFilter);
-			f.setTopics(topicsFilter);
-			f.setTopicsNumber(topicsNumberFilter);
-			f.setFilesNumber(filesNumberFilter);
-			f.setAvgSize(avgSizeFilter);
-			f.setExtensions(extensionsFilter);
+				// Sacamos los valores de los filtros generales
+				String ownerFilter = windows.getSearchView().getFilterWindow().getOwnerField().getParamTextField()
+						.getText();
+				String inRepositoryNameFilter = windows.getSearchView().getFilterWindow().getInRepositoryNameField()
+						.getParamTextField().getText();
+				String descriptionFilter = windows.getSearchView().getFilterWindow().getDescriptionField()
+						.getParamTextField().getText();
+				String createdDateFilter = windows.getSearchView().getFilterWindow().getCreatedDateField()
+						.getParamTextField().getText();
+				String updatedDateFilter = windows.getSearchView().getFilterWindow().getUpdatedDateField()
+						.getParamTextField().getText();
+				String mainLanguageFilter = windows.getSearchView().getFilterWindow().getMainLanguageField()
+						.getParamTextField().getText();
+				String starsNumberFilter = windows.getSearchView().getFilterWindow().getStarsNumberField()
+						.getParamTextField().getText();
+				String forksNumberFilter = windows.getSearchView().getFilterWindow().getForksNumberField()
+						.getParamTextField().getText();
+				String sizeFilter = windows.getSearchView().getFilterWindow().getSizeField().getParamTextField()
+						.getText();
+				String licenseFilter = windows.getSearchView().getFilterWindow().getLicenseField().getParamTextField()
+						.getText();
+				String topicsFilter = windows.getSearchView().getFilterWindow().getTopicsField().getParamTextField()
+						.getText();
+				String topicsNumberFilter = windows.getSearchView().getFilterWindow().getTopicsNumberField()
+						.getParamTextField().getText();
+				String filesNumberFilter = windows.getSearchView().getFilterWindow().getFilesNumberField()
+						.getParamTextField().getText();
+				String avgSizeFilter = windows.getSearchView().getFilterWindow().getAvgSizeField().getParamTextField()
+						.getText();
+				String extensionsFilter = windows.getSearchView().getFilterWindow().getExtensionsField()
+						.getParamTextField().getText();
 
-			// Realizamos la búsqueda
-			s.search();
+				// Creamos la búsqueda
+				Search s = new Search(searchName, GPPSystem.getUser());
+				Query q = s.getQuery();
+				q.setOwner(owner);
+				q.setInRepositoryName(inRepositoryName);
+				q.setRepository(repository);
+				q.setDescription(description);
+				q.setInReadme(inReadme);
+				q.setCreatedDate(created);
+				q.setUpdatedDate(updated);
+				q.setMainLanguage(mainLanguage);
+				q.setStarsNumber(starsNumber);
+				q.setForksNumber(forksNumber);
+				q.setFollowersNumber(followersNumber);
+				q.setSize(size);
+				q.setLicense(license);
+				q.setTopics(topics);
+				q.setTopicsNumber(topicsNumber);
+				q.setSortOption(sortOption);
+				q.setOrderOption(orderOption);
+				q.setRepositoriesMaxNumber(repositoriesMaxNumber);
+				q.generateQueryPath();
 
-			if (s.getListRepoResult().size() != 0) {
+				// Creamos el filtro
+				Filter f = s.getFilter();
+				f.setOwner(ownerFilter);
+				f.setInRepositoryName(inRepositoryNameFilter);
+				f.setDescription(descriptionFilter);
+				f.setCreatedDate(createdDateFilter);
+				f.setUpdatedDate(updatedDateFilter);
+				f.setMainLanguage(mainLanguageFilter);
+				f.setStarsNumber(starsNumberFilter);
+				f.setForksNumber(forksNumberFilter);
+				f.setSize(sizeFilter);
+				f.setLicense(licenseFilter);
+				f.setTopics(topicsFilter);
+				f.setTopicsNumber(topicsNumberFilter);
+				f.setFilesNumber(filesNumberFilter);
+				f.setAvgSize(avgSizeFilter);
+				f.setExtensions(extensionsFilter);
 
-				// Filtramos la búsqueda
-				s.filter();
+				// Realizamos la búsqueda
+				s.search();
 
 				if (s.getListRepoResult().size() != 0) {
 
-					// Filtramos la búsqueda por lenguaje
-					VFilterLanguage filterLanguage = windows.getSearchView().getFilterLanguageWindow();
-					ArrayList<Repository> repositoryFilterLanguage = new ArrayList<Repository>();
-					for (Repository repo : s.getListRepoResult()) {
+					// Filtramos la búsqueda
+					s.filter();
 
-						if (filterLanguage.filterLanguage(repo)) {
+					if (s.getListRepoResult().size() != 0) {
 
-							repositoryFilterLanguage.add(repo);
+						// Filtramos la búsqueda por lenguaje
+						VFilterLanguage filterLanguage = windows.getSearchView().getFilterLanguageWindow();
+						ArrayList<Repository> repositoryFilterLanguage = new ArrayList<Repository>();
+						for (Repository repo : s.getListRepoResult()) {
+
+							if (filterLanguage.filterLanguage(repo)) {
+
+								repositoryFilterLanguage.add(repo);
+
+							}
 
 						}
+						s.setListRepoResult(repositoryFilterLanguage);
 
 					}
-					s.setListRepoResult(repositoryFilterLanguage);
 
 				}
 
-			}
+				// Si no hay resultados mostramos la info al usuario
+				if (s.getListRepoResult().size() == 0) {
 
-			// Si no hay resultados mostramos la info al usuario
-			if (s.getListRepoResult().size() == 0) {
+					JOptionPane.showMessageDialog(windows, "No coincide ningún repositorio con la consulta",
+							"No hay resultados", JOptionPane.INFORMATION_MESSAGE);
 
-				JOptionPane.showMessageDialog(windows, "No coincide ningún repositorio con la consulta",
-						"No hay resultados", JOptionPane.INFORMATION_MESSAGE);
+				} else {
 
-			} else {
+					// Cambiamos a la pantalla de resultados
+					gppSystem.setCurrentSearch(s);
+					windows.getSearchResultView().setSearchResultCurrent(s, 1);
+					windows.setCard("VSearchResult");
 
-				// Cambiamos a la pantalla de resultados
-				gppSystem.setCurrentSearch(s);
-				windows.getSearchResultView().setSearchResultCurrent(s, 1);
-				windows.setCard("VSearchResult");
+				}
 
 			}
 

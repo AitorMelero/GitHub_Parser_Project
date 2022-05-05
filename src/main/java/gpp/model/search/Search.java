@@ -1,6 +1,8 @@
 package gpp.model.search;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -16,21 +18,21 @@ import gpp.model.github.api.caller.GitHubAPICaller;
 
 /**
  * 
- * Clase que implementa una búsqueda de repositorios de GitHub.
+ * Clase que implementa una bÃºsqueda de repositorios de GitHub.
  * 
  * @author Aitor Melero
  *
  */
 public class Search {
 
-	private LocalDate date; // fecha de creación de la búsqueda
-	private String name; // nombre asignado por el usuario a la búsqueda
-	private JsonArray result; // resultado de la búsqueda
-	private Query query; // datos de la consulta de la búsqueda
+	private LocalDate date; // fecha de creaciÃ³n de la bÃºsqueda
+	private String name; // nombre asignado por el usuario a la bÃºsqueda
+	private JsonArray result; // resultado de la bÃºsqueda
+	private Query query; // datos de la consulta de la bÃºsqueda
 	private Filter filter; // filtro generales de resultados
-	private User user; // usuario que realiza la búsqueda
+	private User user; // usuario que realiza la bÃºsqueda
 	private ArrayList<Repository> listRepoResult; // lista de repositorios del resultado
-	private int currentPageNumber; // número actual de la página del resultado actual
+	private int currentPageNumber; // nÃºmero actual de la pÃ¡gina del resultado actual
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -39,10 +41,10 @@ public class Search {
 
 	/**
 	 * 
-	 * Constructor de una búsqueda.
+	 * Constructor de una bÃºsqueda.
 	 * 
-	 * @param name. Nombre de la búsqueda.
-	 * @param user. Usuario que realiza la búsqueda.
+	 * @param name. Nombre de la bÃºsqueda.
+	 * @param user. Usuario que realiza la bÃºsqueda.
 	 */
 	public Search(String name, User user) {
 
@@ -64,9 +66,9 @@ public class Search {
 
 	/**
 	 * 
-	 * Devuelve la fecha de la búsqueda.
+	 * Devuelve la fecha de la bÃºsqueda.
 	 * 
-	 * @return Fecha de la búsqueda.
+	 * @return Fecha de la bÃºsqueda.
 	 */
 	public LocalDate getDate() {
 		return date;
@@ -74,7 +76,7 @@ public class Search {
 
 	/**
 	 * 
-	 * Modifica la fecha de la búsqueda.
+	 * Modifica la fecha de la bÃºsqueda.
 	 * 
 	 * @param date. La fecha a modificar.
 	 */
@@ -84,9 +86,9 @@ public class Search {
 
 	/**
 	 * 
-	 * Devuelve el nombre de la búsqueda.
+	 * Devuelve el nombre de la bÃºsqueda.
 	 * 
-	 * @return Nombre de la búsqueda.
+	 * @return Nombre de la bÃºsqueda.
 	 */
 	public String getName() {
 		return name;
@@ -94,9 +96,9 @@ public class Search {
 
 	/**
 	 * 
-	 * Modifica el nombre de la búsqueda.
+	 * Modifica el nombre de la bÃºsqueda.
 	 * 
-	 * @param name. Nombre a modificar de la búsqueda.
+	 * @param name. Nombre a modificar de la bÃºsqueda.
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -104,9 +106,9 @@ public class Search {
 
 	/**
 	 * 
-	 * Devuelve el resultado de la búsqueda.
+	 * Devuelve el resultado de la bÃºsqueda.
 	 * 
-	 * @return Resultado de la búsqueda.
+	 * @return Resultado de la bÃºsqueda.
 	 */
 	public JsonArray getResult() {
 		return result;
@@ -114,9 +116,9 @@ public class Search {
 
 	/**
 	 * 
-	 * Modifica el resultado de la búsqueda.
+	 * Modifica el resultado de la bÃºsqueda.
 	 * 
-	 * @param result. Resultado de la búsqueda a modificar.
+	 * @param result. Resultado de la bÃºsqueda a modificar.
 	 */
 	public void setResult(JsonArray result) {
 		this.result = result;
@@ -124,9 +126,9 @@ public class Search {
 
 	/**
 	 * 
-	 * Devuelve la query de la búsqueda.
+	 * Devuelve la query de la bÃºsqueda.
 	 * 
-	 * @return Query de la búsqueda.
+	 * @return Query de la bÃºsqueda.
 	 */
 	public Query getQuery() {
 		return query;
@@ -134,9 +136,9 @@ public class Search {
 
 	/**
 	 * 
-	 * Modifica la query de la búsqueda.
+	 * Modifica la query de la bÃºsqueda.
 	 * 
-	 * @param query. Query de la búsqueda a modificar.
+	 * @param query. Query de la bÃºsqueda a modificar.
 	 */
 	public void setQuery(Query query) {
 		this.query = query;
@@ -164,9 +166,9 @@ public class Search {
 
 	/**
 	 * 
-	 * Devuelve la lista de repositorios del resultado de la búsqueda.
+	 * Devuelve la lista de repositorios del resultado de la bÃºsqueda.
 	 * 
-	 * @return Lista de repositorios devueltos en la búsqueda.
+	 * @return Lista de repositorios devueltos en la bÃºsqueda.
 	 */
 	public ArrayList<Repository> getListRepoResult() {
 		return listRepoResult;
@@ -174,9 +176,9 @@ public class Search {
 
 	/**
 	 * 
-	 * Modifica la lista de repositorios devuelta en la búsqueda.
+	 * Modifica la lista de repositorios devuelta en la bÃºsqueda.
 	 * 
-	 * @param listRepoResult. Lista de repositorios devuelta en la búsqueda.
+	 * @param listRepoResult. Lista de repositorios devuelta en la bÃºsqueda.
 	 */
 	public void setListRepoResult(ArrayList<Repository> listRepoResult) {
 		this.listRepoResult = listRepoResult;
@@ -184,9 +186,9 @@ public class Search {
 
 	/**
 	 * 
-	 * Devuelve el número actual de la página a mostrar.
+	 * Devuelve el nÃºmero actual de la pÃ¡gina a mostrar.
 	 * 
-	 * @return Número de página actual a mostrar.
+	 * @return NÃºmero de pÃ¡gina actual a mostrar.
 	 */
 	public int getCurrentPageNumber() {
 		return currentPageNumber;
@@ -194,28 +196,28 @@ public class Search {
 
 	/**
 	 * 
-	 * Modifica el número de página a mostrar.
+	 * Modifica el nÃºmero de pÃ¡gina a mostrar.
 	 * 
-	 * @param currentPageNumber. Número de página a mostrar.
+	 * @param currentPageNumber. NÃºmero de pÃ¡gina a mostrar.
 	 */
 	public void setCurrentPageNumber(int currentPageNumber) {
 		this.currentPageNumber = currentPageNumber;
 	}
 
 	/**************************************************************************
-	 * MÉTODOS
+	 * MÃ‰TODOS
 	 * ************************************************************************
 	 */
 
 	/**
 	 * 
-	 * Realiza la búsqueda de repositorios llamando a la API de GitHub según los
-	 * parámetros introducidos.
+	 * Realiza la bÃºsqueda de repositorios llamando a la API de GitHub segÃºn los
+	 * parÃ¡metros introducidos.
 	 * 
 	 */
 	public void search() {
 
-		// Variables para las páginas
+		// Variables para las pÃ¡ginas
 		int pagesNumber = 1;
 		int maxRepositoriesToSearch = 0;
 		int repositoriesSearched = 0;
@@ -227,7 +229,7 @@ public class Search {
 
 		}
 
-		// Realizamos la búsqueda
+		// Realizamos la bÃºsqueda
 		JsonObject resultQuery = GitHubAPICaller.searchRepositories(user.getToken(), query.getPath(),
 				query.getSortOption(), query.getOrderOption(), perPage, pagesNumber);
 
@@ -268,15 +270,15 @@ public class Search {
 
 		}
 
-		// Guardamos los resultados de la primera página
+		// Guardamos los resultados de la primera pÃ¡gina
 		setCurrentPageNumber(1);
 		result.add(resultQuery);
 		createRepositoriesFromResult(resultRepos);
 
-		// Modificamos el número de páginas a devolver
+		// Modificamos el nÃºmero de pÃ¡ginas a devolver
 		if (repositoriesMaxNumber > 100 && totalCount > 100) {
 
-			// Sacamos el número de páginas que necesitamos devolver
+			// Sacamos el nÃºmero de pÃ¡ginas que necesitamos devolver
 			if (totalCount >= repositoriesMaxNumber) {
 
 				pagesNumber = repositoriesMaxNumber / 100;
@@ -302,7 +304,7 @@ public class Search {
 			// Vamos guardando los resultados
 			for (int i = 1; i < pagesNumber; i++) {
 
-				// Sacamos el número de repositorios por página
+				// Sacamos el nÃºmero de repositorios por pÃ¡gina
 				if ((maxRepositoriesToSearch - repositoriesSearched) < 100) {
 
 					perPage = (maxRepositoriesToSearch - repositoriesSearched);
@@ -325,7 +327,7 @@ public class Search {
 
 	/**
 	 * 
-	 * Filtra la lista de repositorios en función de los filtros introducidos.
+	 * Filtra la lista de repositorios en funciÃ³n de los filtros introducidos.
 	 * 
 	 */
 	public void filter() {
@@ -342,7 +344,7 @@ public class Search {
 
 			repoIsCorrect = true;
 
-			// Generamos la información completa del repositorio si no hay error
+			// Generamos la informaciÃ³n completa del repositorio si no hay error
 			try {
 				r.generateFullInfo();
 			} catch (Exception e) {
@@ -374,7 +376,7 @@ public class Search {
 	 * Recorre la lista de repositorios devueltos por la consulta a la API para ir
 	 * creando dichos repositorios.
 	 * 
-	 * @param resultRepos. Lista de objetos JSON con la representación de los
+	 * @param resultRepos. Lista de objetos JSON con la representaciÃ³n de los
 	 *                     repositorios devueltos.
 	 */
 	private void createRepositoriesFromResult(JsonArray resultRepos) {
@@ -382,13 +384,20 @@ public class Search {
 		Repository repoResult;
 		for (JsonElement re : resultRepos) {
 
-			// Sacamos la información que nos proporciona la API
+			// Sacamos la informaciÃ³n que nos proporciona la API
 			JsonObject ro = (JsonObject) re;
-			String ownerName = ro.get("full_name").getAsString().split("/")[0];
-			String repoName = ro.get("name").getAsString();
+			String ownerName = new String(ro.get("full_name").getAsString().split("/")[0].getBytes(), StandardCharsets.UTF_8);
+			String repoName = new String(ro.get("name").getAsString().getBytes(), StandardCharsets.UTF_8);
 			String description = "";
 			if (!ro.get("description").isJsonNull()) {
-				description = ro.get("description").getAsString();
+				description = new String(ro.get("description").getAsString().getBytes(), StandardCharsets.UTF_8);
+				/*try {
+					description = new String(ro.get("description").getAsString().getBytes("gb2312"), "ISO8859-1");
+					description = new String(description.getBytes("ISO8859-1"), StandardCharsets.US_ASCII);
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}*/
 			}
 			long starsNumber = ro.get("stargazers_count").getAsLong();
 			long forksNumber = ro.get("forks_count").getAsLong();
@@ -414,7 +423,7 @@ public class Search {
 				mainLanguage = ro.get("language").getAsString();
 			}
 
-			// Añadimos la información obtenida al repositorio
+			// AÃ±adimos la informaciÃ³n obtenida al repositorio
 			repoResult = new Repository(ownerName, repoName);
 			repoResult.setDescription(description);
 			repoResult.setStarsNumber(starsNumber);
