@@ -2,6 +2,8 @@ package gpp.controller.component;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import gpp.GPPSystem;
 import gpp.model.Repository;
@@ -44,7 +46,7 @@ public class CRepository implements ActionListener {
 	 * MÉTODOS
 	 * ************************************************************************
 	 */
-	
+
 	/**
 	 * 
 	 * Método que controla los eventos.
@@ -52,11 +54,26 @@ public class CRepository implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 		if (e.getActionCommand().equals("go back")) {
-			
+
 			windows.setCard("VSearchResult");
-			
+
+		} else if (e.getActionCommand().equals("go web")) {
+
+			try {
+
+				URL urlToken = new URL(
+						"https://github.com/" + windows.getRepositoryView().getRepository().getOwnerName() + "/"
+								+ windows.getRepositoryView().getRepository().getName());
+				GPPSystem.openWebpage(urlToken);
+
+			} catch (MalformedURLException e1) {
+
+				e1.printStackTrace();
+
+			}
+
 		}
 
 	}
