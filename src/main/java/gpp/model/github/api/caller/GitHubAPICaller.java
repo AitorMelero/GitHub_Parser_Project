@@ -1,26 +1,15 @@
 package gpp.model.github.api.caller;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import gpp.GPPSystem;
-import gpp.model.Repository;
-import gpp.model.User;
 
 /**
  * 
@@ -37,59 +26,6 @@ public class GitHubAPICaller {
 	 * MÉTODOS
 	 * ************************************************************************
 	 */
-
-	/**
-	 * 
-	 * Descarga un repositorio y lo copia.
-	 * 
-	 * @param repository. Repositorio a descargar y copiar.
-	 */
-	public static void downloadRepository(Repository repository) {
-
-		User user = GPPSystem.getUser();
-		String code = "";
-		String path = user.getClonePath() + repository.getOwnerName() + "/" + repository.getName() + "/";
-		String uriPath = "https://codeload.github.com/" + repository.getOwnerName() + "/" + repository.getName()
-				+ "/zip/refs/heads/" + repository.getMainBranch();
-
-		try {
-
-			URL url = new URL(uriPath);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setRequestProperty("Authorization", "token " + GPPSystem.getUser().getToken());
-			InputStream in = connection.getInputStream();
-			ZipInputStream zipIn = new ZipInputStream(in);
-			ZipEntry entry = zipIn.getNextEntry();
-
-			while (entry != null) {
-
-				if (!entry.isDirectory()) {
-					// if the entry is a file, extracts it
-					//BufferedWriter myWriter = new BufferedWriter(new FileWriter(path + entry.getName()));
-					//myWriter.write(new String(zipIn.readAllBytes()));
-					//myWriter.close();
-					code = new String(zipIn.readAllBytes(), Charset.forName("UTF-8"));
-					repository.parserCode(entry.getName(), code);
-
-				} else {
-					//new File(path + entry.getName() + "/").mkdirs();
-				}
-				zipIn.closeEntry();
-				entry = zipIn.getNextEntry();
-				
-				// Limpiamos el garbage collector
-				//System.gc();
-
-			}
-
-		} catch (Exception e) {
-
-			System.out.println("EXCEPCION: " + e);
-
-		}
-
-	}
 
 	/**
 	 * 

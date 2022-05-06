@@ -344,7 +344,7 @@ public class Search {
 
 			// Generamos la información completa del repositorio si no hay error
 			try {
-				System.out.println("GENERANDO INFORMACIÓN " + i + " de " + listRepoResult.size());
+				System.out.println("Analizando repositorio " + i + " de " + listRepoResult.size());
 				r.generateFullInfo();
 			} catch (Exception e) {
 				repoIsCorrect = false;
@@ -353,7 +353,6 @@ public class Search {
 			// Filtramos el repositorio
 			if (repoIsCorrect) {
 				
-				System.out.println("FILTRANDO " + i + " de " + listRepoResult.size());
 				if (filter.filterRepository(r)) {
 
 					listRepoFilter.add(r);

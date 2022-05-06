@@ -2,20 +2,22 @@ package gpp.model;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.channels.Channels;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import gpp.GPPSystem;
-import gpp.model.github.api.caller.GitHubAPICaller;
 import gpp.model.languageparser.LanguageParser;
 import gpp.model.languageparser.java.JavaLanguageParser;
 import gpp.model.languageparser.python.PythonLanguageParser;
@@ -504,37 +506,24 @@ public class Repository {
 	 */
 	public void generateFullInfo() throws Exception {
 
-		boolean repoIsClone = true;
-
-		// Clonamos, si no está clonado el repositorio
-		if (clonePath == null) {
-
-			repoIsClone = false;
-
-			try {
-
-				cloneRepo();
-
-			} catch (Exception e) {
-
-				// Comprobamos si hay algún error al clonar el repositorio
-				File delDir = new File(GPPSystem.getUser().getClonePath() + ownerName + "/");
-				if (delDir != null && delDir.isDirectory() && delDir.listFiles().length == 0) {
-					delDir.delete();
-				}
-				throw e;
-			}
-
-		}
-
 		// Inicializamos a 0 los valores de las propiedades del lenguaje
 		if (languageProperties != null) {
 			languageProperties.clearProperties();
 		}
 
-		// Recorremos el repositorio fichero a fichero
-		File f = new File(clonePath);
-		getFullInfo(f);
+		// Recorremos el repositorio fichero a fichero si tenemos el repositorio clonado
+		if (clonePath != null && !clonePath.equals("")) {
+
+			File f = new File(clonePath);
+			getFullInfo(f);
+
+		} else {
+
+			// Conseguimos el zip y parseamos el repositorio si no está clonado
+			getInfoDownloadRepo();
+
+		}
+
 		// Calculamos el tamaño medio de ficheros
 		if (totalSize == 0 || filesNumber == 0) {
 
@@ -545,20 +534,6 @@ public class Repository {
 			avgSize = totalSize / filesNumber;
 
 		}
-
-		// Borramos el repositorio si no estaba ya clonado y el directorio si está vacío
-		/*if (!repoIsClone) {
-
-			deleteCloneRepo(f);
-
-			File delDir = new File(GPPSystem.getUser().getClonePath() + ownerName + "/");
-			if (delDir.isDirectory() && delDir.listFiles().length == 0) {
-				delDir.delete();
-			}
-
-			this.setClonePath(null);
-
-		}*/
 
 	}
 
@@ -578,35 +553,52 @@ public class Repository {
 
 			this.setClonePath(path);
 
-			// CredentialsProvider cp = new
-			// UsernamePasswordCredentialsProvider(user.getUsername(), user.getToken());
+			CredentialsProvider cp = new UsernamePasswordCredentialsProvider(user.getUsername(), user.getToken());
 
-			// System.out.println("Cloning " + repoUrl + " into " + path);
-			/*
-			 * Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory
-			 * (Paths.get(path).toFile()) .call().close();
-			 */
-			/*
-			 * org.eclipse.jgit.lib.Repository r =
-			 * Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory
-			 * (Paths.get(path).toFile()).call().getRepository();
-			 * System.out.println("INFO: " + r.readMergeCommitMsg()); r.close();
-			 */
-			// FileOutputStream("example.zip").getChannel().transferFrom(Channels.newChannel(new
-			// URL("http://www.example.com/example.zip").openStream()), 0, Long.MAX_VALUE);
+			Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory(Paths.get(path).toFile())
+					.call().close();
 
-			GitHubAPICaller.downloadRepository(this);
+		}
 
-			// System.out.println("Completed Cloning");
+	}
 
-			/*
-			 * catch (GitAPIException e) {
-			 * 
-			 * System.out.println("Exception occurred while cloning repo");
-			 * e.printStackTrace(); this.setClonePath(null);
-			 * 
-			 * }
-			 */
+	/**
+	 * 
+	 * Consigue el zip del repositorio y va parseando cada fichero.
+	 * 
+	 */
+	public void getInfoDownloadRepo() throws Exception {
+
+		String code = "";
+		String uriPath = "https://codeload.github.com/" + this.getOwnerName() + "/" + this.getName()
+				+ "/zip/refs/heads/" + this.getMainBranch();
+
+		try {
+
+			URL url = new URL(uriPath);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("Authorization", "token " + GPPSystem.getUser().getToken());
+			InputStream in = connection.getInputStream();
+			ZipInputStream zipIn = new ZipInputStream(in);
+			ZipEntry entry = zipIn.getNextEntry();
+
+			while (entry != null) {
+
+				if (!entry.isDirectory()) {
+					code = new String(zipIn.readAllBytes(), Charset.forName("UTF-8"));
+					this.parserCode(entry.getName(), code);
+
+				}
+
+				zipIn.closeEntry();
+				entry = zipIn.getNextEntry();
+
+			}
+
+		} catch (Exception e) {
+
+			System.out.println("EXCEPCION: " + e);
 
 		}
 
@@ -617,51 +609,51 @@ public class Repository {
 	 * Parsea un fichero del repositorio.
 	 * 
 	 * @param fileName. Nombre del fichero a parsear.
-	 * @param code. Código a parsear.
+	 * @param code.     Código a parsear.
 	 */
-	public void parserCode(String fileName, String code) {
-	
+	private void parserCode(String fileName, String code) {
+
 		String extension = "";
 		boolean fileLanguageAnalyze = false;
-	
+
 		// Sumamos el número de ficheros
 		filesNumber++;
-	
+
 		// Guardamos las extensiones
 		if (fileName.contains(".")) {
-	
+
 			extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-	
+
 			extensionsList.add(extension);
-	
+
 			// Analizamos las propiedades del lenguaje si corresponde
 			if (languageProperties != null) {
-	
+
 				for (int i = 0; i < languageProperties.getExtensions().length && !fileLanguageAnalyze; i++) {
-	
+
 					if (languageProperties.getExtensions()[i].equals(extension)) {
-	
+
 						this.mainLanguagesFilesNumber++;
-	
+
 						try {
-	
+
 							languageProperties.setCodeWithoutFile(code);
 							languageProperties.generateAllValues();
-	
+
 						} catch (StackOverflowError e) {
 							System.out.println("ERROR STACK OVERFLOW ERROR");
 						}
-	
+
 						fileLanguageAnalyze = true;
-	
+
 					}
-	
+
 				}
-	
+
 			}
-	
+
 		}
-	
+
 	}
 
 	/**
