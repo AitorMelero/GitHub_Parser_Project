@@ -340,12 +340,11 @@ public class Search {
 
 		for (Repository r : listRepoResult) {
 
-			System.out.println("Clonando " + i + " de " + listRepoResult.size());
-
 			repoIsCorrect = true;
 
 			// Generamos la información completa del repositorio si no hay error
 			try {
+				System.out.println("GENERANDO INFORMACIÓN " + i + " de " + listRepoResult.size());
 				r.generateFullInfo();
 			} catch (Exception e) {
 				repoIsCorrect = false;
@@ -353,7 +352,8 @@ public class Search {
 
 			// Filtramos el repositorio
 			if (repoIsCorrect) {
-
+				
+				System.out.println("FILTRANDO " + i + " de " + listRepoResult.size());
 				if (filter.filterRepository(r)) {
 
 					listRepoFilter.add(r);
@@ -422,6 +422,7 @@ public class Search {
 			if (!ro.get("language").isJsonNull()) {
 				mainLanguage = ro.get("language").getAsString();
 			}
+			String mainBranch = ro.get("default_branch").getAsString();
 
 			// Añadimos la información obtenida al repositorio
 			repoResult = new Repository(ownerName, repoName);
@@ -435,6 +436,7 @@ public class Search {
 			repoResult.setTopics(topicsList);
 			repoResult.setTotalSize(totalSize);
 			repoResult.setMainLanguage(mainLanguage);
+			repoResult.setMainBranch(mainBranch);
 			listRepoResult.add(repoResult);
 
 		}

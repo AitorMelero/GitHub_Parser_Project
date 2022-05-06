@@ -347,6 +347,21 @@ public abstract class LanguageParser implements IGeneralLanguageParser {
 	}
 
 	/**
+	 * 
+	 * Modifica el código a parsear sin fichero.
+	 * 
+	 * @param code. Código a parsear.
+	 */
+	public void setCodeWithoutFile(String code) {
+
+		this.file = null;
+		this.code = code;
+		this.rulesContexts = null;
+		this.generateParser();
+
+	}
+
+	/**
 	 * Genera la cadena con el contenido de un fichero.
 	 * 
 	 * @param file.     Fichero.

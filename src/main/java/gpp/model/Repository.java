@@ -2,6 +2,7 @@ package gpp.model;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.channels.Channels;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import gpp.GPPSystem;
+import gpp.model.github.api.caller.GitHubAPICaller;
 import gpp.model.languageparser.LanguageParser;
 import gpp.model.languageparser.java.JavaLanguageParser;
 import gpp.model.languageparser.python.PythonLanguageParser;
@@ -45,6 +47,7 @@ public class Repository {
 	private String mainLanguage; // lenguaje principal del repositorio
 	private long mainLanguagesFilesNumber; // número de ficheros del lenguaje principal
 	private LanguageParser languageProperties; // propiedades sobre el lenguaje principal del repositorio
+	private String mainBranch; // nombre de la rama principal del repositorio
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -91,6 +94,7 @@ public class Repository {
 		this.mainLanguage = null;
 		this.mainLanguagesFilesNumber = 0;
 		this.languageProperties = null;
+		this.mainBranch = "";
 
 	}
 
@@ -468,6 +472,26 @@ public class Repository {
 		return languageProperties;
 	}
 
+	/**
+	 * 
+	 * Devuelve el nombre de la rama principal del repositorio.
+	 * 
+	 * @return Rama principal del repositorio.
+	 */
+	public String getMainBranch() {
+		return mainBranch;
+	}
+
+	/**
+	 * 
+	 * Modifica la rama principal del repositorio.
+	 * 
+	 * @param mainBranch. Rama principal del repositorio.
+	 */
+	public void setMainBranch(String mainBranch) {
+		this.mainBranch = mainBranch;
+	}
+
 	/**************************************************************************
 	 * MÉTODOS
 	 * ************************************************************************
@@ -488,11 +512,11 @@ public class Repository {
 			repoIsClone = false;
 
 			try {
-				
+
 				cloneRepo();
-				
+
 			} catch (Exception e) {
-				
+
 				// Comprobamos si hay algún error al clonar el repositorio
 				File delDir = new File(GPPSystem.getUser().getClonePath() + ownerName + "/");
 				if (delDir != null && delDir.isDirectory() && delDir.listFiles().length == 0) {
@@ -523,10 +547,10 @@ public class Repository {
 		}
 
 		// Borramos el repositorio si no estaba ya clonado y el directorio si está vacío
-		if (!repoIsClone) {
+		/*if (!repoIsClone) {
 
 			deleteCloneRepo(f);
-			
+
 			File delDir = new File(GPPSystem.getUser().getClonePath() + ownerName + "/");
 			if (delDir.isDirectory() && delDir.listFiles().length == 0) {
 				delDir.delete();
@@ -534,7 +558,7 @@ public class Repository {
 
 			this.setClonePath(null);
 
-		}
+		}*/
 
 	}
 
@@ -554,23 +578,90 @@ public class Repository {
 
 			this.setClonePath(path);
 
-			CredentialsProvider cp = new UsernamePasswordCredentialsProvider(user.getUsername(), user.getToken());
+			// CredentialsProvider cp = new
+			// UsernamePasswordCredentialsProvider(user.getUsername(), user.getToken());
 
 			// System.out.println("Cloning " + repoUrl + " into " + path);
-			Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory(Paths.get(path).toFile())
-					.call().close();
+			/*
+			 * Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory
+			 * (Paths.get(path).toFile()) .call().close();
+			 */
+			/*
+			 * org.eclipse.jgit.lib.Repository r =
+			 * Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory
+			 * (Paths.get(path).toFile()).call().getRepository();
+			 * System.out.println("INFO: " + r.readMergeCommitMsg()); r.close();
+			 */
+			// FileOutputStream("example.zip").getChannel().transferFrom(Channels.newChannel(new
+			// URL("http://www.example.com/example.zip").openStream()), 0, Long.MAX_VALUE);
+
+			GitHubAPICaller.downloadRepository(this);
+
 			// System.out.println("Completed Cloning");
-			
-			/*catch (GitAPIException e) {
 
-				System.out.println("Exception occurred while cloning repo");
-				e.printStackTrace();
-				this.setClonePath(null);
-
-			}*/
+			/*
+			 * catch (GitAPIException e) {
+			 * 
+			 * System.out.println("Exception occurred while cloning repo");
+			 * e.printStackTrace(); this.setClonePath(null);
+			 * 
+			 * }
+			 */
 
 		}
 
+	}
+
+	/**
+	 * 
+	 * Parsea un fichero del repositorio.
+	 * 
+	 * @param fileName. Nombre del fichero a parsear.
+	 * @param code. Código a parsear.
+	 */
+	public void parserCode(String fileName, String code) {
+	
+		String extension = "";
+		boolean fileLanguageAnalyze = false;
+	
+		// Sumamos el número de ficheros
+		filesNumber++;
+	
+		// Guardamos las extensiones
+		if (fileName.contains(".")) {
+	
+			extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+	
+			extensionsList.add(extension);
+	
+			// Analizamos las propiedades del lenguaje si corresponde
+			if (languageProperties != null) {
+	
+				for (int i = 0; i < languageProperties.getExtensions().length && !fileLanguageAnalyze; i++) {
+	
+					if (languageProperties.getExtensions()[i].equals(extension)) {
+	
+						this.mainLanguagesFilesNumber++;
+	
+						try {
+	
+							languageProperties.setCodeWithoutFile(code);
+							languageProperties.generateAllValues();
+	
+						} catch (StackOverflowError e) {
+							System.out.println("ERROR STACK OVERFLOW ERROR");
+						}
+	
+						fileLanguageAnalyze = true;
+	
+					}
+	
+				}
+	
+			}
+	
+		}
+	
 	}
 
 	/**
