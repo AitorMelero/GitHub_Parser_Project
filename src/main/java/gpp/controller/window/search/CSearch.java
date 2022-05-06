@@ -192,47 +192,79 @@ public class CSearch implements ActionListener {
 					Future<Search> submit = newCachedThreadPool.submit(new Callable<Search>() {
 					    @Override
 					    public Search call() {
-					    	s.filter(searchProgressBar);
+					    	
+					    	if (GPPSystem.isGlobalSemaphoreTasks()) {
+					    		
+					    		s.filter(searchProgressBar);
 
-							if (s.getListRepoResult().size() != 0) {
+								if (s.getListRepoResult().size() != 0) {
 
-								// Filtramos la búsqueda por lenguaje
-								VFilterLanguage filterLanguage = windows.getSearchView().getFilterLanguageWindow();
-								ArrayList<Repository> repositoryFilterLanguage = new ArrayList<Repository>();
-								for (Repository repo : s.getListRepoResult()) {
+									// Filtramos la búsqueda por lenguaje
+									VFilterLanguage filterLanguage = windows.getSearchView().getFilterLanguageWindow();
+									ArrayList<Repository> repositoryFilterLanguage = new ArrayList<Repository>();
+									for (Repository repo : s.getListRepoResult()) {
+										
+										// Se cancela la tarea
+										if (!GPPSystem.isGlobalSemaphoreTasks()) {
+											
+											return null;
+											
+										}
 
-									if (filterLanguage.filterLanguage(repo)) {
+										if (filterLanguage.filterLanguage(repo)) {
 
-										repositoryFilterLanguage.add(repo);
+											repositoryFilterLanguage.add(repo);
+
+										}
 
 									}
+									
+									// Se cancela la tarea
+									if (!GPPSystem.isGlobalSemaphoreTasks()) {
+										
+										return null;
+										
+									}
+									
+									s.setListRepoResult(repositoryFilterLanguage);
 
 								}
-								s.setListRepoResult(repositoryFilterLanguage);
+								
+								// Se cancela la tarea
+								if (!GPPSystem.isGlobalSemaphoreTasks()) {
+									
+									return null;
+									
+								}
+								
+								searchProgressBar.getDialog().dispose();
+								
+								// Si no hay resultados mostramos la info al usuario
+								if (s.getListRepoResult().size() == 0) {
 
-							}
-							
-							searchProgressBar.getDialog().dispose();
-							
-							// Si no hay resultados mostramos la info al usuario
-							if (s.getListRepoResult().size() == 0) {
+									JOptionPane.showMessageDialog(windows, "No coincide ningún repositorio con la consulta",
+											"No hay resultados", JOptionPane.INFORMATION_MESSAGE);
 
-								JOptionPane.showMessageDialog(windows, "No coincide ningún repositorio con la consulta",
-										"No hay resultados", JOptionPane.INFORMATION_MESSAGE);
+								} else {
 
-							} else {
+									// Cambiamos a la pantalla de resultados
+									gppSystem.setCurrentSearch(s);
+									windows.getSearchResultView().setSearchResultCurrent(s, 1);
+									windows.setCard("VSearchResult");
 
-								// Cambiamos a la pantalla de resultados
-								gppSystem.setCurrentSearch(s);
-								windows.getSearchResultView().setSearchResultCurrent(s, 1);
-								windows.setCard("VSearchResult");
-
-							}
+								}
+					    		
+					    	}
+					    	
 							return s;
 					    }
 					});
 					
+					GPPSystem.setGlobalSemaphoreTasks(true);
+					
 					searchProgressBar.showDialog(true);
+					
+					GPPSystem.setGlobalSemaphoreTasks(false);
 
 				} else {
 					

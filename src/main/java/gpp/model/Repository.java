@@ -584,6 +584,13 @@ public class Repository {
 			ZipEntry entry = zipIn.getNextEntry();
 
 			while (entry != null) {
+				
+				// Se cancela la tarea en paralelo
+				if (!GPPSystem.isGlobalSemaphoreTasks()) {
+					
+					return;
+					
+				}
 
 				if (!entry.isDirectory()) {
 					code = new String(zipIn.readAllBytes(), Charset.forName("UTF-8"));
@@ -692,6 +699,14 @@ public class Repository {
 			if (f.isDirectory()) {
 
 				for (File c : f.listFiles()) {
+					
+					// Se cancela la tarea en paralelo
+					if (!GPPSystem.isGlobalSemaphoreTasks()) {
+						
+						return;
+						
+					}
+					
 					getFullInfo(c);
 				}
 

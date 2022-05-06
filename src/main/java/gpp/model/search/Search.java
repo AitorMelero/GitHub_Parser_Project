@@ -11,6 +11,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import gpp.GPPSystem;
 import gpp.model.Repository;
 import gpp.model.User;
 import gpp.model.github.api.caller.GitHubAPICaller;
@@ -346,7 +347,15 @@ public class Search {
 
 			// Generamos la información completa del repositorio si no hay error
 			try {
-				System.out.println("Analizando repositorio " + i + " de " + listRepoResult.size());
+				
+				// Se cancela la tarea en paralelo
+				// Se cancela la tarea
+				if (!GPPSystem.isGlobalSemaphoreTasks()) {
+					
+					return;
+					
+				}
+				
 				r.generateFullInfo();
 			} catch (Exception e) {
 				repoIsCorrect = false;

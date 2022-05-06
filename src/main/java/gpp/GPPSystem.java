@@ -22,6 +22,7 @@ import gpp.model.search.Search;
 public class GPPSystem implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static boolean globalSemaphoreTasks;
 	private static GPPSystem instance = null;
 	private static User user;
 	private Search currentSearch; // búsqueda actual a mostrar
@@ -35,6 +36,8 @@ public class GPPSystem implements Serializable {
 	 * Constructor.
 	 */
 	private GPPSystem() {
+
+		globalSemaphoreTasks = false;
 
 	}
 
@@ -63,6 +66,27 @@ public class GPPSystem implements Serializable {
 	 * GETTERS Y SETTERS
 	 * ************************************************************************
 	 */
+
+	/**
+	 * 
+	 * Devuelve el valor del sémaforo global para procesos paralelos.
+	 * 
+	 * @return Valor del sémaforo global para procesos paralelos.
+	 */
+	public static boolean isGlobalSemaphoreTasks() {
+		return globalSemaphoreTasks;
+	}
+
+	/**
+	 * 
+	 * Modifica el valor del sémaforo global para procesos paralelos.
+	 * 
+	 * @param globalSemaphoreTasks. Valor del sémaforo global para procesos
+	 *                              paralelos.
+	 */
+	public static void setGlobalSemaphoreTasks(boolean globalSemaphoreTasks) {
+		GPPSystem.globalSemaphoreTasks = globalSemaphoreTasks;
+	}
 
 	/**
 	 * 

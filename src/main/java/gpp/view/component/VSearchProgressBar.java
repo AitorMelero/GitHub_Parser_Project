@@ -3,6 +3,7 @@ package gpp.view.component;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
+import javax.swing.WindowConstants;
 
 import gpp.view.VWindow;
 
@@ -36,12 +37,15 @@ public class VSearchProgressBar {
 		// Mostramos el panel
 		container.setMessageType(JOptionPane.INFORMATION_MESSAGE);
 		container.setMessage("Analizando repositorios");
+		String[] op = { "Cancelar" };
+		container.setOptions(op);
 		// Añadimos la barra de tareas
 		progressBar.setValue(progressNumber);
 		progressBar.setStringPainted(true);
 		progressBar.setString(progressString);
 		container.add(progressBar, 1);
 		dialog = container.createDialog(window, "Realizando consulta");
+		dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		dialog.setVisible(false);
 
 	}
@@ -70,7 +74,7 @@ public class VSearchProgressBar {
 
 		this.progressNumber = progressNumber;
 		this.progressString = progressNumber + " de " + resultNumber;
-		//container.setMessage(progressString);
+		// container.setMessage(progressString);
 		progressBar.setValue(progressNumber);
 		progressBar.setString(progressString);
 
