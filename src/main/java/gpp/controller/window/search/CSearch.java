@@ -3,8 +3,14 @@ package gpp.controller.window.search;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import gpp.GPPSystem;
 import gpp.model.Repository;
@@ -12,6 +18,7 @@ import gpp.model.search.Filter;
 import gpp.model.search.Query;
 import gpp.model.search.Search;
 import gpp.view.VWindow;
+import gpp.view.component.VSearchProgressBar;
 import gpp.view.window.search.VFilterLanguage;
 
 /**
@@ -178,43 +185,60 @@ public class CSearch implements ActionListener {
 				s.search();
 
 				if (s.getListRepoResult().size() != 0) {
+					
+					VSearchProgressBar searchProgressBar = new VSearchProgressBar(windows, s.getListRepoResult().size(), 0);
 
-					// Filtramos la búsqueda
-					s.filter();
+					ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();
+					Future<Search> submit = newCachedThreadPool.submit(new Callable<Search>() {
+					    @Override
+					    public Search call() {
+					    	s.filter(searchProgressBar);
 
-					if (s.getListRepoResult().size() != 0) {
+							if (s.getListRepoResult().size() != 0) {
 
-						// Filtramos la búsqueda por lenguaje
-						VFilterLanguage filterLanguage = windows.getSearchView().getFilterLanguageWindow();
-						ArrayList<Repository> repositoryFilterLanguage = new ArrayList<Repository>();
-						for (Repository repo : s.getListRepoResult()) {
+								// Filtramos la búsqueda por lenguaje
+								VFilterLanguage filterLanguage = windows.getSearchView().getFilterLanguageWindow();
+								ArrayList<Repository> repositoryFilterLanguage = new ArrayList<Repository>();
+								for (Repository repo : s.getListRepoResult()) {
 
-							if (filterLanguage.filterLanguage(repo)) {
+									if (filterLanguage.filterLanguage(repo)) {
 
-								repositoryFilterLanguage.add(repo);
+										repositoryFilterLanguage.add(repo);
+
+									}
+
+								}
+								s.setListRepoResult(repositoryFilterLanguage);
 
 							}
+							
+							searchProgressBar.getDialog().dispose();
+							
+							// Si no hay resultados mostramos la info al usuario
+							if (s.getListRepoResult().size() == 0) {
 
-						}
-						s.setListRepoResult(repositoryFilterLanguage);
+								JOptionPane.showMessageDialog(windows, "No coincide ningún repositorio con la consulta",
+										"No hay resultados", JOptionPane.INFORMATION_MESSAGE);
 
-					}
+							} else {
 
-				}
+								// Cambiamos a la pantalla de resultados
+								gppSystem.setCurrentSearch(s);
+								windows.getSearchResultView().setSearchResultCurrent(s, 1);
+								windows.setCard("VSearchResult");
 
-				// Si no hay resultados mostramos la info al usuario
-				if (s.getListRepoResult().size() == 0) {
-
-					JOptionPane.showMessageDialog(windows, "No coincide ningún repositorio con la consulta",
-							"No hay resultados", JOptionPane.INFORMATION_MESSAGE);
+							}
+							return s;
+					    }
+					});
+					
+					searchProgressBar.showDialog(true);
 
 				} else {
-
-					// Cambiamos a la pantalla de resultados
-					gppSystem.setCurrentSearch(s);
-					windows.getSearchResultView().setSearchResultCurrent(s, 1);
-					windows.setCard("VSearchResult");
-
+					
+					JOptionPane.showMessageDialog(windows, "No coincide ningún repositorio con la consulta",
+							"No hay resultados", JOptionPane.INFORMATION_MESSAGE);
+					
 				}
 
 			}

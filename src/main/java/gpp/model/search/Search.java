@@ -1,6 +1,5 @@
 package gpp.model.search;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -15,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import gpp.model.Repository;
 import gpp.model.User;
 import gpp.model.github.api.caller.GitHubAPICaller;
+import gpp.view.component.VSearchProgressBar;
 
 /**
  * 
@@ -330,7 +330,7 @@ public class Search {
 	 * Filtra la lista de repositorios en función de los filtros introducidos.
 	 * 
 	 */
-	public void filter() {
+	public void filter(VSearchProgressBar pb) {
 
 		int i = 1;
 		ArrayList<Repository> listRepoFilter = new ArrayList<Repository>();
@@ -341,6 +341,8 @@ public class Search {
 		for (Repository r : listRepoResult) {
 
 			repoIsCorrect = true;
+			
+			pb.setProgressNumber(pb.getProgressNumber() + 1);
 
 			// Generamos la información completa del repositorio si no hay error
 			try {
@@ -352,7 +354,7 @@ public class Search {
 
 			// Filtramos el repositorio
 			if (repoIsCorrect) {
-				
+
 				if (filter.filterRepository(r)) {
 
 					listRepoFilter.add(r);
@@ -385,18 +387,12 @@ public class Search {
 
 			// Sacamos la información que nos proporciona la API
 			JsonObject ro = (JsonObject) re;
-			String ownerName = new String(ro.get("full_name").getAsString().split("/")[0].getBytes(), StandardCharsets.UTF_8);
+			String ownerName = new String(ro.get("full_name").getAsString().split("/")[0].getBytes(),
+					StandardCharsets.UTF_8);
 			String repoName = new String(ro.get("name").getAsString().getBytes(), StandardCharsets.UTF_8);
 			String description = "";
 			if (!ro.get("description").isJsonNull()) {
 				description = new String(ro.get("description").getAsString().getBytes(), StandardCharsets.UTF_8);
-				/*try {
-					description = new String(ro.get("description").getAsString().getBytes("gb2312"), "ISO8859-1");
-					description = new String(description.getBytes("ISO8859-1"), StandardCharsets.US_ASCII);
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}*/
 			}
 			long starsNumber = ro.get("stargazers_count").getAsLong();
 			long forksNumber = ro.get("forks_count").getAsLong();
