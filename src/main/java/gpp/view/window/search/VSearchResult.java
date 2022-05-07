@@ -5,10 +5,8 @@ import java.awt.Point;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
@@ -16,7 +14,6 @@ import gpp.model.Repository;
 import gpp.model.search.Search;
 import gpp.view.component.VColor;
 import gpp.view.component.VRepositoryContainer;
-import gpp.view.component.VRepositoryContainerOld;
 import gpp.view.component.VWindowSearchButton;
 
 /**
@@ -51,9 +48,9 @@ public class VSearchResult extends JPanel {
 		// Estilo general
 		this.setBackground(VColor.getWHITE_MAIN());
 		this.setBorder(new EmptyBorder(20, 20, 20, 20));
-		//this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		// this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setLayout(null);
-		
+
 		// Componentes
 		// Título
 		title = new JLabel("");
@@ -61,7 +58,7 @@ public class VSearchResult extends JPanel {
 		title.setOpaque(true);
 		title.setBackground(VColor.getWHITE_MAIN());
 		title.setFont(new Font("Dialog", Font.ITALIC, 32));
-		
+
 		// Resultados
 		resultContainerScroll = new JScrollPane();
 		resultContainer = new JPanel();
@@ -69,12 +66,12 @@ public class VSearchResult extends JPanel {
 		resultContainerScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		resultContainerScroll.setBounds(20, 144, 807, 465);
 		resultContainer.setLayout(new BoxLayout(resultContainer, BoxLayout.Y_AXIS));
-		
+
 		// Repositorios encontrados
 		repositoryNumberLabel = new JLabel("");
 		repositoryNumberLabel.setBackground(VColor.getWHITE_MAIN());
 		repositoryNumberLabel.setBounds(20, 75, 200, 40);
-		
+
 		// Páginas de resultados
 		navigationPageContainer = new JPanel();
 		navigationPageContainer.setBounds(300, 75, 200, 40);
@@ -134,7 +131,7 @@ public class VSearchResult extends JPanel {
 	public void setSearchResultCurrent(Search currentSearch, int page) {
 
 		// Borramos el contenido de la búsqueda anterior
-		//navigationPageContainer.removeAll();
+		// navigationPageContainer.removeAll();
 		resultContainer.removeAll();
 		resultContainerScroll.setViewportView(null);
 		resultContainerScroll.revalidate();
@@ -151,7 +148,7 @@ public class VSearchResult extends JPanel {
 		this.add(title);
 		this.add(repositoryNumberLabel);
 		if (page == 1) {
-			
+
 			previousPageButton.setEnabled(false);
 
 			if (page != currentSearch.getResult().size()) {
@@ -159,9 +156,9 @@ public class VSearchResult extends JPanel {
 				nextPageButton.setEnabled(true);
 
 			} else {
-				
+
 				nextPageButton.setEnabled(false);
-				
+
 			}
 
 		} else if (page == currentSearch.getResult().size()) {
@@ -202,7 +199,7 @@ public class VSearchResult extends JPanel {
 			r = currentSearch.getListRepoResult().get(100 * (page - 1) + i);
 
 			repositoryContainer = new VRepositoryContainer(r);
-			
+
 			// Añadimos el listener al contenedor del repositorio
 			repositoryContainer.setControllers(resultContainerRepositoryListener);
 

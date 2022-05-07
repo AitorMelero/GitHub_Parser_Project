@@ -46,7 +46,8 @@ public class VLeftMenu extends JPanel {
 		mainButtonsContainer.add(searchButton);
 
 		Icon recentSearchesIcon = new ImageIcon(GPPConstant.GPP_ICONS + "clock.png");
-		recentSearchesButton = new VButton("Búsquedas recientes", recentSearchesIcon);
+		recentSearchesButton = new VButton("Búsquedas guardadas", recentSearchesIcon);
+		recentSearchesButton.setActionCommand("busquedas guardadas");
 		mainButtonsContainer.add(recentSearchesButton);
 
 		Icon userRepositoriesIcon = new ImageIcon(GPPConstant.GPP_ICONS + "my_repositories.png");
@@ -143,6 +144,7 @@ public class VLeftMenu extends JPanel {
 	public void setControllers(ActionListener action) {
 
 		searchButton.addActionListener(action);
+		recentSearchesButton.addActionListener(action);
 
 	}
 

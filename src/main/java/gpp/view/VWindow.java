@@ -10,6 +10,7 @@ import gpp.constant.GPPConstant;
 import gpp.view.component.VLeftMenu;
 import gpp.view.component.VRepository;
 import gpp.view.window.login.VLogin;
+import gpp.view.window.recentsearch.VRecentSearch;
 import gpp.view.window.search.VSearch;
 import gpp.view.window.search.VSearchResult;
 
@@ -28,6 +29,7 @@ public class VWindow extends JFrame {
 	private VSearch searchView; // pantalla de búsqueda
 	private VSearchResult searchResultView; // pantalla de resultados de búsquedas
 	private VRepository repositoryView; // pantalla con información del repositorio
+	private VRecentSearch recentSearchView; // pantalla de búsquedas recientes
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -49,6 +51,7 @@ public class VWindow extends JFrame {
 		searchView.getQueryWindow().setBounds(20, 144, 807, 473);
 		searchResultView = new VSearchResult();
 		repositoryView = new VRepository();
+		recentSearchView = new VRecentSearch();
 
 		// Añadimos todas las pantallas
 		cards = new JPanel(new CardLayout());
@@ -56,6 +59,7 @@ public class VWindow extends JFrame {
 		cards.add(searchView, "VSearch");
 		cards.add(searchResultView, "VSearchResult");
 		cards.add(repositoryView, "VRepository");
+		cards.add(recentSearchView, "VRecentSearch");
 
 		// Mostramos ventana
 		CardLayout c1 = (CardLayout) (cards.getLayout());
@@ -184,6 +188,26 @@ public class VWindow extends JFrame {
 	 */
 	public void setRepositoryView(VRepository repositoryView) {
 		this.repositoryView = repositoryView;
+	}
+	
+	/**
+	 * 
+	 * Devuelve la ventana con las búsquedas guardadas.
+	 * 
+	 * @return Ventana con las búsquedas guardadas.
+	 */
+	public VRecentSearch getRecentSearchView() {
+		return recentSearchView;
+	}
+
+	/**
+	 * 
+	 * Modifica la ventana con las búsquedas guardadas.
+	 * 
+	 * @param recentSearchView. Ventana con las búsquedas guardadas.
+	 */
+	public void setRecentSearchView(VRecentSearch recentSearchView) {
+		this.recentSearchView = recentSearchView;
 	}
 
 	/**************************************************************************

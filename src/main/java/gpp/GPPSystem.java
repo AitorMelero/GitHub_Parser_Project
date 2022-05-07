@@ -28,7 +28,8 @@ public class GPPSystem implements Serializable {
 	private Search currentSearch; // búsqueda actual a mostrar
 	private static int menuButtonSelected;
 	private static int searchButtonSelected;
-	public static final int BUSCAR = 0, BUSCAR_REPO = 1, FILTRAR_REPO = 2, FILTRAR_LENGUAJE_REPO = 3;
+	public static final int BUSCAR = 0, BUSCAR_REPO = 1, FILTRAR_REPO = 2, FILTRAR_LENGUAJE_REPO = 3,
+			BUSQUEDAS_GUARDADAS = 4;
 
 	/**************************************************************************
 	 * CONSTRUCTOR: PATRÓN SINGLETON

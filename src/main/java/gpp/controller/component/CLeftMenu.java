@@ -62,6 +62,12 @@ public class CLeftMenu implements ActionListener {
 			windows.getSearchView().setCard("VQuery");
 			windows.setCard("VSearch");
 			
+		} else if (e.getActionCommand().equals("busquedas guardadas")) {
+			
+			GPPSystem.setMenuButtonSelected(GPPSystem.BUSQUEDAS_GUARDADAS);
+			windows.getMenu().getSearchButton().setBackground(VColor.getGRAY_MENU());
+			windows.setCard("VRecentSearch");
+			
 		}
 		
 	}
