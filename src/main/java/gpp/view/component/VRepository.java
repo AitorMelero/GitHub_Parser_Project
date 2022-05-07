@@ -141,7 +141,9 @@ public class VRepository extends JPanel {
 		infoContainer.add(infoGeneralTitle);
 		infoContainer.add(addInfoField("Autor: ", repo.getOwnerName()));
 		infoContainer.add(addInfoField("Nombre: ", repo.getName()));
-		infoContainer.add(addInfoField("Descripción: ", repo.getDescription()));
+		VSearchFieldContainer descriptionContainer = addInfoField("Descripción: ", repo.getDescription());
+		descriptionContainer.changeTextFieldToTextArea();
+		infoContainer.add(descriptionContainer);
 		infoContainer.add(addInfoField("Nº de ficheros: ", repo.getFilesNumber() + ""));
 		infoContainer.add(addInfoField("Número de estrellas: ", repo.getStarsNumber() + ""));
 		infoContainer.add(addInfoField("Número de forks: ", repo.getForksNumber() + ""));
@@ -182,7 +184,9 @@ public class VRepository extends JPanel {
 			}
 
 		}
-		infoContainer.add(addInfoField("Topics: ", topicsList));
+		VSearchFieldContainer topicsContainer = addInfoField("Topics: ", topicsList);
+		topicsContainer.changeTextFieldToTextArea();
+		infoContainer.add(topicsContainer);
 		infoContainer.add(addInfoField("Tamaño total: ", repo.getTotalSize() + " KB"));
 		infoContainer.add(addInfoField("Tamaño medio de ficheros: ", repo.getAvgSize() + " KB"));
 		infoContainer.add(addInfoField("Lenguaje principal: ", repo.getMainLanguage()));
