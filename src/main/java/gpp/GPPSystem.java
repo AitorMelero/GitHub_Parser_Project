@@ -26,6 +26,9 @@ public class GPPSystem implements Serializable {
 	private static GPPSystem instance = null;
 	private static User user;
 	private Search currentSearch; // búsqueda actual a mostrar
+	private static int menuButtonSelected;
+	private static int searchButtonSelected;
+	public static final int BUSCAR = 0, BUSCAR_REPO = 1, FILTRAR_REPO = 2, FILTRAR_LENGUAJE_REPO = 3;
 
 	/**************************************************************************
 	 * CONSTRUCTOR: PATRÓN SINGLETON
@@ -126,6 +129,47 @@ public class GPPSystem implements Serializable {
 	 */
 	public void setCurrentSearch(Search currentSearch) {
 		instance.currentSearch = currentSearch;
+	}
+
+	/**
+	 * 
+	 * Devuelve el código del botón del menú seleccionado.
+	 * 
+	 * @return Código del menú del botón seleccionado.
+	 */
+	public static int getMenuButtonSelected() {
+		return menuButtonSelected;
+	}
+
+	/**
+	 * 
+	 * Modifica el código del botón del menú seleccionado.
+	 * 
+	 * @param menuButtonSelected. Código del botón del menú seleccionado.
+	 */
+	public static void setMenuButtonSelected(int menuButtonSelected) {
+		GPPSystem.menuButtonSelected = menuButtonSelected;
+	}
+
+	/**
+	 * 
+	 * Devuelve el código del botón del menú de búsqueda seleccionado.
+	 * 
+	 * @return Código del botón del menú de búsqueda seleccionado.
+	 */
+	public static int getSearchButtonSelected() {
+		return searchButtonSelected;
+	}
+
+	/**
+	 * 
+	 * Modifica el código del botón del menú de búsqueda seleccionado.
+	 * 
+	 * @param searchButtonSelected. Código del botón del menú de búsqueda
+	 *                              seleccionado.
+	 */
+	public static void setSearchButtonSelected(int searchButtonSelected) {
+		GPPSystem.searchButtonSelected = searchButtonSelected;
 	}
 
 	/**************************************************************************

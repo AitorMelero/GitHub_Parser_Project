@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import gpp.GPPSystem;
 import gpp.view.VWindow;
+import gpp.view.component.VColor;
 
 /**
  * 
@@ -52,6 +53,13 @@ public class CLeftMenu implements ActionListener {
 		
 		if (e.getActionCommand().equals("buscar")) {
 			
+			GPPSystem.setMenuButtonSelected(GPPSystem.BUSCAR);
+			windows.getMenu().getRecentSearchesButton().setBackground(VColor.getGRAY_MENU());
+			GPPSystem.setSearchButtonSelected(GPPSystem.BUSCAR_REPO);
+			windows.getSearchView().getQueryWindowButton().setBackground(VColor.getGRAY_FOCUS_MENU());
+			windows.getSearchView().getFilterWindowButton().setBackground(VColor.getGRAY_MENU());
+			windows.getSearchView().getFilterLanguageWindowButton().setBackground(VColor.getGRAY_MENU());
+			windows.getSearchView().setCard("VQuery");
 			windows.setCard("VSearch");
 			
 		}

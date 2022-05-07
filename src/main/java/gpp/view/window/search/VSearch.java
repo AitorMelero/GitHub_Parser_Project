@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import gpp.GPPSystem;
 import gpp.view.component.VColor;
 import gpp.view.component.VSearchButton;
 import gpp.view.component.VWindowSearchButton;
@@ -86,10 +87,13 @@ public class VSearch extends JPanel {
 		windowButtonContainer.setLocation(20, 96);
 		queryWindowButton = new VWindowSearchButton("¿Qué buscas?");
 		queryWindowButton.setActionCommand("Buscar general");
+		queryWindowButton.setButtonCode(GPPSystem.BUSCAR_REPO);
 		filterWindowButton = new VWindowSearchButton("Filtros generales");
 		filterWindowButton.setActionCommand("Filtros generales");
+		filterWindowButton.setButtonCode(GPPSystem.FILTRAR_REPO);
 		filterLanguageWindowButton = new VWindowSearchButton("Filtros por lenguaje");
 		filterLanguageWindowButton.setActionCommand("Filtros por lenguaje");
+		filterLanguageWindowButton.setButtonCode(GPPSystem.FILTRAR_LENGUAJE_REPO);
 		windowButtonContainer.add(queryWindowButton);
 		windowButtonContainer.add(filterWindowButton);
 		windowButtonContainer.add(filterLanguageWindowButton);
@@ -173,6 +177,51 @@ public class VSearch extends JPanel {
 	 * MÉTODOS
 	 * ************************************************************************
 	 */
+
+	/**
+	 * 
+	 * 
+	 * 
+	 * @return the queryWindowButton
+	 */
+	public VWindowSearchButton getQueryWindowButton() {
+		return queryWindowButton;
+	}
+
+	/**
+	 * @param queryWindowButton the queryWindowButton to set
+	 */
+	public void setQueryWindowButton(VWindowSearchButton queryWindowButton) {
+		this.queryWindowButton = queryWindowButton;
+	}
+
+	/**
+	 * @return the filterWindowButton
+	 */
+	public VWindowSearchButton getFilterWindowButton() {
+		return filterWindowButton;
+	}
+
+	/**
+	 * @param filterWindowButton the filterWindowButton to set
+	 */
+	public void setFilterWindowButton(VWindowSearchButton filterWindowButton) {
+		this.filterWindowButton = filterWindowButton;
+	}
+
+	/**
+	 * @return the filterLanguageWindowButton
+	 */
+	public VWindowSearchButton getFilterLanguageWindowButton() {
+		return filterLanguageWindowButton;
+	}
+
+	/**
+	 * @param filterLanguageWindowButton the filterLanguageWindowButton to set
+	 */
+	public void setFilterLanguageWindowButton(VWindowSearchButton filterLanguageWindowButton) {
+		this.filterLanguageWindowButton = filterLanguageWindowButton;
+	}
 
 	/**
 	 * 

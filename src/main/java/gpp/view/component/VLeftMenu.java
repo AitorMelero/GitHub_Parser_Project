@@ -9,6 +9,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import gpp.GPPSystem;
 import gpp.constant.GPPConstant;
 
 /**
@@ -41,6 +42,7 @@ public class VLeftMenu extends JPanel {
 		Icon searchIcon = new ImageIcon(GPPConstant.GPP_ICONS + "search.png");
 		searchButton = new VButton("Buscar", searchIcon);
 		searchButton.setActionCommand("buscar");
+		searchButton.setButtonCode(GPPSystem.BUSCAR);
 		mainButtonsContainer.add(searchButton);
 
 		Icon recentSearchesIcon = new ImageIcon(GPPConstant.GPP_ICONS + "clock.png");

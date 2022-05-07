@@ -16,6 +16,7 @@ import gpp.model.search.Filter;
 import gpp.model.search.Query;
 import gpp.model.search.Search;
 import gpp.view.VWindow;
+import gpp.view.component.VColor;
 import gpp.view.component.VSearchProgressBar;
 import gpp.view.window.search.VFilterLanguage;
 
@@ -280,14 +281,23 @@ public class CSearch implements ActionListener {
 
 		} else if (e.getActionCommand().equals("Buscar general")) {
 
+			GPPSystem.setSearchButtonSelected(GPPSystem.BUSCAR_REPO);
+			windows.getSearchView().getFilterWindowButton().setBackground(VColor.getGRAY_MENU());
+			windows.getSearchView().getFilterLanguageWindowButton().setBackground(VColor.getGRAY_MENU());
 			windows.getSearchView().setCard("VQuery");
 
 		} else if (e.getActionCommand().equals("Filtros generales")) {
 
+			GPPSystem.setSearchButtonSelected(GPPSystem.FILTRAR_REPO);
+			windows.getSearchView().getQueryWindowButton().setBackground(VColor.getGRAY_MENU());
+			windows.getSearchView().getFilterLanguageWindowButton().setBackground(VColor.getGRAY_MENU());
 			windows.getSearchView().setCard("VFilter");
 
 		} else if (e.getActionCommand().equals("Filtros por lenguaje")) {
 
+			GPPSystem.setSearchButtonSelected(GPPSystem.FILTRAR_LENGUAJE_REPO);
+			windows.getSearchView().getQueryWindowButton().setBackground(VColor.getGRAY_MENU());
+			windows.getSearchView().getFilterWindowButton().setBackground(VColor.getGRAY_MENU());
 			windows.getSearchView().setCard("VFilterLanguage");
 
 		}

@@ -10,18 +10,21 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
+import gpp.GPPSystem;
+
 public class VButton extends JButton {
 
 	private boolean isFocus; // Indica si el botón está marcado
 	private boolean isMouseEntered; // Indica si el ratón está sobre el botón
 	private FocusListener focusListener; // Listener para focus del botón
 	private MouseListener mouseListener; // Listener para eventos del ratón
+	private int buttonCode; // código de identificación del tipo de botón
 
 	/**************************************************************************
 	 * CONSTRUCTOR
 	 * ************************************************************************
 	 */
-	
+
 	/**
 	 * 
 	 * Constructor para botón sin parámetros.
@@ -30,6 +33,8 @@ public class VButton extends JButton {
 	public VButton() {
 
 		super();
+		
+		this.buttonCode = -1;
 
 		// Damos estilo al botón
 		this.setButtonStyle();
@@ -48,6 +53,8 @@ public class VButton extends JButton {
 	public VButton(String name) {
 
 		super(name);
+		
+		this.buttonCode = -1;
 
 		// Damos estilo al botón
 		this.setButtonStyle();
@@ -67,6 +74,8 @@ public class VButton extends JButton {
 	public VButton(String name, Icon icon) {
 
 		super(name, icon);
+		
+		this.buttonCode = -1;
 
 		// Damos estilo al botón
 		this.setButtonStyle();
@@ -97,6 +106,14 @@ public class VButton extends JButton {
 		this.isMouseEntered = isMouseEntered;
 	}
 
+	public int getButtonCode() {
+		return buttonCode;
+	}
+
+	public void setButtonCode(int buttonCode) {
+		this.buttonCode = buttonCode;
+	}
+
 	/**************************************************************************
 	 * MÉTODOS
 	 * ************************************************************************
@@ -113,7 +130,18 @@ public class VButton extends JButton {
 		this.setBorderPainted(false);
 		this.setFocusPainted(false);
 		this.setContentAreaFilled(false);
-		this.setBackground(VColor.getGRAY_MENU());
+		// Comprobamos si está seleccionado el botón
+		if (GPPSystem.getMenuButtonSelected() == this.buttonCode
+				|| GPPSystem.getSearchButtonSelected() == this.buttonCode) {
+
+			this.setBackground(VColor.getGRAY_FOCUS_MENU());
+			System.out.println("COLORES BOTÓN: " + GPPSystem.getMenuButtonSelected() + ", " + GPPSystem.getSearchButtonSelected() + ", " + this.buttonCode);
+
+		} else {
+
+			this.setBackground(VColor.getGRAY_MENU());
+
+		}
 		this.setOpaque(true);
 
 	}
@@ -158,7 +186,17 @@ public class VButton extends JButton {
 
 					if (!isMouseEntered()) {
 
-						setBackground(VColor.getGRAY_MENU());
+						// Comprobamos si está seleccionado el botón
+						if (GPPSystem.getMenuButtonSelected() == buttonCode
+								|| GPPSystem.getSearchButtonSelected() == buttonCode) {
+
+							setBackground(VColor.getGRAY_FOCUS_MENU());
+
+						} else {
+
+							setBackground(VColor.getGRAY_MENU());
+
+						}
 
 					}
 
@@ -194,7 +232,17 @@ public class VButton extends JButton {
 
 					if (!isFocus()) {
 
-						setBackground(VColor.getGRAY_MENU());
+						// Comprobamos si está seleccionado el botón
+						if (GPPSystem.getMenuButtonSelected() == buttonCode
+								|| GPPSystem.getSearchButtonSelected() == buttonCode) {
+
+							setBackground(VColor.getGRAY_FOCUS_MENU());
+
+						} else {
+
+							setBackground(VColor.getGRAY_MENU());
+
+						}
 
 					}
 
