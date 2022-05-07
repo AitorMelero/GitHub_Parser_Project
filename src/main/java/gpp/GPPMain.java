@@ -2,14 +2,13 @@ package gpp;
 
 import java.awt.EventQueue;
 
+import gpp.constant.GPPConstant;
 import gpp.controller.component.CLeftMenu;
 import gpp.controller.component.CRepository;
 import gpp.controller.component.CRepositoryContainer;
 import gpp.controller.window.login.CLogin;
 import gpp.controller.window.search.CSearch;
 import gpp.controller.window.search.CSearchResult;
-import gpp.model.github.api.caller.GitHubAPICaller;
-import gpp.model.search.Search;
 import gpp.view.VWindow;
 
 public class GPPMain {
@@ -23,6 +22,7 @@ public class GPPMain {
 
 				// Declaramos instancias
 				VWindow windows = new VWindow();
+				GPPConstant.window = windows;
 				GPPSystem gppSystem;
 				CLogin cLogin;
 				CSearch cSearch;

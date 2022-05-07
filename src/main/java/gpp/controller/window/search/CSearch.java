@@ -4,13 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import gpp.GPPSystem;
 import gpp.model.Repository;
@@ -240,6 +238,8 @@ public class CSearch implements ActionListener {
 								}
 								
 								searchProgressBar.getDialog().dispose();
+								
+								GPPSystem.setGlobalSemaphoreTasks(false);
 								
 								// Si no hay resultados mostramos la info al usuario
 								if (s.getListRepoResult().size() == 0) {

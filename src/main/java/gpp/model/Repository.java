@@ -10,17 +10,29 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import gpp.GPPSystem;
+import gpp.constant.GPPConstant;
 import gpp.model.languageparser.LanguageParser;
 import gpp.model.languageparser.java.JavaLanguageParser;
 import gpp.model.languageparser.python.PythonLanguageParser;
+import gpp.model.search.Search;
 
 /**
  * 
@@ -550,14 +562,97 @@ public class Repository {
 
 		// Comprobamos si el repositorio ya está clonado
 		if (clonePath == null) {
+			
+			// Creamos panel de información
+			JOptionPane container = new JOptionPane();
+			container.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+			container.setMessage("Espere un momento mientras se clona el repositorio...");
+			String[] op = {};
+			container.setOptions(op);
+			JDialog dialog = container.createDialog(GPPConstant.window, "Clonar repositorio");
+			dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+			dialog.setVisible(false);
+			
+			// Tarea ejecutada en paralelo para clonar el repositorio
+			ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();
+			Future<Object> submit = newCachedThreadPool.submit(new Callable<Object>() {
+			    @Override
+			    public Search call() {
+			    	
+			    	if (GPPSystem.isGlobalSemaphoreTasks()) {
+			    		
+			    		setClonePath(path);
 
-			this.setClonePath(path);
+						CredentialsProvider cp = new UsernamePasswordCredentialsProvider(user.getUsername(), user.getToken());
 
-			CredentialsProvider cp = new UsernamePasswordCredentialsProvider(user.getUsername(), user.getToken());
+						try {
+							Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory(Paths.get(path).toFile())
+									.call().close();
+						} catch (InvalidRemoteException e) {
 
-			Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory(Paths.get(path).toFile())
-					.call().close();
+							dialog.dispose();
+							GPPSystem.setGlobalSemaphoreTasks(false);
+							JOptionPane.showMessageDialog(GPPConstant.window, "Hubo un error al clonar el repositorio", "Error", JOptionPane.ERROR_MESSAGE);
+							return null;
+							
+						} catch (TransportException e) {
 
+							dialog.dispose();
+							GPPSystem.setGlobalSemaphoreTasks(false);
+							JOptionPane.showMessageDialog(GPPConstant.window, "Hubo un error al clonar el repositorio", "Error", JOptionPane.ERROR_MESSAGE);
+							return null;
+							
+						} catch (GitAPIException e) {
+
+							dialog.dispose();
+							GPPSystem.setGlobalSemaphoreTasks(false);
+							JOptionPane.showMessageDialog(GPPConstant.window, "Hubo un error al clonar el repositorio", "Error", JOptionPane.ERROR_MESSAGE);
+							return null;
+							
+						}
+						
+						if (GPPSystem.isGlobalSemaphoreTasks()) {
+							
+							dialog.dispose();
+							GPPSystem.setGlobalSemaphoreTasks(false);
+							return null;
+							
+						}
+						
+			    	}
+			    	
+					return null;
+			    }
+			});
+			
+			GPPSystem.setGlobalSemaphoreTasks(true);
+			
+			dialog.setVisible(true);
+			
+			if (GPPSystem.isGlobalSemaphoreTasks()) {
+				
+				// Si se llega aquí es que el usuario ha cancelado la clonación
+				GPPSystem.setGlobalSemaphoreTasks(false);
+				
+				// Borramos el repositorio
+				if (this.clonePath != null && !this.clonePath.replace(" ", "").equals("")) {
+					
+					File dirRepo = new File(this.clonePath);
+					this.deleteCloneRepo(dirRepo);
+					dirRepo = new File(user.getClonePath() + ownerName + "/");
+					if (dirRepo.listFiles().length == 0) {
+						dirRepo.delete();
+					}
+					setClonePath(null);
+					
+				}
+				
+			}
+
+		} else {
+			
+			JOptionPane.showMessageDialog(GPPConstant.window, "Ya está clonado este repositorio", "Clonado", JOptionPane.INFORMATION_MESSAGE);
+			
 		}
 
 	}

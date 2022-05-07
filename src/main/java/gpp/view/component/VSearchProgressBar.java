@@ -45,7 +45,7 @@ public class VSearchProgressBar {
 		// Mostramos el panel
 		container.setMessageType(JOptionPane.INFORMATION_MESSAGE);
 		container.setMessage("Analizando repositorios");
-		String[] op = { "Cancelar" };
+		String[] op = { "Cancel" };
 		container.setOptions(op);
 		// Añadimos la barra de tareas
 		progressBar.setValue(progressNumber);
