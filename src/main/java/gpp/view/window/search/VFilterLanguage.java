@@ -65,6 +65,7 @@ public class VFilterLanguage extends JPanel {
 		container.add(javaTitle);
 		for (VSearchFieldContainer vc : javaFilter.getFieldsList()) {
 
+			vc.getParamTextField().addPlaceholder("0..100, 200, >1000");
 			container.add(vc);
 
 		}
@@ -75,6 +76,7 @@ public class VFilterLanguage extends JPanel {
 		container.add(pythonTitle);
 		for (VSearchFieldContainer vc : pythonFilter.getFieldsList()) {
 
+			vc.getParamTextField().addPlaceholder("0..100, 200, >1000");
 			container.add(vc);
 
 		}

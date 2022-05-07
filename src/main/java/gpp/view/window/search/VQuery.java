@@ -60,58 +60,77 @@ public class VQuery extends JPanel {
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
 		ownerField = new VSearchFieldContainer("Autores del repositorio", "");
+		ownerField.getParamTextField().addPlaceholder("github, atom, electron, octokit");
 		container.add(ownerField);
 
 		inRepositoryNameField = new VSearchFieldContainer("En el repositorio", "");
+		inRepositoryNameField.getParamTextField().addPlaceholder("javascript, artificial, software");
 		container.add(inRepositoryNameField);
 
 		repositoryField = new VSearchFieldContainer("Autor/Nombre del repositorio", "");
+		repositoryField.getParamTextField().addPlaceholder("twbs/bootstrap, rails/rails");
+		repositoryField.getParamTextField().addPlaceholder("javascript, artificial, software");
 		container.add(repositoryField);
 
 		descriptionField = new VSearchFieldContainer("Palabras en la descripción", "");
+		descriptionField.getParamTextField().addPlaceholder("javascript, artificial, software");
 		container.add(descriptionField);
 
 		inReadmeField = new VSearchFieldContainer("Palabras en el Readme", "");
+		inReadmeField.getParamTextField().addPlaceholder("javascript, artificial, software");
 		container.add(inReadmeField);
 
 		createdField = new VSearchFieldContainer("Fecha de creación", "");
+		createdField.getParamTextField().addPlaceholder(">YYYY-MM-DD, YYYY-MM-DD");
 		container.add(createdField);
 
 		updatedField = new VSearchFieldContainer("Fecha del último push", "");
+		updatedField.getParamTextField().addPlaceholder(">YYYY-MM-DD, YYYY-MM-DD");
 		container.add(updatedField);
 
 		mainLanguageField = new VSearchFieldContainer("Lenguaje principal", "");
+		mainLanguageField.getParamTextField().addPlaceholder("Java, Python, HTML, C");
 		container.add(mainLanguageField);
 
 		starsNumberField = new VSearchFieldContainer("Número de estrellas", "");
+		starsNumberField.getParamTextField().addPlaceholder("0..100, 200, >1000");
 		container.add(starsNumberField);
 
 		forksNumberField = new VSearchFieldContainer("Número de forks", "");
+		forksNumberField.getParamTextField().addPlaceholder("50..100, 200, <5");
 		container.add(forksNumberField);
 
 		followersNumberField = new VSearchFieldContainer("Número de seguidores", "");
+		followersNumberField.getParamTextField().addPlaceholder("0..100, 200, >1000");
 		container.add(followersNumberField);
 
 		sizeField = new VSearchFieldContainer("Tamaño en KB", "");
+		sizeField.getParamTextField().addPlaceholder("0..100, 200, >1000");
 		container.add(sizeField);
 
 		licenseField = new VSearchFieldContainer("Licencia", "");
+		licenseField.getParamTextField().addPlaceholder("MIT, PostgreSQL, ISC");
 		container.add(licenseField);
 
 		topicsField = new VSearchFieldContainer("Topics", "");
+		topicsField.getParamTextField().addPlaceholder("Java, Python, HTML, C");
 		container.add(topicsField);
 
 		topicsNumberField = new VSearchFieldContainer("Número de topics", "");
+		topicsNumberField.getParamTextField().addPlaceholder("50..100, 200, <5");
 		container.add(topicsNumberField);
 
 		sortOptionField = new VSearchFieldContainer("Ordenar por", "");
+		sortOptionField.getParamTextField().addPlaceholder("stars, forks, updated or best-match");
 		container.add(sortOptionField);
 
 		orderOptionField = new VSearchFieldContainer("Orden descendente o ascendente", "");
+		orderOptionField.getParamTextField().addPlaceholder("desc or asc");
 		container.add(orderOptionField);
 
 		repositoriesMaxNumberField = new VSearchFieldContainer("Número máximo de repositorios (1000 máx.)",
 				"");
+		repositoriesMaxNumberField.getParamTextField().addPlaceholder("Default 50, max. 1000");
 		container.add(repositoriesMaxNumberField);
 
 	}

@@ -57,48 +57,63 @@ public class VFilter extends JPanel {
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
 		ownerField = new VSearchFieldContainer("Autores del repositorio", "");
+		ownerField.getParamTextField().addPlaceholder("github, atom, electron, octokit");
 		container.add(ownerField);
 
 		inRepositoryNameField = new VSearchFieldContainer("En el repositorio", "");
+		inRepositoryNameField.getParamTextField().addPlaceholder("javascript, artificial, software");
 		container.add(inRepositoryNameField);
 
 		descriptionField = new VSearchFieldContainer("Palabras en la descripción", "");
+		descriptionField.getParamTextField().addPlaceholder("javascript, artificial, software");
 		container.add(descriptionField);
 
 		createdDateField = new VSearchFieldContainer("Fecha de creación", "");
+		createdDateField.getParamTextField().addPlaceholder(">YYYY-MM-DD, YYYY-MM-DD");
 		container.add(createdDateField);
 
 		updatedDateField = new VSearchFieldContainer("Fecha del último push", "");
+		updatedDateField.getParamTextField().addPlaceholder(">YYYY-MM-DD, YYYY-MM-DD");
 		container.add(updatedDateField);
 
 		mainLanguageField = new VSearchFieldContainer("Lenguaje principal", "");
+		mainLanguageField.getParamTextField().addPlaceholder("Java, Python, HTML, C");
 		container.add(mainLanguageField);
 
 		starsNumberField = new VSearchFieldContainer("Número de estrellas", "");
+		starsNumberField.getParamTextField().addPlaceholder("0..100, 200, >1000");
 		container.add(starsNumberField);
 
 		forksNumberField = new VSearchFieldContainer("Número de forks", "");
+		forksNumberField.getParamTextField().addPlaceholder("50..100, 200, <5");
 		container.add(forksNumberField);
 
 		sizeField = new VSearchFieldContainer("Tamaño en KB", "");
+		sizeField.getParamTextField().addPlaceholder("0..100, 200, >1000");
 		container.add(sizeField);
 
 		licenseField = new VSearchFieldContainer("Licencia", "");
+		licenseField.getParamTextField().addPlaceholder("MIT, PostgreSQL, ISC");
 		container.add(licenseField);
 
 		topicsField = new VSearchFieldContainer("Topics", "");
+		topicsField.getParamTextField().addPlaceholder("Java, Python, HTML, C");
 		container.add(topicsField);
 
 		topicsNumberField = new VSearchFieldContainer("Número de topics", "");
+		topicsNumberField.getParamTextField().addPlaceholder("50..100, 200, <5");
 		container.add(topicsNumberField);
 
 		filesNumberField = new VSearchFieldContainer("Número de ficheros", "");
+		filesNumberField.getParamTextField().addPlaceholder("0..100, 200, >1000");
 		container.add(filesNumberField);
 
 		extensionsField = new VSearchFieldContainer("Extensiones", "");
+		extensionsField.getParamTextField().addPlaceholder("java, py, h, c, js");
 		container.add(extensionsField);
 
 		avgSizeField = new VSearchFieldContainer("Tamaño medio de ficheros en KB", "");
+		avgSizeField.getParamTextField().addPlaceholder("0..100, 200, >1000");
 		container.add(avgSizeField);
 
 	}
