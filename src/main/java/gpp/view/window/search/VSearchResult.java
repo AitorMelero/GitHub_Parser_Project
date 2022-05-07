@@ -14,6 +14,7 @@ import gpp.model.Repository;
 import gpp.model.search.Search;
 import gpp.view.component.VColor;
 import gpp.view.component.VRepositoryContainer;
+import gpp.view.component.VSearchButton;
 import gpp.view.component.VWindowSearchButton;
 
 /**
@@ -33,6 +34,7 @@ public class VSearchResult extends JPanel {
 	private JLabel numberPageLabel; // etiqueta que indica el número de página actual
 	private JScrollPane resultContainerScroll; // contenedor para la lista de resultados con scroll
 	private JPanel resultContainer; // contenedor con la lista de resultados
+	private VSearchButton savedSearchButton; // botón de guardar búsqueda
 	private ActionListener resultContainerRepositoryListener; // listener para los contenedores de los repositorios
 
 	/**************************************************************************
@@ -86,6 +88,11 @@ public class VSearchResult extends JPanel {
 		navigationPageContainer.add(previousPageButton);
 		navigationPageContainer.add(numberPageLabel);
 		navigationPageContainer.add(nextPageButton);
+		
+		// Botón de guardar búsqueda
+		savedSearchButton = new VSearchButton("Guardar resultados");
+		savedSearchButton.setBounds(650, 80, 175, 26);
+		savedSearchButton.setActionCommand("guardar");
 
 	}
 
@@ -174,6 +181,7 @@ public class VSearchResult extends JPanel {
 		}
 
 		this.add(navigationPageContainer);
+		this.add(savedSearchButton);
 
 		// Añadimos los contenedores de todos los repositorios devueltos en la búsqueda
 		Repository r;
@@ -223,6 +231,7 @@ public class VSearchResult extends JPanel {
 
 		previousPageButton.addActionListener(action);
 		nextPageButton.addActionListener(action);
+		savedSearchButton.addActionListener(action);
 
 	}
 

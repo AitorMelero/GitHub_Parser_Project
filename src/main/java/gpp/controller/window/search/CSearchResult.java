@@ -62,6 +62,10 @@ public class CSearchResult implements ActionListener {
 			
 			s.setCurrentPageNumber(pageNumber+1);
 			
+		} else if (e.getActionCommand().equals("guardar")) {
+			
+			gppSystem.getSearchesSavedList().add(s);
+			
 		}
 		
 		windows.getSearchResultView().setSearchResultCurrent(s, s.getCurrentPageNumber());

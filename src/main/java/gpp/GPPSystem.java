@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import com.google.gson.JsonObject;
 
@@ -26,6 +27,7 @@ public class GPPSystem implements Serializable {
 	private static GPPSystem instance = null;
 	private static User user;
 	private Search currentSearch; // búsqueda actual a mostrar
+	private ArrayList<Search> searchesSavedList; // lista de búsquedas guardadas
 	private static int menuButtonSelected;
 	private static int searchButtonSelected;
 	public static final int BUSCAR = 0, BUSCAR_REPO = 1, FILTRAR_REPO = 2, FILTRAR_LENGUAJE_REPO = 3,
@@ -42,6 +44,7 @@ public class GPPSystem implements Serializable {
 	private GPPSystem() {
 
 		globalSemaphoreTasks = false;
+		searchesSavedList = new ArrayList<Search>();
 
 	}
 
@@ -130,6 +133,26 @@ public class GPPSystem implements Serializable {
 	 */
 	public void setCurrentSearch(Search currentSearch) {
 		instance.currentSearch = currentSearch;
+	}
+
+	/**
+	 * 
+	 * Devuelve la lista de búsquedas guardadas.
+	 * 
+	 * @return Lista de búsquedas guardadas.
+	 */
+	public ArrayList<Search> getSearchesSavedList() {
+		return searchesSavedList;
+	}
+
+	/**
+	 * 
+	 * Modifica la lista de búsquedas guardadas.
+	 * 
+	 * @param searchesSavedList. Lista de búsquedas guardadas.
+	 */
+	public void setSearchesSavedList(ArrayList<Search> searchesSavedList) {
+		this.searchesSavedList = searchesSavedList;
 	}
 
 	/**

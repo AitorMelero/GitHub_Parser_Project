@@ -26,6 +26,8 @@ import gpp.view.component.VSearchProgressBar;
  */
 public class Search {
 
+	private static long nextId = 0l; // identificador de la siguiente búsqueda
+	private long id; // identificador de la búsqueda
 	private LocalDate date; // fecha de creación de la búsqueda
 	private String name; // nombre asignado por el usuario a la búsqueda
 	private JsonArray result; // resultado de la búsqueda
@@ -49,6 +51,8 @@ public class Search {
 	 */
 	public Search(String name, User user) {
 
+		id = nextId;
+		nextId++;
 		date = LocalDate.now();
 		this.name = name;
 		result = new JsonArray();
@@ -64,6 +68,16 @@ public class Search {
 	 * GETTERS Y SETTERS
 	 * ************************************************************************
 	 */
+
+	/**
+	 * 
+	 * Devuelve el identificador de la búsqueda.
+	 * 
+	 * @return Identificador de la búsqueda.
+	 */
+	public long getId() {
+		return id;
+	}
 
 	/**
 	 * 
@@ -343,20 +357,20 @@ public class Search {
 		for (Repository r : listRepoResult) {
 
 			repoIsCorrect = true;
-			
+
 			pb.setProgressNumber(pb.getProgressNumber() + 1);
 
 			// Generamos la información completa del repositorio si no hay error
 			try {
-				
+
 				// Se cancela la tarea en paralelo
 				// Se cancela la tarea
 				if (!GPPSystem.isGlobalSemaphoreTasks()) {
-					
+
 					return;
-					
+
 				}
-				
+
 				r.generateFullInfo();
 			} catch (Exception e) {
 				repoIsCorrect = false;
