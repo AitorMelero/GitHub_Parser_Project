@@ -186,8 +186,10 @@ public class CSearch implements ActionListener {
 
 				if (s.getListRepoResult().size() != 0) {
 					
+					// Panel con barra de progreso
 					VSearchProgressBar searchProgressBar = new VSearchProgressBar(windows, s.getListRepoResult().size(), 0);
 
+					// Tarea ejecutada en paralelo para el análisis de resultados
 					ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();
 					Future<Search> submit = newCachedThreadPool.submit(new Callable<Search>() {
 					    @Override
@@ -264,6 +266,7 @@ public class CSearch implements ActionListener {
 					
 					searchProgressBar.showDialog(true);
 					
+					// Si se llega aquí es que el usuario ha cancelado el análisis
 					GPPSystem.setGlobalSemaphoreTasks(false);
 
 				} else {

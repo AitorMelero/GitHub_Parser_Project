@@ -330,6 +330,7 @@ public class Search {
 	 * 
 	 * Filtra la lista de repositorios en función de los filtros introducidos.
 	 * 
+	 * @param pb. Panel con la barra de progreso.
 	 */
 	public void filter(VSearchProgressBar pb) {
 

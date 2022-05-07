@@ -24,6 +24,14 @@ public class VSearchProgressBar {
 	private JProgressBar progressBar; // barra de progreso
 	private JDialog dialog; // dialogo
 
+	/**
+	 * 
+	 * Constructor.
+	 * 
+	 * @param window.         Frame principal de la app.
+	 * @param resultNumber.   Número total de resultados.
+	 * @param progressNumber. Número mínimo de progreso.
+	 */
 	public VSearchProgressBar(VWindow window, int resultNumber, int progressNumber) {
 
 		// Inicializamos objetos
@@ -51,30 +59,47 @@ public class VSearchProgressBar {
 	}
 
 	/**
-	 * @return the dialog
+	 * 
+	 * Devuelve el dialog.
+	 * 
+	 * @return Dialog.
 	 */
 	public JDialog getDialog() {
 		return dialog;
 	}
 
 	/**
-	 * @return the progressNumber
+	 * 
+	 * Devuelve el número de progreso.
+	 * 
+	 * @return Número de progreso.
 	 */
 	public int getProgressNumber() {
 		return progressNumber;
 	}
 
+	/**
+	 * 
+	 * Indica si se debe mostrar el dialog.
+	 * 
+	 * @param showDialog. True si se muestra el dialog, false en caso contrario.
+	 */
 	public void showDialog(boolean showDialog) {
 
 		dialog.setVisible(showDialog);
 
 	}
 
+	/**
+	 * 
+	 * Modifica todos los componentes en función del número de progreso.
+	 * 
+	 * @param progressNumber. Número de progreso.
+	 */
 	public void setProgressNumber(int progressNumber) {
 
 		this.progressNumber = progressNumber;
 		this.progressString = progressNumber + " de " + resultNumber;
-		// container.setMessage(progressString);
 		progressBar.setValue(progressNumber);
 		progressBar.setString(progressString);
 
