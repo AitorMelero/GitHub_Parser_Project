@@ -15,6 +15,8 @@ import javax.swing.border.EmptyBorder;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.Point;
+import java.util.ArrayList;
 
 /**
  * 
@@ -32,6 +34,7 @@ public class VFilterLanguage extends JPanel {
 	private JavaFilter javaFilter; // filtros para el lenguaje java
 	private JLabel pythonTitle; // título de python
 	private PythonFilter pythonFilter; // filtros para el lenguaje python
+	private ArrayList<VSearchFieldContainer> fieldsParamsList; // lista de parámetros
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -58,6 +61,9 @@ public class VFilterLanguage extends JPanel {
 		javaFilter = new JavaFilter();
 		pythonFilter = new PythonFilter();
 
+		// Creamos lista de parámetros
+		fieldsParamsList = new ArrayList<VSearchFieldContainer>();
+
 		// Añadimos los contenedores con los filtros de los lenguajes
 		// JAVA
 		javaTitle = new JLabel("Java");
@@ -67,9 +73,10 @@ public class VFilterLanguage extends JPanel {
 
 			vc.getParamTextField().addPlaceholder("0..100, 200, >1000");
 			container.add(vc);
+			fieldsParamsList.add(vc);
 
 		}
-		
+
 		// PYTHON
 		pythonTitle = new JLabel("Python");
 		setTitleLanguageDesign(pythonTitle);
@@ -78,6 +85,7 @@ public class VFilterLanguage extends JPanel {
 
 			vc.getParamTextField().addPlaceholder("0..100, 200, >1000");
 			container.add(vc);
+			fieldsParamsList.add(vc);
 
 		}
 
@@ -105,12 +113,30 @@ public class VFilterLanguage extends JPanel {
 			isValid = javaFilter.filterRepositoryLanguage(repository);
 
 		} else if (repository.getMainLanguage().toLowerCase().equals("python")) {
-			
+
 			isValid = pythonFilter.filterRepositoryLanguage(repository);
-			
+
 		}
 
 		return isValid;
+
+	}
+
+	/**
+	 * 
+	 * Resetea todos los campos.
+	 * 
+	 */
+	public void resetFields() {
+
+		for (VSearchFieldContainer vs : fieldsParamsList) {
+
+			vs.getParamTextField().setText("");
+
+		}
+
+		// Reseteamos el scroll
+		scrollContainer.getViewport().setViewPosition(new Point(0, 0));
 
 	}
 

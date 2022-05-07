@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import gpp.view.component.VSearchFieldContainer;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
+import java.awt.Point;
 
 /**
  * 
@@ -274,6 +275,39 @@ public class VFilter extends JPanel {
 	 */
 	public VSearchFieldContainer getAvgSizeField() {
 		return avgSizeField;
+	}
+
+	/**************************************************************************
+	 * MÉTODOS
+	 * ************************************************************************
+	 */
+
+	/**
+	 * 
+	 * Resetea todos los campos.
+	 * 
+	 */
+	public void resetFields() {
+
+		ownerField.getParamTextField().setText("");
+		inRepositoryNameField.getParamTextField().setText("");
+		descriptionField.getParamTextField().setText("");
+		createdDateField.getParamTextField().setText("");
+		updatedDateField.getParamTextField().setText("");
+		mainLanguageField.getParamTextField().setText("");
+		starsNumberField.getParamTextField().setText("");
+		forksNumberField.getParamTextField().setText("");
+		sizeField.getParamTextField().setText("");
+		licenseField.getParamTextField().setText("");
+		topicsField.getParamTextField().setText("");
+		topicsNumberField.getParamTextField().setText("");
+		filesNumberField.getParamTextField().setText("");
+		extensionsField.getParamTextField().setText("");
+		avgSizeField.getParamTextField().setText("");
+
+		// Reseteamos el scroll
+		scrollContainer.getViewport().setViewPosition(new Point(0, 0));
+
 	}
 
 }

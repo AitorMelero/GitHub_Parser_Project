@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import gpp.view.component.VSearchFieldContainer;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
+import java.awt.Point;
 
 /**
  * 
@@ -128,8 +129,7 @@ public class VQuery extends JPanel {
 		orderOptionField.getParamTextField().addPlaceholder("desc or asc");
 		container.add(orderOptionField);
 
-		repositoriesMaxNumberField = new VSearchFieldContainer("Número máximo de repositorios (1000 máx.)",
-				"");
+		repositoriesMaxNumberField = new VSearchFieldContainer("Número máximo de repositorios (1000 máx.)", "");
 		repositoriesMaxNumberField.getParamTextField().addPlaceholder("Default 50, max. 1000");
 		container.add(repositoriesMaxNumberField);
 
@@ -327,6 +327,42 @@ public class VQuery extends JPanel {
 	 */
 	public VSearchFieldContainer getRepositoriesMaxNumberField() {
 		return repositoriesMaxNumberField;
+	}
+
+	/**************************************************************************
+	 * MÉTODOS
+	 * ************************************************************************
+	 */
+
+	/**
+	 * 
+	 * Resetea todos los campos.
+	 * 
+	 */
+	public void resetFields() {
+
+		ownerField.getParamTextField().setText("");
+		inRepositoryNameField.getParamTextField().setText("");
+		repositoryField.getParamTextField().setText("");
+		descriptionField.getParamTextField().setText("");
+		inReadmeField.getParamTextField().setText("");
+		createdField.getParamTextField().setText("");
+		updatedField.getParamTextField().setText("");
+		mainLanguageField.getParamTextField().setText("");
+		starsNumberField.getParamTextField().setText("");
+		forksNumberField.getParamTextField().setText("");
+		followersNumberField.getParamTextField().setText("");
+		sizeField.getParamTextField().setText("");
+		licenseField.getParamTextField().setText("");
+		topicsField.getParamTextField().setText("");
+		topicsNumberField.getParamTextField().setText("");
+		sortOptionField.getParamTextField().setText("");
+		orderOptionField.getParamTextField().setText("");
+		repositoriesMaxNumberField.getParamTextField().setText("");
+		
+		// Reseteamos el scroll
+		scrollContainer.getViewport().setViewPosition(new Point(0, 0));
+
 	}
 
 }

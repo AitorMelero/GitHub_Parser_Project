@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import gpp.GPPSystem;
 import gpp.view.VWindow;
 import gpp.view.component.VColor;
+import gpp.view.window.search.VFilterLanguage;
+import gpp.view.window.search.VSearch;
 
 /**
  * 
@@ -53,6 +55,10 @@ public class CLeftMenu implements ActionListener {
 		
 		if (e.getActionCommand().equals("buscar")) {
 			
+			// Reseteamos y cambiamos valores
+			windows.getSearchView().getQueryWindow().resetFields();
+			windows.getSearchView().getFilterWindow().resetFields();
+			windows.getSearchView().getFilterLanguageWindow().resetFields();
 			GPPSystem.setMenuButtonSelected(GPPSystem.BUSCAR);
 			windows.getMenu().getRecentSearchesButton().setBackground(VColor.getGRAY_MENU());
 			GPPSystem.setSearchButtonSelected(GPPSystem.BUSCAR_REPO);
