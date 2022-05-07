@@ -3,6 +3,9 @@ package gpp.view.component;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 /**
  * 
@@ -29,13 +32,13 @@ public class VSearchFieldContainer extends JPanel {
 
 		// Etiqueta
 		paramLabel = new VSearchParamLabel(labelValue);
-		paramLabel.setBounds(30, 22, 356, 16);
+		paramLabel.setBounds(30, 32, 356, 16);
 		this.add(paramLabel);
 
 		// Campo de texto
 		paramTextField = new VSearchTextField();
 		paramTextField.setText(textFieldValue);
-		paramTextField.setBounds(332, 20, 430, 20);
+		paramTextField.setBounds(332, 20, 430, 40);
 		paramTextField.setColumns(10);
 		this.add(paramTextField);
 
@@ -54,6 +57,33 @@ public class VSearchFieldContainer extends JPanel {
 	 */
 	public VSearchTextField getParamTextField() {
 		return paramTextField;
+	}
+	
+	/**************************************************************************
+	 * MÉTODOS
+	 * ************************************************************************
+	 */
+	
+	public void changeTextFieldToTextArea() {
+		
+		if (paramTextField != null) {
+			
+			this.remove(paramTextField);
+			
+			// Añadimos el area de texto
+			VSearchTextArea ta = new VSearchTextArea(paramTextField.getText());
+			ta.setBounds(332, 20, 430, 40);
+			ta.getTextArea().setColumns(10);
+			ta.getTextArea().setEnabled(false);
+			ta.getTextArea().setDisabledTextColor(VColor.getBLACK_MAIN());
+			ta.setBorder(new CompoundBorder(new EmptyBorder(1, 1, 1, 1), new LineBorder(VColor.getBLACK_MAIN(), 1)));
+			this.add(ta);
+			
+			paramTextField = null;
+			
+		}
+		
+		
 	}
 
 }

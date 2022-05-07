@@ -163,6 +163,7 @@ public class VRepository extends JPanel {
 
 		}
 		VSearchFieldContainer extensionContainer = addInfoField("Extensiones: ", extensionsList);
+		extensionContainer.changeTextFieldToTextArea();
 		infoContainer.add(extensionContainer);
 		// extensionContainer.getParamTextField().setMinimumSize(new Dimension(430,
 		// 20));

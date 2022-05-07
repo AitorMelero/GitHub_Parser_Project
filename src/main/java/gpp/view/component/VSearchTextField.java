@@ -1,6 +1,9 @@
 package gpp.view.component;
 
 import javax.swing.JTextField;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 /**
  * 
@@ -14,6 +17,7 @@ public class VSearchTextField extends JTextField{
 	public VSearchTextField() {
 		
 		this.setColumns(40);
+		this.setBorder(new CompoundBorder(new EmptyBorder(1, 1, 1, 1), new LineBorder(VColor.getBLACK_MAIN(), 1)));
 		
 	}
 
