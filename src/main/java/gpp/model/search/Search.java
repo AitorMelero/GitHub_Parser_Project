@@ -1,8 +1,10 @@
 package gpp.model.search;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
@@ -24,7 +26,7 @@ import gpp.view.component.VSearchProgressBar;
  * @author Aitor Melero
  *
  */
-public class Search {
+public class Search implements Serializable {
 
 	private static long nextId = 0l; // identificador de la siguiente búsqueda
 	private long id; // identificador de la búsqueda
@@ -459,6 +461,18 @@ public class Search {
 			listRepoResult.add(repoResult);
 
 		}
+
+	}
+
+	public JsonObject infoSearchToJsonObject() {
+
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("id", id);
+		jsonObject.addProperty("name", name);
+		jsonObject.addProperty("date", date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		//jsonObject.addProperty("description", description);
+
+		return jsonObject;
 
 	}
 

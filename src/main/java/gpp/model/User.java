@@ -34,7 +34,7 @@ public class User {
 
 		this.username = username;
 		this.token = token;
-		this.clonePath = "gpp-clone-repositories/";
+		this.clonePath = System.getenv("SystemDrive") + "/GitHub_Parser_Project/ " + username + "/gpp-clone-repositories/";
 		this.searches = new ArrayList<Search>();
 
 	}

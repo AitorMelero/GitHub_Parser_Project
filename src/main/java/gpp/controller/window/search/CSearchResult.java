@@ -3,6 +3,8 @@ package gpp.controller.window.search;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
+
 import gpp.GPPSystem;
 import gpp.model.search.Search;
 import gpp.view.VWindow;
@@ -64,7 +66,24 @@ public class CSearchResult implements ActionListener {
 			
 		} else if (e.getActionCommand().equals("guardar")) {
 			
-			gppSystem.getSearchesSavedList().add(s);
+			boolean searchFind = false;
+			for (int i = 0; i < gppSystem.getSearchesSavedList().size() && !searchFind; i++) {
+				
+				if (s.getId() == gppSystem.getSearchesSavedList().get(i).getId()) {
+					
+					searchFind = true;
+					
+				}
+				
+			}
+			
+			if (!searchFind) {
+				
+				gppSystem.getSearchesSavedList().add(s);
+				
+			} 
+			
+			JOptionPane.showMessageDialog(windows, "Ya tienes guardados los resultados", "Guardado", JOptionPane.INFORMATION_MESSAGE);
 			
 		}
 		

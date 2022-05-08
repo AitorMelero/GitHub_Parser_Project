@@ -1,6 +1,9 @@
 package gpp;
 
 import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 import gpp.constant.GPPConstant;
 import gpp.controller.component.CLeftMenu;
@@ -61,6 +64,23 @@ public class GPPMain {
 				// Colores de botones
 				windows.getMenu().getSearchButton().setBackground(VColor.getGRAY_FOCUS_MENU());
 				windows.getSearchView().getQueryWindowButton().setBackground(VColor.getGRAY_FOCUS_MENU());
+				
+				// Acciones al cerrar la app
+				windows.addWindowListener(new WindowAdapter() {
+				    public void windowClosed(WindowEvent e) {
+				        System.out.println("jdialog window closed event received");
+				    }
+
+				    public void windowClosing(WindowEvent e) {
+				        try {
+							gppSystem.saveData();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							System.out.println("ERROR");
+						}
+				    }
+				});
 
 			}
 

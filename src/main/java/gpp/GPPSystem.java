@@ -1,12 +1,22 @@
 package gpp;
 
 import java.awt.Desktop;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import gpp.model.User;
@@ -285,6 +295,62 @@ public class GPPSystem implements Serializable {
 	 */
 	public void logout() {
 
+	}
+
+	/**
+	 * 
+	 * Guarda los resultados de las búsquedas en formato json.
+	 * 
+	 * @throws IOException Error entrada/salida
+	 */
+	public void saveData() throws IOException {
+
+		BufferedWriter bw = null;
+		String datos = System.getenv("SystemDrive") + "/GitHub_Parser_Project/" + user.getUsername() + "/searches/";
+		String searchPath = "";
+		File f;
+		GsonBuilder builder;
+		Gson gson;
+
+		if (instance != null) {
+			try {
+
+				// Creamos el directorio
+				f = new File(datos);
+				if (!f.exists()) {
+					f.mkdirs();
+				}
+				// Guardamos las búsquedas
+				for (Search s : searchesSavedList) {
+
+					searchPath = s.getId() + ".json";
+					f = new File(datos + searchPath);
+					if (!f.exists()) {
+
+						// Guardamos el json de las búsquedas
+						builder = new GsonBuilder();
+						builder.setPrettyPrinting();
+						gson = builder.create();
+						bw = new BufferedWriter(new FileWriter(f));
+						bw.write(gson.toJson(s.infoSearchToJsonObject()));
+
+						if (bw != null) {
+							bw.close();
+							bw = null;
+						}
+
+					}
+
+				}
+
+			} catch (IOException e) {
+				System.out.println("Error de entrada/salida. " + e);
+			} finally {
+				if (bw != null) {
+					bw.close();
+				}
+			}
+		}
 	}
 
 }

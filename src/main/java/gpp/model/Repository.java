@@ -27,6 +27,8 @@ import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
+import com.google.gson.JsonObject;
+
 import gpp.GPPSystem;
 import gpp.constant.GPPConstant;
 import gpp.model.languageparser.LanguageParser;
@@ -853,6 +855,18 @@ public class Repository {
 
 		}
 
+	}
+	
+	public JsonObject infoRepositoryToJsonObject() {
+		
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("ownerName", ownerName);
+		jsonObject.addProperty("name", name);
+		jsonObject.addProperty("clonePath", clonePath);
+		jsonObject.addProperty("description", description);
+		
+		return jsonObject;
+		
 	}
 
 }

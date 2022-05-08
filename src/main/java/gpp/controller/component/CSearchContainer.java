@@ -68,6 +68,7 @@ public class CSearchContainer implements ActionListener {
 		
 		// Cambiamos a la pantalla de resultados
 		windows.getSearchResultView().setSearchResultCurrent(currentSearch, 1);
+		GPPSystem.setMenuButtonSelected(GPPSystem.BUSQUEDAS_GUARDADAS);
 		windows.setCard("VSearchResult");
 
 	}

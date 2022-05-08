@@ -72,7 +72,13 @@ public class CLeftMenu implements ActionListener {
 			
 			GPPSystem.setMenuButtonSelected(GPPSystem.BUSQUEDAS_GUARDADAS);
 			windows.getMenu().getSearchButton().setBackground(VColor.getGRAY_MENU());
-			windows.getRecentSearchView().setSearchResultCurrent(gppSystem.getSearchesSavedList(), 1);
+			int page = 1;
+			if (gppSystem.getSearchesSavedList().size() == 0) {
+				
+				page = 0;
+				
+			}
+			windows.getRecentSearchView().setSearchResultCurrent(gppSystem.getSearchesSavedList(), page);
 			windows.setCard("VRecentSearch");
 			
 		}
