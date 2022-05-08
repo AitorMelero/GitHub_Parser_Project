@@ -81,6 +81,12 @@ public class CLeftMenu implements ActionListener {
 			windows.getRecentSearchView().setSearchResultCurrent(gppSystem.getSearchesSavedList(), page);
 			windows.setCard("VRecentSearch");
 			
+		} else if (e.getActionCommand().equals("logout")) {
+			
+			gppSystem.logout();
+			windows.getLoginView().getTokenField().setText("");
+			windows.setCard("VLogin");
+			
 		}
 		
 	}

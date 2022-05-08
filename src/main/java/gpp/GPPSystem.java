@@ -288,7 +288,7 @@ public class GPPSystem implements Serializable {
 			BufferedReader br = null;
 			String datos = System.getenv("SystemDrive") + "/GitHub_Parser_Project/" + user.getUsername() + "/searches/";
 			File f;
-			
+
 			// Reseteamos la lista de búsquedas guardadas
 			searchesSavedList = new ArrayList<Search>();
 
@@ -297,32 +297,32 @@ public class GPPSystem implements Serializable {
 				// Creamos el directorio
 				f = new File(datos);
 				if (f.exists()) {
-					
+
 					String line;
 					String jsonString;
 
-					for (File fs: f.listFiles()) {
-						
+					for (File fs : f.listFiles()) {
+
 						br = new BufferedReader(new FileReader(fs));
 						line = br.readLine();
 						jsonString = "";
-						
-						while(line != null) {
-							
+
+						while (line != null) {
+
 							jsonString += line;
 							line = br.readLine();
-							
+
 						}
-						
+
 						searchesSavedList.add(new Search(JsonParser.parseString(jsonString).getAsJsonObject()));
-						
+
 					}
-					
+
 					if (br != null) {
 						br.close();
 						br = null;
 					}
-					
+
 				}
 
 			} catch (IOException e) {
@@ -349,6 +349,18 @@ public class GPPSystem implements Serializable {
 	 */
 	public void logout() {
 
+		try {
+			saveData();
+		} catch (IOException e) {
+			System.out.println("Ha ocurrido un error al cerrar sesión");
+		}
+
+		user = null;
+		currentSearch = null;
+		searchesSavedList = new ArrayList<Search>();
+		menuButtonSelected = GPPSystem.BUSCAR;
+		searchButtonSelected = GPPSystem.BUSCAR_REPO;
+
 	}
 
 	/**
@@ -359,50 +371,56 @@ public class GPPSystem implements Serializable {
 	 */
 	public void saveData() throws IOException {
 
-		BufferedWriter bw = null;
-		String datos = System.getenv("SystemDrive") + "/GitHub_Parser_Project/" + user.getUsername() + "/searches/";
-		String searchPath = "";
-		File f;
-		GsonBuilder builder;
-		Gson gson;
+		// Comprobamos si hay usuario con sesión iniciada
+		if (user != null) {
 
-		try {
+			BufferedWriter bw = null;
+			String datos = System.getenv("SystemDrive") + "/GitHub_Parser_Project/" + user.getUsername() + "/searches/";
+			String searchPath = "";
+			File f;
+			GsonBuilder builder;
+			Gson gson;
 
-			// Creamos el directorio
-			f = new File(datos);
-			if (!f.exists()) {
-				f.mkdirs();
-			}
-			// Guardamos las búsquedas
-			for (Search s : searchesSavedList) {
+			try {
 
-				searchPath = s.getId() + ".json";
-				f = new File(datos + searchPath);
+				// Creamos el directorio
+				f = new File(datos);
 				if (!f.exists()) {
+					f.mkdirs();
+				}
+				// Guardamos las búsquedas
+				for (Search s : searchesSavedList) {
 
-					// Guardamos el json de las búsquedas
-					builder = new GsonBuilder();
-					builder.setPrettyPrinting();
-					gson = builder.create();
-					bw = new BufferedWriter(new FileWriter(f));
-					bw.write(gson.toJson(s.infoSearchToJsonObject()));
+					searchPath = s.getId() + ".json";
+					f = new File(datos + searchPath);
+					if (!f.exists()) {
 
-					if (bw != null) {
-						bw.close();
-						bw = null;
+						// Guardamos el json de las búsquedas
+						builder = new GsonBuilder();
+						builder.setPrettyPrinting();
+						gson = builder.create();
+						bw = new BufferedWriter(new FileWriter(f));
+						bw.write(gson.toJson(s.infoSearchToJsonObject()));
+
+						if (bw != null) {
+							bw.close();
+							bw = null;
+						}
+
 					}
 
 				}
 
+			} catch (IOException e) {
+				System.out.println("Error de entrada/salida. " + e);
+			} finally {
+				if (bw != null) {
+					bw.close();
+				}
 			}
 
-		} catch (IOException e) {
-			System.out.println("Error de entrada/salida. " + e);
-		} finally {
-			if (bw != null) {
-				bw.close();
-			}
 		}
+
 	}
 
 	/**
@@ -424,7 +442,7 @@ public class GPPSystem implements Serializable {
 			}
 
 		}
-		
+
 		idMax++;
 
 		return idMax;

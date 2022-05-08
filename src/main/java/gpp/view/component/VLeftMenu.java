@@ -67,9 +67,10 @@ public class VLeftMenu extends JPanel {
 		settingsContainer.setPreferredSize(new Dimension(width, (int) (height * 0.3 / 4)));
 		settingsContainer.setLayout(new GridLayout(1, 1));
 
-		// Añadimos el botón de ajustes
-		Icon settingsIcon = new ImageIcon(GPPConstant.GPP_ICONS + "settings.png");
-		settingsButton = new VButton("Ajustes", settingsIcon);
+		// Añadimos el botón de logout
+		Icon settingsIcon = new ImageIcon(GPPConstant.GPP_ICONS + "logout.png");
+		settingsButton = new VButton("Cerrar sesión", settingsIcon);
+		settingsButton.setActionCommand("logout");
 		settingsContainer.add(settingsButton);
 
 		this.add(settingsContainer, BorderLayout.SOUTH);
@@ -146,6 +147,7 @@ public class VLeftMenu extends JPanel {
 
 		searchButton.addActionListener(action);
 		recentSearchesButton.addActionListener(action);
+		settingsButton.addActionListener(action);
 
 	}
 
