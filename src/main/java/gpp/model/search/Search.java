@@ -53,6 +53,11 @@ public class Search implements Serializable {
 	 */
 	public Search(String name, User user) {
 
+		if (nextId == 0) {
+			
+			nextId = GPPSystem.getMaxIdSearchesSaved();
+			
+		}
 		id = nextId;
 		nextId++;
 		date = LocalDate.now();
@@ -63,6 +68,32 @@ public class Search implements Serializable {
 		this.user = user;
 		this.listRepoResult = new ArrayList<Repository>();
 		this.currentPageNumber = -1;
+
+	}
+	
+	/**
+	 * 
+	 * Constructor a partir de un JSON.
+	 * 
+	 * @return Información básica de la búsqueda en formato JSON.
+	 */
+	public Search(JsonObject jsonObject) {
+
+		id = jsonObject.get("id").getAsLong();
+		name = jsonObject.get("name").getAsString();
+		String[] dateString = jsonObject.get("date").getAsString().split("-");
+		date = LocalDate.of(Integer.parseInt(dateString[0]), Integer.parseInt(dateString[1]), Integer.parseInt(dateString[2]));
+		listRepoResult = new ArrayList<Repository>();
+		JsonArray repositories = jsonObject.get("listRepoResult").getAsJsonArray();
+		
+		
+		for (JsonElement r: repositories) {
+			
+			listRepoResult.add(new Repository(r.getAsJsonObject()));
+			
+		}
+		
+		currentPageNumber = 1;
 
 	}
 

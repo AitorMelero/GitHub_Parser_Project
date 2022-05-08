@@ -187,7 +187,7 @@ public class VRecentSearch extends JPanel {
 		// Añadimos componentes
 		this.add(title);
 		this.add(searchNumberLabel);
-		this.add(navigationPageContainer);
+		//this.add(navigationPageContainer);
 		resultContainerScroll.setViewportView(resultContainer);
 		this.add(resultContainerScroll);
 

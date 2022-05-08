@@ -114,6 +114,92 @@ public class Repository {
 
 	}
 
+	/**
+	 * 
+	 * Constructor a partir de un json.
+	 * 
+	 * @param jsonObject. JSON a partir del cual se genera el repositorio.
+	 */
+	public Repository(JsonObject jsonObject) {
+
+		setOwnerName(jsonObject.get("ownerName").getAsString());
+		setName(jsonObject.get("name").getAsString());
+		if (jsonObject.get("clonePath") != null) {
+			
+			setClonePath(jsonObject.get("clonePath").getAsString());
+			
+		}
+		setDescription(jsonObject.get("description").getAsString());
+		setStarsNumber(jsonObject.get("starsNumber").getAsLong());
+		setForksNumber(jsonObject.get("forksNumber").getAsLong());
+		setWatchersNumber(jsonObject.get("watchersNumber").getAsLong());
+		setLicense(jsonObject.get("license").getAsString());
+		setDateCreated(jsonObject.get("dateCreated").getAsString());
+		setDateUpdated(jsonObject.get("dateUpdated").getAsString());
+		setFilesNumber(jsonObject.get("filesNumber").getAsInt());
+		String listString = jsonObject.get("extensionsList").getAsString().replace("[", "");
+		listString = listString.replace("]", "");
+		listString = listString.replace(" ", "");
+
+		Set<String> newExtensions = new HashSet<String>();
+		if (!listString.equals("")) {
+
+			for (String s : listString.split(",")) {
+
+				newExtensions.add(s);
+
+			}
+
+		}
+		setExtensionsList(newExtensions);
+		listString = jsonObject.get("topics").getAsString().replace("[", "");
+		listString = listString.replace("]", "");
+		listString = listString.replace(" ", "");
+
+		ArrayList<String> newTopics = new ArrayList<String>();
+		if (!listString.equals("")) {
+
+			for (String s : listString.split(",")) {
+
+				newTopics.add(s);
+
+			}
+
+		}
+		setTopics(newTopics);
+		setTotalSize(jsonObject.get("totalSize").getAsLong());
+		setAvgSize(jsonObject.get("avgSize").getAsLong());
+		setMainLanguage(jsonObject.get("mainLanguage").getAsString());
+		setMainLanguagesFilesNumber(jsonObject.get("mainLanguagesFilesNumber").getAsInt());
+		setMainBranch(jsonObject.get("mainBranch").getAsString());
+
+		LanguageParser language = null;
+		if (mainLanguage.equalsIgnoreCase("java")) {
+
+			language = new JavaLanguageParser();
+
+		} else if (mainLanguage.equalsIgnoreCase("python")) {
+
+			language = new PythonLanguageParser();
+
+		}
+
+		if (language != null) {
+
+			JsonObject properties = jsonObject.get("languageProperties").getAsJsonObject();
+
+			for (String s : properties.keySet()) {
+
+				language.getPropertiesVisualMap().put(s, properties.get(s).getAsLong());
+
+			}
+
+		}
+
+		languageProperties = language;
+
+	}
+
 	/**************************************************************************
 	 * GETTERS Y SETTERS
 	 * ************************************************************************
@@ -564,7 +650,7 @@ public class Repository {
 
 		// Comprobamos si el repositorio ya está clonado
 		if (clonePath == null) {
-			
+
 			// Creamos panel de información
 			JOptionPane container = new JOptionPane();
 			container.setMessageType(JOptionPane.INFORMATION_MESSAGE);
@@ -574,71 +660,75 @@ public class Repository {
 			JDialog dialog = container.createDialog(GPPConstant.window, "Clonar repositorio");
 			dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 			dialog.setVisible(false);
-			
+
 			// Tarea ejecutada en paralelo para clonar el repositorio
 			ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();
 			Future<Object> submit = newCachedThreadPool.submit(new Callable<Object>() {
-			    @Override
-			    public Search call() {
-			    	
-			    	if (GPPSystem.isGlobalSemaphoreTasks()) {
-			    		
-			    		setClonePath(path);
+				@Override
+				public Search call() {
 
-						CredentialsProvider cp = new UsernamePasswordCredentialsProvider(user.getUsername(), user.getToken());
+					if (GPPSystem.isGlobalSemaphoreTasks()) {
+
+						setClonePath(path);
+
+						CredentialsProvider cp = new UsernamePasswordCredentialsProvider(user.getUsername(),
+								user.getToken());
 
 						try {
-							Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl).setDirectory(Paths.get(path).toFile())
-									.call().close();
+							Git.cloneRepository().setCredentialsProvider(cp).setURI(repoUrl)
+									.setDirectory(Paths.get(path).toFile()).call().close();
 						} catch (InvalidRemoteException e) {
 
 							dialog.dispose();
 							GPPSystem.setGlobalSemaphoreTasks(false);
-							JOptionPane.showMessageDialog(GPPConstant.window, "Hubo un error al clonar el repositorio", "Error", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(GPPConstant.window, "Hubo un error al clonar el repositorio",
+									"Error", JOptionPane.ERROR_MESSAGE);
 							return null;
-							
+
 						} catch (TransportException e) {
 
 							dialog.dispose();
 							GPPSystem.setGlobalSemaphoreTasks(false);
-							JOptionPane.showMessageDialog(GPPConstant.window, "Hubo un error al clonar el repositorio", "Error", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(GPPConstant.window, "Hubo un error al clonar el repositorio",
+									"Error", JOptionPane.ERROR_MESSAGE);
 							return null;
-							
+
 						} catch (GitAPIException e) {
 
 							dialog.dispose();
 							GPPSystem.setGlobalSemaphoreTasks(false);
-							JOptionPane.showMessageDialog(GPPConstant.window, "Hubo un error al clonar el repositorio", "Error", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(GPPConstant.window, "Hubo un error al clonar el repositorio",
+									"Error", JOptionPane.ERROR_MESSAGE);
 							return null;
-							
+
 						}
-						
+
 						if (GPPSystem.isGlobalSemaphoreTasks()) {
-							
+
 							dialog.dispose();
 							GPPSystem.setGlobalSemaphoreTasks(false);
 							return null;
-							
+
 						}
-						
-			    	}
-			    	
+
+					}
+
 					return null;
-			    }
+				}
 			});
-			
+
 			GPPSystem.setGlobalSemaphoreTasks(true);
-			
+
 			dialog.setVisible(true);
-			
+
 			if (GPPSystem.isGlobalSemaphoreTasks()) {
-				
+
 				// Si se llega aquí es que el usuario ha cancelado la clonación
 				GPPSystem.setGlobalSemaphoreTasks(false);
-				
+
 				// Borramos el repositorio
 				if (this.clonePath != null && !this.clonePath.replace(" ", "").equals("")) {
-					
+
 					File dirRepo = new File(this.clonePath);
 					this.deleteCloneRepo(dirRepo);
 					dirRepo = new File(user.getClonePath() + ownerName + "/");
@@ -646,15 +736,16 @@ public class Repository {
 						dirRepo.delete();
 					}
 					setClonePath(null);
-					
+
 				}
-				
+
 			}
 
 		} else {
-			
-			JOptionPane.showMessageDialog(GPPConstant.window, "Ya está clonado este repositorio", "Clonado", JOptionPane.INFORMATION_MESSAGE);
-			
+
+			JOptionPane.showMessageDialog(GPPConstant.window, "Ya está clonado este repositorio", "Clonado",
+					JOptionPane.INFORMATION_MESSAGE);
+
 		}
 
 	}
@@ -681,12 +772,12 @@ public class Repository {
 			ZipEntry entry = zipIn.getNextEntry();
 
 			while (entry != null) {
-				
+
 				// Se cancela la tarea en paralelo
 				if (!GPPSystem.isGlobalSemaphoreTasks()) {
-					
+
 					return;
-					
+
 				}
 
 				if (!entry.isDirectory()) {
@@ -705,6 +796,67 @@ public class Repository {
 			System.out.println("EXCEPCION: " + e);
 
 		}
+
+	}
+
+	/**
+	 * 
+	 * Devuelve la información básica del repositorio en formato JSON.
+	 * 
+	 * @return Información básica del repositorio en formato JSON.
+	 */
+	public JsonObject infoRepositoryToJsonObject() {
+
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("ownerName", ownerName);
+		jsonObject.addProperty("name", name);
+		jsonObject.addProperty("clonePath", clonePath);
+		jsonObject.addProperty("description", description);
+		jsonObject.addProperty("starsNumber", starsNumber);
+		jsonObject.addProperty("forksNumber", forksNumber);
+		jsonObject.addProperty("watchersNumber", watchersNumber);
+		jsonObject.addProperty("license", license);
+		jsonObject.addProperty("dateCreated", dateCreated);
+		jsonObject.addProperty("dateUpdated", dateUpdated);
+		jsonObject.addProperty("filesNumber", filesNumber);
+
+		String listString = "[";
+		if (extensionsList.size() == 0) {
+			listString += "]";
+		} else {
+			for (String s : extensionsList) {
+				listString += s + ", ";
+			}
+			listString = listString.substring(0, listString.length() - 2) + "]";
+		}
+		jsonObject.addProperty("extensionsList", listString);
+
+		listString = "[";
+		if (topics.size() == 0) {
+			listString += "]";
+		} else {
+			for (String s : topics) {
+				listString += s + ", ";
+			}
+			listString = listString.substring(0, listString.length() - 2) + "]";
+		}
+		jsonObject.addProperty("topics", listString);
+		jsonObject.addProperty("totalSize", totalSize);
+		jsonObject.addProperty("avgSize", avgSize);
+		jsonObject.addProperty("mainLanguage", mainLanguage);
+		jsonObject.addProperty("mainLanguagesFilesNumber", mainLanguagesFilesNumber);
+		jsonObject.addProperty("mainBranch", mainBranch);
+		JsonObject language = new JsonObject();
+		if (languageProperties != null) {
+
+			for (String s : languageProperties.getPropertiesVisualMap().keySet()) {
+				language.addProperty(s, languageProperties.getPropertiesVisualMap().get(s));
+			}
+
+		}
+		jsonObject.add("languageProperties", language);
+
+		return jsonObject;
 
 	}
 
@@ -796,14 +948,14 @@ public class Repository {
 			if (f.isDirectory()) {
 
 				for (File c : f.listFiles()) {
-					
+
 					// Se cancela la tarea en paralelo
 					if (!GPPSystem.isGlobalSemaphoreTasks()) {
-						
+
 						return;
-						
+
 					}
-					
+
 					getFullInfo(c);
 				}
 
@@ -855,67 +1007,6 @@ public class Repository {
 
 		}
 
-	}
-	
-	/**
-	 * 
-	 * Devuelve la información básica del repositorio en formato JSON.
-	 * 
-	 * @return Información básica del repositorio en formato JSON.
-	 */
-	public JsonObject infoRepositoryToJsonObject() {
-		
-		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("ownerName", ownerName);
-		jsonObject.addProperty("name", name);
-		jsonObject.addProperty("clonePath", clonePath);
-		jsonObject.addProperty("description", description);
-		jsonObject.addProperty("starsNumber", starsNumber);
-		jsonObject.addProperty("forksNumber", forksNumber);
-		jsonObject.addProperty("watchersNumber", watchersNumber);
-		jsonObject.addProperty("license", license);
-		jsonObject.addProperty("dateCreated", dateCreated);
-		jsonObject.addProperty("dateUpdated", dateUpdated);
-		jsonObject.addProperty("filesNumber", filesNumber);
-		
-		String listString = "[";
-		if (extensionsList.size() == 0) {
-			listString += "]";
-		} else {
-			for (String s: extensionsList) {
-				listString += s + ", ";
-			}
-			listString = listString.substring(0, listString.length()-2) + "]";
-		}
-		jsonObject.addProperty("extensionsList", listString);
-		
-		listString = "[";
-		if (topics.size() == 0) {
-			listString += "]";
-		} else {
-			for (String s: topics) {
-				listString += s + ", ";
-			}
-			listString = listString.substring(0, listString.length()-2) + "]";
-		}
-		jsonObject.addProperty("topics", listString);
-		jsonObject.addProperty("totalSize", totalSize);
-		jsonObject.addProperty("avgSize", avgSize);
-		jsonObject.addProperty("mainLanguage", mainLanguage);
-		jsonObject.addProperty("mainLanguagesFilesNumber", mainLanguagesFilesNumber);
-		jsonObject.addProperty("mainBranch", mainBranch);
-		JsonObject language = new JsonObject();
-		if (languageProperties != null) {
-			
-			for (String s: languageProperties.getPropertiesVisualMap().keySet()) {
-				language.addProperty(s, languageProperties.getPropertiesVisualMap().get(s));
-			}
-			
-		}
-		jsonObject.add("languageProperties", language);
-		
-		return jsonObject;
-		
 	}
 
 }

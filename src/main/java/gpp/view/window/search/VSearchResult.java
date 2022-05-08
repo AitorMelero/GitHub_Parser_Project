@@ -149,7 +149,13 @@ public class VSearchResult extends JPanel {
 
 		title.setText(currentSearch.getName());
 		repositoryNumberLabel.setText(currentSearch.getListRepoResult().size() + " repositorios encontrados");
-		numberPageLabel.setText("Página " + Integer.toString(page) + " de " + currentSearch.getResult().size());
+		int totalPage = currentSearch.getListRepoResult().size() / 100;
+		if (currentSearch.getListRepoResult().size() % 100 != 0) {
+			
+			totalPage++;
+			
+		}
+		numberPageLabel.setText("Página " + Integer.toString(page) + " de " + totalPage);
 
 		// Añadimos componentes
 		this.add(title);
@@ -158,7 +164,7 @@ public class VSearchResult extends JPanel {
 
 			previousPageButton.setEnabled(false);
 
-			if (page != currentSearch.getResult().size()) {
+			if (page != totalPage) {
 
 				nextPageButton.setEnabled(true);
 
@@ -168,7 +174,7 @@ public class VSearchResult extends JPanel {
 
 			}
 
-		} else if (page == currentSearch.getResult().size()) {
+		} else if (page == totalPage) {
 
 			previousPageButton.setEnabled(true);
 			nextPageButton.setEnabled(false);
@@ -186,7 +192,7 @@ public class VSearchResult extends JPanel {
 		// Añadimos los contenedores de todos los repositorios devueltos en la búsqueda
 		Repository r;
 		VRepositoryContainer repositoryContainer;
-		int numPages = currentSearch.getResult().size(); // número de páginas
+		int numPages = totalPage; // número de páginas
 		int numRepo = currentSearch.getListRepoResult().size(); // número de repositorios
 		int numRepoInPages = 100;
 

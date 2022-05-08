@@ -1,14 +1,12 @@
 package gpp;
 
 import java.awt.Desktop;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,6 +16,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import gpp.model.User;
 import gpp.model.github.api.caller.GitHubAPICaller;
@@ -37,7 +36,7 @@ public class GPPSystem implements Serializable {
 	private static GPPSystem instance = null;
 	private static User user;
 	private Search currentSearch; // búsqueda actual a mostrar
-	private ArrayList<Search> searchesSavedList; // lista de búsquedas guardadas
+	private static ArrayList<Search> searchesSavedList; // lista de búsquedas guardadas
 	private static int menuButtonSelected;
 	private static int searchButtonSelected;
 	public static final int BUSCAR = 0, BUSCAR_REPO = 1, FILTRAR_REPO = 2, FILTRAR_LENGUAJE_REPO = 3,
@@ -142,6 +141,7 @@ public class GPPSystem implements Serializable {
 	 * @param currentSearch. Nueva búsqueda actual.
 	 */
 	public void setCurrentSearch(Search currentSearch) {
+		currentSearch.setCurrentPageNumber(1);
 		instance.currentSearch = currentSearch;
 	}
 
@@ -284,6 +284,60 @@ public class GPPSystem implements Serializable {
 
 			correctLogin = true;
 
+			// Creamos los resultados de las búsquedas ya guardadas
+			BufferedReader br = null;
+			String datos = System.getenv("SystemDrive") + "/GitHub_Parser_Project/" + user.getUsername() + "/searches/";
+			File f;
+			
+			// Reseteamos la lista de búsquedas guardadas
+			searchesSavedList = new ArrayList<Search>();
+
+			try {
+
+				// Creamos el directorio
+				f = new File(datos);
+				if (f.exists()) {
+					
+					String line;
+					String jsonString;
+
+					for (File fs: f.listFiles()) {
+						
+						br = new BufferedReader(new FileReader(fs));
+						line = br.readLine();
+						jsonString = "";
+						
+						while(line != null) {
+							
+							jsonString += line;
+							line = br.readLine();
+							
+						}
+						
+						searchesSavedList.add(new Search(JsonParser.parseString(jsonString).getAsJsonObject()));
+						
+					}
+					
+					if (br != null) {
+						br.close();
+						br = null;
+					}
+					
+				}
+
+			} catch (IOException e) {
+				System.out.println("Error de entrada/salida. " + e);
+			} finally {
+				if (br != null) {
+					try {
+						br.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+
 		}
 
 		return correctLogin;
@@ -312,45 +366,69 @@ public class GPPSystem implements Serializable {
 		GsonBuilder builder;
 		Gson gson;
 
-		if (instance != null) {
-			try {
+		try {
 
-				// Creamos el directorio
-				f = new File(datos);
+			// Creamos el directorio
+			f = new File(datos);
+			if (!f.exists()) {
+				f.mkdirs();
+			}
+			// Guardamos las búsquedas
+			for (Search s : searchesSavedList) {
+
+				searchPath = s.getId() + ".json";
+				f = new File(datos + searchPath);
 				if (!f.exists()) {
-					f.mkdirs();
-				}
-				// Guardamos las búsquedas
-				for (Search s : searchesSavedList) {
 
-					searchPath = s.getId() + ".json";
-					f = new File(datos + searchPath);
-					if (!f.exists()) {
+					// Guardamos el json de las búsquedas
+					builder = new GsonBuilder();
+					builder.setPrettyPrinting();
+					gson = builder.create();
+					bw = new BufferedWriter(new FileWriter(f));
+					bw.write(gson.toJson(s.infoSearchToJsonObject()));
 
-						// Guardamos el json de las búsquedas
-						builder = new GsonBuilder();
-						builder.setPrettyPrinting();
-						gson = builder.create();
-						bw = new BufferedWriter(new FileWriter(f));
-						bw.write(gson.toJson(s.infoSearchToJsonObject()));
-
-						if (bw != null) {
-							bw.close();
-							bw = null;
-						}
-
+					if (bw != null) {
+						bw.close();
+						bw = null;
 					}
 
 				}
 
-			} catch (IOException e) {
-				System.out.println("Error de entrada/salida. " + e);
-			} finally {
-				if (bw != null) {
-					bw.close();
-				}
+			}
+
+		} catch (IOException e) {
+			System.out.println("Error de entrada/salida. " + e);
+		} finally {
+			if (bw != null) {
+				bw.close();
 			}
 		}
+	}
+
+	/**
+	 * 
+	 * Saca el id más alto de todas las búsquedas guardadas.
+	 * 
+	 * @return Id más alto de todas las búsquedas guardadas.
+	 */
+	public static long getMaxIdSearchesSaved() {
+
+		long idMax = -1;
+
+		for (Search s : searchesSavedList) {
+
+			if (s.getId() > idMax) {
+
+				idMax = s.getId();
+
+			}
+
+		}
+		
+		idMax++;
+
+		return idMax;
+
 	}
 
 }

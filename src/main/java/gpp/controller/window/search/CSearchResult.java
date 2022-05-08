@@ -60,9 +60,13 @@ public class CSearchResult implements ActionListener {
 			
 			s.setCurrentPageNumber(pageNumber-1);
 			
+			windows.getSearchResultView().setSearchResultCurrent(s, s.getCurrentPageNumber());
+			
 		} else if (e.getActionCommand().equals("next page")) {
 			
 			s.setCurrentPageNumber(pageNumber+1);
+			
+			windows.getSearchResultView().setSearchResultCurrent(s, s.getCurrentPageNumber());
 			
 		} else if (e.getActionCommand().equals("guardar")) {
 			
@@ -86,8 +90,6 @@ public class CSearchResult implements ActionListener {
 			JOptionPane.showMessageDialog(windows, "Ya tienes guardados los resultados", "Guardado", JOptionPane.INFORMATION_MESSAGE);
 			
 		}
-		
-		windows.getSearchResultView().setSearchResultCurrent(s, s.getCurrentPageNumber());
 		
 	}
 

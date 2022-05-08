@@ -37,6 +37,7 @@ public class VLeftMenu extends JPanel {
 		JPanel mainButtonsContainer = new JPanel();
 		mainButtonsContainer.setPreferredSize(new Dimension(width, (int) (height * 0.3)));
 		mainButtonsContainer.setLayout(new GridLayout(4, 1));
+		mainButtonsContainer.setBackground(VColor.getGRAY_MENU());
 
 		// Añadimos los botones principales
 		Icon searchIcon = new ImageIcon(GPPConstant.GPP_ICONS + "search.png");
@@ -52,11 +53,11 @@ public class VLeftMenu extends JPanel {
 
 		Icon userRepositoriesIcon = new ImageIcon(GPPConstant.GPP_ICONS + "my_repositories.png");
 		userRepositoriesButton = new VButton("Mis repositorios", userRepositoriesIcon);
-		mainButtonsContainer.add(userRepositoriesButton);
+		//mainButtonsContainer.add(userRepositoriesButton);
 
 		Icon userIcon = new ImageIcon(GPPConstant.GPP_ICONS + "profile.png");
 		userButton = new VButton("Mi perfil", userIcon);
-		mainButtonsContainer.add(userButton);
+		//mainButtonsContainer.add(userButton);
 
 		// Añadimos el contenedor de los botones principales
 		this.add(mainButtonsContainer, BorderLayout.NORTH);
