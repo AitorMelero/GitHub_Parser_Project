@@ -857,6 +857,12 @@ public class Repository {
 
 	}
 	
+	/**
+	 * 
+	 * Devuelve la información básica del repositorio en formato JSON.
+	 * 
+	 * @return Información básica del repositorio en formato JSON.
+	 */
 	public JsonObject infoRepositoryToJsonObject() {
 		
 		JsonObject jsonObject = new JsonObject();
@@ -864,6 +870,49 @@ public class Repository {
 		jsonObject.addProperty("name", name);
 		jsonObject.addProperty("clonePath", clonePath);
 		jsonObject.addProperty("description", description);
+		jsonObject.addProperty("starsNumber", starsNumber);
+		jsonObject.addProperty("forksNumber", forksNumber);
+		jsonObject.addProperty("watchersNumber", watchersNumber);
+		jsonObject.addProperty("license", license);
+		jsonObject.addProperty("dateCreated", dateCreated);
+		jsonObject.addProperty("dateUpdated", dateUpdated);
+		jsonObject.addProperty("filesNumber", filesNumber);
+		
+		String listString = "[";
+		if (extensionsList.size() == 0) {
+			listString += "]";
+		} else {
+			for (String s: extensionsList) {
+				listString += s + ", ";
+			}
+			listString = listString.substring(0, listString.length()-2) + "]";
+		}
+		jsonObject.addProperty("extensionsList", listString);
+		
+		listString = "[";
+		if (topics.size() == 0) {
+			listString += "]";
+		} else {
+			for (String s: topics) {
+				listString += s + ", ";
+			}
+			listString = listString.substring(0, listString.length()-2) + "]";
+		}
+		jsonObject.addProperty("topics", listString);
+		jsonObject.addProperty("totalSize", totalSize);
+		jsonObject.addProperty("avgSize", avgSize);
+		jsonObject.addProperty("mainLanguage", mainLanguage);
+		jsonObject.addProperty("mainLanguagesFilesNumber", mainLanguagesFilesNumber);
+		jsonObject.addProperty("mainBranch", mainBranch);
+		JsonObject language = new JsonObject();
+		if (languageProperties != null) {
+			
+			for (String s: languageProperties.getPropertiesVisualMap().keySet()) {
+				language.addProperty(s, languageProperties.getPropertiesVisualMap().get(s));
+			}
+			
+		}
+		jsonObject.add("languageProperties", language);
 		
 		return jsonObject;
 		

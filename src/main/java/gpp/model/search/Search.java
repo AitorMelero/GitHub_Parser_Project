@@ -464,13 +464,25 @@ public class Search implements Serializable {
 
 	}
 
+	/**
+	 * 
+	 * Devuelve la información básica de la búsqueda en formato JSON.
+	 * 
+	 * @return Información básica de la búsqueda en formato JSON.
+	 */
 	public JsonObject infoSearchToJsonObject() {
 
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("id", id);
 		jsonObject.addProperty("name", name);
 		jsonObject.addProperty("date", date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		//jsonObject.addProperty("description", description);
+		JsonArray repositories = new JsonArray();
+		for (Repository r: listRepoResult) {
+			
+			repositories.add(r.infoRepositoryToJsonObject());
+			
+		}
+		jsonObject.add("listRepoResult", repositories);
 
 		return jsonObject;
 
