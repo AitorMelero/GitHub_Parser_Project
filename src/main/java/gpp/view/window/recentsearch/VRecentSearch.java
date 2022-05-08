@@ -1,6 +1,8 @@
 package gpp.view.window.recentsearch;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import gpp.model.Repository;
 import gpp.model.search.Search;
 import gpp.view.component.VColor;
 import gpp.view.component.VRepositoryContainer;
+import gpp.view.component.VSearchContainer;
 import gpp.view.component.VWindowSearchButton;
 
 /**
@@ -86,7 +89,7 @@ public class VRecentSearch extends JPanel {
 		navigationPageContainer.add(previousPageButton);
 		navigationPageContainer.add(numberPageLabel);
 		navigationPageContainer.add(nextPageButton);
-		
+
 		this.add(title);
 		this.add(searchNumberLabel);
 		this.add(navigationPageContainer);
@@ -99,6 +102,25 @@ public class VRecentSearch extends JPanel {
 	 * ************************************************************************
 	 */
 
+	/**
+	 * 
+	 * Devuelve el listener del contenedor.
+	 * 
+	 * @return Listener del contenedor.
+	 */
+	public ActionListener getResultContainerSearchListener() {
+		return resultContainerSearchListener;
+	}
+
+	/**
+	 * 
+	 * Modifica el listener del contenedor.
+	 * 
+	 * @param resultContainerSearchListener. Listener del contenedor.
+	 */
+	public void setResultContainerSearchListener(ActionListener resultContainerSearchListener) {
+		this.resultContainerSearchListener = resultContainerSearchListener;
+	}
 
 	/**************************************************************************
 	 * MÉTODOS
@@ -115,7 +137,59 @@ public class VRecentSearch extends JPanel {
 	 */
 	public void setSearchResultCurrent(ArrayList<Search> searches, int page) {
 
-		
+		// Borramos el contenido de la búsqueda anterior
+		resultContainer.removeAll();
+		resultContainerScroll.setViewportView(null);
+		resultContainerScroll.revalidate();
+		resultContainerScroll.repaint();
+		this.removeAll();
+		this.revalidate();
+		this.repaint();
+
+		title.setText("Búsquedas guardadas");
+		searchNumberLabel.setText(searches.size() + " búsquedas guardadas");
+		int numPages = 0;
+		if (searches.size() != 0) {
+
+			if (searches.size() % 10 != 0) {
+
+				numPages = searches.size() / 10;
+
+			} else {
+
+				numPages = (searches.size() / 10) + 1;
+
+			}
+
+			VSearchContainer searchContainer;
+			resultContainer.setLayout(new BoxLayout(resultContainer, BoxLayout.Y_AXIS));
+
+			for (Search s : searches) {
+
+				searchContainer = new VSearchContainer(s);
+
+				// Añadimos el listener
+				searchContainer.setControllers(resultContainerSearchListener);
+
+				resultContainer.add(searchContainer);
+
+			}
+
+		} else {
+
+			resultContainer.setLayout(new GridBagLayout());
+			resultContainer.add(new JLabel("No hay búsquedas guardadas"));
+
+		}
+
+		numberPageLabel.setText("Página " + page + " de " + numPages);
+
+		// Añadimos componentes
+		this.add(title);
+		this.add(searchNumberLabel);
+		this.add(navigationPageContainer);
+		resultContainerScroll.setViewportView(resultContainer);
+		this.add(resultContainerScroll);
 
 	}
 
@@ -127,7 +201,7 @@ public class VRecentSearch extends JPanel {
 	 */
 	public void setControllers(ActionListener action) {
 
-		//previousPageButton.addActionListener(action);
+		// previousPageButton.addActionListener(action);
 
 	}
 

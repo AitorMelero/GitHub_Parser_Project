@@ -6,6 +6,7 @@ import gpp.constant.GPPConstant;
 import gpp.controller.component.CLeftMenu;
 import gpp.controller.component.CRepository;
 import gpp.controller.component.CRepositoryContainer;
+import gpp.controller.component.CSearchContainer;
 import gpp.controller.window.login.CLogin;
 import gpp.controller.window.search.CSearch;
 import gpp.controller.window.search.CSearchResult;
@@ -36,6 +37,7 @@ public class GPPMain {
 				CLeftMenu cLeftMenu;
 				CRepositoryContainer cRepositoryContainer;
 				CRepository cRepository;
+				CSearchContainer cSearchContainer;
 
 				// Inicializamos componentes
 				gppSystem = GPPSystem.getInstance();
@@ -45,6 +47,7 @@ public class GPPMain {
 				cLeftMenu = new CLeftMenu(gppSystem, windows);
 				cRepositoryContainer = new CRepositoryContainer(gppSystem, windows);
 				cRepository = new CRepository(gppSystem, windows);
+				cSearchContainer = new CSearchContainer(gppSystem, windows);
 
 				// Asociamos controladores a las vistas
 				windows.getLoginView().setControllers(cLogin);
@@ -53,6 +56,7 @@ public class GPPMain {
 				windows.getMenu().setControllers(cLeftMenu);
 				windows.getSearchResultView().setResultContainerRepositoryListener(cRepositoryContainer);
 				windows.getRepositoryView().setControllers(cRepository);
+				windows.getRecentSearchView().setResultContainerSearchListener(cSearchContainer);
 
 				// Colores de botones
 				windows.getMenu().getSearchButton().setBackground(VColor.getGRAY_FOCUS_MENU());

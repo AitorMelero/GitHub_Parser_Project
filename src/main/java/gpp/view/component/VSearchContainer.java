@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -57,8 +58,7 @@ public class VSearchContainer extends JButton {
 
 		this.setLayout(null);
 
-		String dateSearch = search.getDate().getYear() + "-" + search.getDate().getMonthValue() + "-"
-				+ search.getDate().getDayOfMonth();
+		String dateSearch = search.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 		container = new JPanel();
 		container.setBounds(0, 0, 807, 125);
@@ -66,16 +66,17 @@ public class VSearchContainer extends JButton {
 		container.setBorder(BorderFactory.createLineBorder(VColor.getGRAY_FOCUS_MENU()));
 		extraInfo = new JPanel();
 		extraInfo.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 0));
-		extraInfo.setBounds(12, 87, 713, 16);
+		extraInfo.setBounds(12, 50, 713, 16);
 		extraInfo.setBackground(VColor.getGRAY_MENU());
 
 		searchTitle = new JLabel(search.getName());
 		searchTitle.setBounds(32, 12, 693, 27);
-		searchTitle.setFont(new Font("Dialog", Font.BOLD, 16));
+		searchTitle.setFont(new Font("Dialog", Font.BOLD, 22));
 		searchTitle.setForeground(VColor.getBLUE_REPOSITORY_TITLE());
+		container.add(searchTitle);
 		Font fontInfoExtra = new Font("Dialog", Font.ITALIC, 12);
 		date = new JLabel("Fecha de creación: " + dateSearch);
-		date.setBounds(273, 67, 136, 16);
+		date.setBounds(273, 50, 136, 16);
 		date.setFont(fontInfoExtra);
 		container.setLayout(null);
 
