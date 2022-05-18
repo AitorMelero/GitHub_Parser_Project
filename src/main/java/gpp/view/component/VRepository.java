@@ -246,7 +246,6 @@ public class VRepository extends JPanel {
 		goBackButton.addActionListener(action);
 		webButton.addActionListener(action);
 		cloneButton.addActionListener(action);
-		;
 
 	}
 

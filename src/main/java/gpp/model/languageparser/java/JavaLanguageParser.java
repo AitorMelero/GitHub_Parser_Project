@@ -38,11 +38,12 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 			ARRAYS = 8, LAMBDAS = 9, METHODS = 10, VARIABLES = 11, LOCAL_VARIABLES = 12, STATIC = 13, PUBLIC = 14,
 			PRIVATE = 15, PROTECTED = 16, ABSTRACT = 17, CLASSES = 18, YIELD = 19, ASSERT = 20, TRY = 21,
 			ANNOTATION = 22, PERSONAL_CONSTRUCTOR = 23, PERSONAL_INTERFACE = 24, IMPLEMENTS = 25, EXTENDS = 26,
-			THROWS = 27, THROW = 28, ENUM = 29, FINAL = 30, SWITCH = 31, INSTANCEOF = 32, SYNCHRONIZED = 33, LIBRARIES = 34;
+			THROWS = 27, THROW = 28, ENUM = 29, FINAL = 30, SWITCH = 31, INSTANCEOF = 32, SYNCHRONIZED = 33,
+			LIBRARIES = 34, CLASSES_NAMES = 35, METHODS_NAMES = 36, INTERFACES_NAMES = 37;
 	public static final int[] namesProperties = { COMMENTS, IMPORTS, IF, ELSE, FOR, WHILE, CONTINUE, BREAK, ARRAYS,
 			LAMBDAS, METHODS, VARIABLES, LOCAL_VARIABLES, STATIC, PUBLIC, PRIVATE, PROTECTED, ABSTRACT, CLASSES, YIELD,
 			ASSERT, TRY, ANNOTATION, PERSONAL_CONSTRUCTOR, PERSONAL_INTERFACE, IMPLEMENTS, EXTENDS, THROWS, THROW, ENUM,
-			FINAL, SWITCH, INSTANCEOF, SYNCHRONIZED, LIBRARIES };
+			FINAL, SWITCH, INSTANCEOF, SYNCHRONIZED, LIBRARIES, CLASSES_NAMES, METHODS_NAMES, INTERFACES_NAMES };
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -666,8 +667,6 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 
 		HashMap<Integer, Long> properties = super.getPropertiesMap();
 		HashMap<String, Long> visualProperties = super.getPropertiesVisualMap();
-		HashMap<Integer, Set<String>> propertiesString = super.getPropertiesStringMap();
-		HashMap<String, Set<String>> visualStringProperties = super.getPropertiesStringVisualMap();
 		List<Token> tokens = super.getTokens();
 		int actualType = 0;
 		List<RuleContext> rulesContext = super.getRulesContexts();
@@ -869,6 +868,7 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 
 			} else if (rulesContext.get(i).getClass().isInstance(methodsCtx)) {
 
+				getMethodsNames(rulesContext.get(i));
 				properties.put(METHODS, properties.get(METHODS) + 1);
 				visualProperties.put("Número de métodos: ", properties.get(METHODS));
 
@@ -884,6 +884,7 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 
 			} else if (rulesContext.get(i).getClass().isInstance(classesCtx)) {
 
+				getClassesNames(rulesContext.get(i));
 				properties.put(CLASSES, properties.get(CLASSES) + 1);
 				visualProperties.put("Número de clases: ", properties.get(CLASSES));
 
@@ -899,6 +900,7 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 
 			} else if (rulesContext.get(i).getClass().isInstance(personalInterfaceCtx)) {
 
+				getInterfacesNames(rulesContext.get(i));
 				properties.put(PERSONAL_INTERFACE, properties.get(PERSONAL_INTERFACE) + 1);
 				visualProperties.put("Número de interfaces: ", properties.get(PERSONAL_INTERFACE));
 
@@ -912,7 +914,7 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 		}
 
 	}
-	
+
 	/**
 	 * 
 	 * Añade todas las librerías usadas en el código.
@@ -920,7 +922,7 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 	 * @param ruleContext. Regla de contexto de los imports.
 	 */
 	private void getLibraries(RuleContext ruleContext) {
-		
+
 		HashMap<Integer, Set<String>> propertiesString = super.getPropertiesStringMap();
 		HashMap<String, Set<String>> visualStringProperties = super.getPropertiesStringVisualMap();
 		int lastIndex = ruleContext.getText().lastIndexOf(".");
@@ -928,6 +930,60 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 
 		propertiesString.get(LIBRARIES).add(libraries);
 		visualStringProperties.get("Librerías: ").add(libraries);
+
+	}
+	
+	/**
+	 * 
+	 * Añade todos los nombres de las clases usadas.
+	 * 
+	 * @param ruleContext. Regla de contexto de las clases.
+	 */
+	private void getClassesNames(RuleContext ruleContext) {
+		
+		HashMap<Integer, Set<String>> propertiesString = super.getPropertiesStringMap();
+		HashMap<String, Set<String>> visualStringProperties = super.getPropertiesStringVisualMap();
+		String classesNames = ruleContext.getText().substring(5).split("\\{")[0];
+		classesNames = classesNames.split(",")[0];
+		classesNames = classesNames.split("implements")[0];
+		classesNames = classesNames.split("extends")[0];
+		
+		propertiesString.get(CLASSES_NAMES).add(classesNames);
+		visualStringProperties.get("Nombre de clases: ").add(classesNames);
+		
+	}
+	
+	/**
+	 * 
+	 * Añade todos los nombres de los métodos usados.
+	 * 
+	 * @param ruleContext. Regla de contexto de los métodos.
+	 */
+	private void getMethodsNames(RuleContext ruleContext) {
+		
+		HashMap<Integer, Set<String>> propertiesString = super.getPropertiesStringMap();
+		HashMap<String, Set<String>> visualStringProperties = super.getPropertiesStringVisualMap();
+		String methodsNames = ruleContext.getChild(1).getText();
+		
+		propertiesString.get(METHODS_NAMES).add(methodsNames);
+		visualStringProperties.get("Nombre de métodos: ").add(methodsNames);
+		
+	}
+	
+	/**
+	 * 
+	 * Añade todos los nombres de las interfaces usadas.
+	 * 
+	 * @param ruleContext. Regla de contexto de las interfaces.
+	 */
+	private void getInterfacesNames(RuleContext ruleContext) {
+		
+		HashMap<Integer, Set<String>> propertiesString = super.getPropertiesStringMap();
+		HashMap<String, Set<String>> visualStringProperties = super.getPropertiesStringVisualMap();
+		String interfacesNames = ruleContext.getChild(1).getText();
+		
+		propertiesString.get(INTERFACES_NAMES).add(interfacesNames);
+		visualStringProperties.get("Nombre de interfaces: ").add(interfacesNames);
 		
 	}
 
@@ -1079,10 +1135,25 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 			case SYNCHRONIZED:
 				super.getPropertiesVisualMap().put("Número de synchronized: ", 0l);
 				break;
-				
+
 			case LIBRARIES:
 				super.getPropertiesStringMap().put(LIBRARIES, new HashSet<String>());
 				super.getPropertiesStringVisualMap().put("Librerías: ", new HashSet<String>());
+				break;
+				
+			case CLASSES_NAMES:
+				super.getPropertiesStringMap().put(CLASSES_NAMES, new HashSet<String>());
+				super.getPropertiesStringVisualMap().put("Nombre de clases: ", new HashSet<String>());
+				break;
+				
+			case METHODS_NAMES:
+				super.getPropertiesStringMap().put(METHODS_NAMES, new HashSet<String>());
+				super.getPropertiesStringVisualMap().put("Nombre de métodos: ", new HashSet<String>());
+				break;
+				
+			case INTERFACES_NAMES:
+				super.getPropertiesStringMap().put(INTERFACES_NAMES, new HashSet<String>());
+				super.getPropertiesStringVisualMap().put("Nombre de interfaces: ", new HashSet<String>());
 				break;
 
 			default:
