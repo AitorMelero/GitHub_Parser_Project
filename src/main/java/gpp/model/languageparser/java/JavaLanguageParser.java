@@ -3,7 +3,9 @@ package gpp.model.languageparser.java;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -36,11 +38,11 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 			ARRAYS = 8, LAMBDAS = 9, METHODS = 10, VARIABLES = 11, LOCAL_VARIABLES = 12, STATIC = 13, PUBLIC = 14,
 			PRIVATE = 15, PROTECTED = 16, ABSTRACT = 17, CLASSES = 18, YIELD = 19, ASSERT = 20, TRY = 21,
 			ANNOTATION = 22, PERSONAL_CONSTRUCTOR = 23, PERSONAL_INTERFACE = 24, IMPLEMENTS = 25, EXTENDS = 26,
-			THROWS = 27, THROW = 28, ENUM = 29, FINAL = 30, SWITCH = 31, INSTANCEOF = 32, SYNCHRONIZED = 33;
+			THROWS = 27, THROW = 28, ENUM = 29, FINAL = 30, SWITCH = 31, INSTANCEOF = 32, SYNCHRONIZED = 33, LIBRARIES = 34;
 	public static final int[] namesProperties = { COMMENTS, IMPORTS, IF, ELSE, FOR, WHILE, CONTINUE, BREAK, ARRAYS,
 			LAMBDAS, METHODS, VARIABLES, LOCAL_VARIABLES, STATIC, PUBLIC, PRIVATE, PROTECTED, ABSTRACT, CLASSES, YIELD,
 			ASSERT, TRY, ANNOTATION, PERSONAL_CONSTRUCTOR, PERSONAL_INTERFACE, IMPLEMENTS, EXTENDS, THROWS, THROW, ENUM,
-			FINAL, SWITCH, INSTANCEOF, SYNCHRONIZED };
+			FINAL, SWITCH, INSTANCEOF, SYNCHRONIZED, LIBRARIES };
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -664,6 +666,8 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 
 		HashMap<Integer, Long> properties = super.getPropertiesMap();
 		HashMap<String, Long> visualProperties = super.getPropertiesVisualMap();
+		HashMap<Integer, Set<String>> propertiesString = super.getPropertiesStringMap();
+		HashMap<String, Set<String>> visualStringProperties = super.getPropertiesStringVisualMap();
 		List<Token> tokens = super.getTokens();
 		int actualType = 0;
 		List<RuleContext> rulesContext = super.getRulesContexts();
@@ -843,6 +847,7 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 
 			if (rulesContext.get(i).getClass().isInstance(imports)) {
 
+				getLibraries(rulesContext.get(i));
 				properties.put(IMPORTS, properties.get(IMPORTS) + 1);
 				visualProperties.put("Número de imports: ", properties.get(IMPORTS));
 
@@ -906,6 +911,24 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 
 		}
 
+	}
+	
+	/**
+	 * 
+	 * Añade todas las librerías usadas en el código.
+	 * 
+	 * @param ruleContext. Regla de contexto de los imports.
+	 */
+	private void getLibraries(RuleContext ruleContext) {
+		
+		HashMap<Integer, Set<String>> propertiesString = super.getPropertiesStringMap();
+		HashMap<String, Set<String>> visualStringProperties = super.getPropertiesStringVisualMap();
+		int lastIndex = ruleContext.getText().lastIndexOf(".");
+		String libraries = ruleContext.getText().substring(6, lastIndex);
+
+		propertiesString.get(LIBRARIES).add(libraries);
+		visualStringProperties.get("Librerías: ").add(libraries);
+		
 	}
 
 	/**
@@ -1055,6 +1078,11 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 
 			case SYNCHRONIZED:
 				super.getPropertiesVisualMap().put("Número de synchronized: ", 0l);
+				break;
+				
+			case LIBRARIES:
+				super.getPropertiesStringMap().put(LIBRARIES, new HashSet<String>());
+				super.getPropertiesStringVisualMap().put("Librerías: ", new HashSet<String>());
 				break;
 
 			default:

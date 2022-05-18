@@ -1,12 +1,10 @@
 package gpp.view.component;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -204,6 +202,30 @@ public class VRepository extends JPanel {
 
 				infoContainer.add(addInfoField(k, repo.getLanguageProperties().getPropertiesVisualMap().get(k) + ""));
 
+			}
+			
+			VSearchFieldContainer languageStringProperties;
+			String values;
+			int valuesSize;
+			
+			for (String k: repo.getLanguageProperties().getPropertiesStringVisualMap().keySet()) {
+				
+				values = "";
+				valuesSize = 0;
+				for (String v: repo.getLanguageProperties().getPropertiesStringVisualMap().get(k)) {
+					
+					valuesSize++;
+					values += v;
+					if (valuesSize < repo.getLanguageProperties().getPropertiesStringVisualMap().get(k).size()) {
+						
+						values += ",     ";
+						
+					}
+				}
+				languageStringProperties = addInfoField(k, values);
+				languageStringProperties.changeTextFieldToTextArea();
+				infoContainer.add(languageStringProperties);
+				
 			}
 
 		}

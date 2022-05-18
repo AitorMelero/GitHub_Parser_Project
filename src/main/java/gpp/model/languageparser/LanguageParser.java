@@ -6,7 +6,9 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
@@ -40,6 +42,9 @@ public abstract class LanguageParser implements IGeneralLanguageParser {
 	private HashMap<Integer, Long> propertiesMap = null; // diccionario con las propiedades y sus valores analizados
 	private HashMap<String, Long> propertiesVisualMap = null; // diccionario con los valores de las propiedades a
 																// mostrar
+	private HashMap<Integer, Set<String>> propertiesStringMap = null; // diccionario con las propiedades y valores tipo
+																		// cadena
+	private HashMap<String, Set<String>> propertiesStringVisualMap = null; // diccionario con propiedades de tipo cadena
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -59,6 +64,9 @@ public abstract class LanguageParser implements IGeneralLanguageParser {
 
 		propertiesMap = new HashMap<Integer, Long>();
 		propertiesVisualMap = new HashMap<String, Long>();
+		propertiesStringMap = new HashMap<Integer, Set<String>>();
+		propertiesStringVisualMap = new HashMap<String, Set<String>>();
+		
 
 	}
 
@@ -177,6 +185,22 @@ public abstract class LanguageParser implements IGeneralLanguageParser {
 
 	public void setPropertiesVisualMap(HashMap<String, Long> propertiesVisualMap) {
 		this.propertiesVisualMap = propertiesVisualMap;
+	}
+
+	public HashMap<Integer, Set<String>> getPropertiesStringMap() {
+		return propertiesStringMap;
+	}
+
+	public void setPropertiesStringMap(HashMap<Integer, Set<String>> propertiesStrigMap) {
+		this.propertiesStringMap = propertiesStrigMap;
+	}
+
+	public HashMap<String, Set<String>> getPropertiesStringVisualMap() {
+		return propertiesStringVisualMap;
+	}
+
+	public void setPropertiesStringVisualMap(HashMap<String, Set<String>> propertiesStringVisualMap) {
+		this.propertiesStringVisualMap = propertiesStringVisualMap;
 	}
 
 	/**************************************************************************
