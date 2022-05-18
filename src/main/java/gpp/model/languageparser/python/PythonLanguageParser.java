@@ -3,7 +3,9 @@ package gpp.model.languageparser.python;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -35,10 +37,10 @@ public class PythonLanguageParser extends LanguageParser
 	public static final int COMMENTS = 0, IMPORTS = 1, IF = 2, ELSE = 3, FOR = 4, WHILE = 5, FUNCTIONS = 6, GLOBAL = 7,
 			NONLOCAL = 8, CONTINUE = 9, BREAK = 10, ARRAYS = 11, LOGICAL_EXPRESSIONS = 12, LAMBDA = 13, CLASSES = 14,
 			YIELD = 15, ASSERT = 16, TRY = 17, DECORATORS = 18, DICTIONARIES = 19, IMPORTS_WITH_FROM = 20, PASS = 21,
-			RAISE = 22, WITH = 23, ASYNC = 24;
+			RAISE = 22, WITH = 23, ASYNC = 24, LIBRARIES = 25, CLASSES_NAMES = 26, FUNCTIONS_NAMES = 27;
 	public static final int[] namesProperties = { COMMENTS, IMPORTS, IF, ELSE, FOR, WHILE, FUNCTIONS, GLOBAL, NONLOCAL,
 			CONTINUE, BREAK, ARRAYS, LOGICAL_EXPRESSIONS, LAMBDA, CLASSES, YIELD, ASSERT, TRY, DECORATORS, DICTIONARIES,
-			IMPORTS_WITH_FROM, PASS, RAISE, WITH, ASYNC };
+			IMPORTS_WITH_FROM, PASS, RAISE, WITH, ASYNC, LIBRARIES, CLASSES_NAMES, FUNCTIONS_NAMES };
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -667,6 +669,7 @@ public class PythonLanguageParser extends LanguageParser
 		PythonParser.Pass_stmtContext passCtx = new PythonParser.Pass_stmtContext(smallCtx);
 		PythonParser.Raise_stmtContext raiseCtx = new PythonParser.Raise_stmtContext(smallCtx);
 		PythonParser.With_stmtContext withCtx = new PythonParser.With_stmtContext(compCtx);
+		PythonParser.Import_stmtContext importCtx = new PythonParser.Import_stmtContext(smallCtx);
 
 		// Contamos tokens
 		for (int i = 0; i < tokens.size(); i++) {
@@ -729,6 +732,7 @@ public class PythonLanguageParser extends LanguageParser
 
 			} else if (rulesContext.get(i).getClass().isInstance(functionsCtx)) {
 
+				getFunctionsNames(rulesContext.get(i));
 				properties.put(FUNCTIONS, properties.get(FUNCTIONS) + 1);
 				visualProperties.put("Número de funciones: ", properties.get(FUNCTIONS));
 
@@ -764,6 +768,7 @@ public class PythonLanguageParser extends LanguageParser
 
 			} else if (rulesContext.get(i).getClass().isInstance(classesCtx)) {
 
+				getClassesNames(rulesContext.get(i));
 				properties.put(CLASSES, properties.get(CLASSES) + 1);
 				visualProperties.put("Número de clases: ", properties.get(CLASSES));
 
@@ -794,6 +799,7 @@ public class PythonLanguageParser extends LanguageParser
 
 			} else if (rulesContext.get(i).getClass().isInstance(importsWithFromCtx)) {
 
+				getLibraries(rulesContext.get(i));
 				properties.put(IMPORTS_WITH_FROM, properties.get(IMPORTS_WITH_FROM) + 1);
 				visualProperties.put("Número de imports con from: ", properties.get(IMPORTS_WITH_FROM));
 
@@ -812,10 +818,79 @@ public class PythonLanguageParser extends LanguageParser
 				properties.put(WITH, properties.get(WITH) + 1);
 				visualProperties.put("Número de with: ", properties.get(WITH));
 
+			} else if (rulesContext.get(i).getClass().isInstance(importCtx)) {
+
+				getLibraries(rulesContext.get(i));
+
 			}
 
 		}
 
+	}
+	
+	/**
+	 * 
+	 * Añade todas las librerías usadas en el código.
+	 * 
+	 * @param ruleContext. Regla de contexto de los imports.
+	 */
+	private void getLibraries(RuleContext ruleContext) {
+
+		HashMap<Integer, Set<String>> propertiesString = super.getPropertiesStringMap();
+		HashMap<String, Set<String>> visualStringProperties = super.getPropertiesStringVisualMap();
+		String libraries = ruleContext.getChild(1).getText();
+		
+		if (libraries.equals(".")) {
+			
+			if (!ruleContext.getChild(2).getText().equals("import")) {
+				
+				libraries += ruleContext.getChild(2).getText();
+				
+			}
+			
+		}
+		
+		for (String s: libraries.split(",")) {
+			
+			propertiesString.get(LIBRARIES).add(s);
+			visualStringProperties.get("Librerías: ").add(s);
+			
+		}
+
+	}
+	
+	/**
+	 * 
+	 * Añade todos los nombres de las clases usadas.
+	 * 
+	 * @param ruleContext. Regla de contexto de las clases.
+	 */
+	private void getClassesNames(RuleContext ruleContext) {
+		
+		HashMap<Integer, Set<String>> propertiesString = super.getPropertiesStringMap();
+		HashMap<String, Set<String>> visualStringProperties = super.getPropertiesStringVisualMap();
+		String classesNames = ruleContext.getChild(1).getText();
+		
+		propertiesString.get(CLASSES_NAMES).add(classesNames);
+		visualStringProperties.get("Nombre de clases: ").add(classesNames);
+		
+	}
+	
+	/**
+	 * 
+	 * Añade todos los nombres de los métodos usados.
+	 * 
+	 * @param ruleContext. Regla de contexto de los métodos.
+	 */
+	private void getFunctionsNames(RuleContext ruleContext) {
+		
+		HashMap<Integer, Set<String>> propertiesString = super.getPropertiesStringMap();
+		HashMap<String, Set<String>> visualStringProperties = super.getPropertiesStringVisualMap();
+		String functionsNames = ruleContext.getChild(1).getText();
+		
+		propertiesString.get(FUNCTIONS_NAMES).add(functionsNames);
+		visualStringProperties.get("Nombre de funciones: ").add(functionsNames);
+		
 	}
 
 	/**
@@ -929,6 +1004,21 @@ public class PythonLanguageParser extends LanguageParser
 
 			case ASYNC:
 				super.getPropertiesVisualMap().put("Número de async: ", 0l);
+				break;
+				
+			case LIBRARIES:
+				super.getPropertiesStringMap().put(LIBRARIES, new HashSet<String>());
+				super.getPropertiesStringVisualMap().put("Librerías: ", new HashSet<String>());
+				break;
+				
+			case CLASSES_NAMES:
+				super.getPropertiesStringMap().put(CLASSES_NAMES, new HashSet<String>());
+				super.getPropertiesStringVisualMap().put("Nombre de clases: ", new HashSet<String>());
+				break;
+				
+			case FUNCTIONS_NAMES:
+				super.getPropertiesStringMap().put(FUNCTIONS_NAMES, new HashSet<String>());
+				super.getPropertiesStringVisualMap().put("Nombre de funciones: ", new HashSet<String>());
 				break;
 
 			default:
