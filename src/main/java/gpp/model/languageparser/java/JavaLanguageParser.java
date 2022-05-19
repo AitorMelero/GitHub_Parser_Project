@@ -996,143 +996,175 @@ public class JavaLanguageParser extends LanguageParser implements IGeneralLangua
 
 		for (int np : namesProperties) {
 
-			super.getPropertiesMap().put(np, 0l);
-
 			switch (np) {
 
 			case COMMENTS:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de comentarios: ", 0l);
 				break;
 
 			case IMPORTS:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de imports: ", 0l);
 				break;
 
 			case IF:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de if: ", 0l);
 				break;
 
 			case ELSE:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de else: ", 0l);
 				break;
 
 			case FOR:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de for: ", 0l);
 				break;
 
 			case WHILE:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de while: ", 0l);
 				break;
 
 			case CONTINUE:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de continue: ", 0l);
 				break;
 
 			case BREAK:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de break: ", 0l);
 				break;
 
 			case ARRAYS:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de arrays: ", 0l);
 				break;
 
 			case LAMBDAS:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de lambdas: ", 0l);
 				break;
 
 			case METHODS:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de métodos: ", 0l);
 				break;
 
 			case VARIABLES:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de variables: ", 0l);
 				break;
 
 			case LOCAL_VARIABLES:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de variables locales: ", 0l);
 				break;
 
 			case STATIC:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de campos static: ", 0l);
 				break;
 
 			case PUBLIC:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de campos public: ", 0l);
 				break;
 
 			case PRIVATE:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de campos private: ", 0l);
 				break;
 
 			case PROTECTED:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de campos protected: ", 0l);
 				break;
 
 			case ABSTRACT:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de campos abstract: ", 0l);
 				break;
 
 			case CLASSES:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de clases: ", 0l);
 				break;
 
 			case YIELD:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de yield: ", 0l);
 				break;
 
 			case ASSERT:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de assert: ", 0l);
 				break;
 
 			case TRY:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de try: ", 0l);
 				break;
 
 			case ANNOTATION:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de annotations: ", 0l);
 				break;
 
 			case PERSONAL_CONSTRUCTOR:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de declaraciones constructor: ", 0l);
 				break;
 
 			case PERSONAL_INTERFACE:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de interfaces: ", 0l);
 				break;
 
 			case IMPLEMENTS:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de implements: ", 0l);
 				break;
 
 			case EXTENDS:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de extends: ", 0l);
 				break;
 
 			case THROWS:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de throws: ", 0l);
 				break;
 
 			case THROW:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de throw: ", 0l);
 				break;
 
 			case ENUM:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de enum: ", 0l);
 				break;
 
 			case FINAL:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de final: ", 0l);
 				break;
 
 			case SWITCH:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de switch: ", 0l);
 				break;
 
 			case INSTANCEOF:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de instanceof: ", 0l);
 				break;
 
 			case SYNCHRONIZED:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de synchronized: ", 0l);
 				break;
 

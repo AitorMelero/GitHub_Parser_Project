@@ -5,6 +5,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import gpp.model.Repository;
+import gpp.model.languageparser.java.JavaLanguageParser;
+import gpp.model.languageparser.python.PythonLanguageParser;
 import gpp.view.component.VColor;
 import gpp.view.component.VSearchFieldContainer;
 import gpp.view.window.search.language.JavaFilter;
@@ -71,7 +73,19 @@ public class VFilterLanguage extends JPanel {
 		container.add(javaTitle);
 		for (VSearchFieldContainer vc : javaFilter.getFieldsList()) {
 
-			vc.getParamTextField().addPlaceholder("0..100, 200, >1000");
+			if (javaFilter.getFieldsListValues().get(JavaLanguageParser.LIBRARIES) == vc
+					|| javaFilter.getFieldsListValues().get(JavaLanguageParser.CLASSES_NAMES) == vc
+					|| javaFilter.getFieldsListValues().get(JavaLanguageParser.METHODS_NAMES) == vc
+					|| javaFilter.getFieldsListValues().get(JavaLanguageParser.INTERFACES_NAMES) == vc) {
+				
+				vc.getParamTextField().addPlaceholder("java.io, JFrame, IActionCommand");
+
+			} else {
+				
+				vc.getParamTextField().addPlaceholder("0..100, 200, >1000");
+				
+			}
+			
 			container.add(vc);
 			fieldsParamsList.add(vc);
 
@@ -83,7 +97,18 @@ public class VFilterLanguage extends JPanel {
 		container.add(pythonTitle);
 		for (VSearchFieldContainer vc : pythonFilter.getFieldsList()) {
 
-			vc.getParamTextField().addPlaceholder("0..100, 200, >1000");
+			if (pythonFilter.getFieldsListValues().get(PythonLanguageParser.LIBRARIES) == vc
+					|| pythonFilter.getFieldsListValues().get(PythonLanguageParser.CLASSES_NAMES) == vc
+					|| pythonFilter.getFieldsListValues().get(PythonLanguageParser.FUNCTIONS_NAMES) == vc) {
+				
+				vc.getParamTextField().addPlaceholder("pytorch, math, so");
+
+			} else {
+				
+				vc.getParamTextField().addPlaceholder("0..100, 200, >1000");
+				
+			}
+			
 			container.add(vc);
 			fieldsParamsList.add(vc);
 

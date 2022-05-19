@@ -2,6 +2,7 @@ package gpp.view.window.search.language;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 import gpp.model.Repository;
 import gpp.model.languageparser.LanguageParser;
@@ -207,41 +208,78 @@ public abstract class Filter {
 
 	/**
 	 * 
+	 * Compara los valores de cadenas guardadados en un campo del filtro del
+	 * lenguaje por los que se quieren filtrar.
+	 * 
+	 * @param valuesWrited.     Valores escritos a comprobar.
+	 * @param valuesRepository. Valores del repositorio.
+	 * @return True si el repositorio contiene el valor escrito, false en caso
+	 *         contrario.
+	 */
+	public boolean compareStringValue(String valuesWrited, Set<String> valuesRepository) {
+
+		boolean isValid = false;
+		String[] valuesWritedList = valuesWrited.replace(" ", "").split(",");
+		
+		for (int i = 0; i < valuesWritedList.length && !isValid; i++) {
+
+			isValid = valuesRepository.contains(valuesWritedList[i]);
+
+		}
+
+		return isValid;
+
+	}
+
+	/**
+	 * 
 	 * Filtra un repositorio por lenguaje.
 	 * 
 	 * @param repository. Repositorio a filtrar.
 	 * @return True si el repositorio cumple con los filtros del lenguaje.
 	 */
 	public boolean filterRepositoryLanguage(Repository repository) {
-		
+
 		boolean isValid = true;
 		LanguageParser languageProperties = repository.getLanguageProperties();
 		VSearchFieldContainer actualValue = null;
 		String valueString = "";
 
-		for (Integer k: fieldsListValues.keySet()) {
-			
+		for (Integer k : fieldsListValues.keySet()) {
+
 			actualValue = fieldsListValues.get(k);
 			valueString = actualValue.getParamTextField().getText().replace(" ", "");
-			
+
 			if (!valueString.equals("")) {
-				
-				if (!compareStringNumber(valueString, languageProperties.getPropertiesMap().get(k))) {
-					
-					return false;
+
+				if (languageProperties.getPropertiesMap().get(k) != null) {
+
+					if (!compareStringNumber(valueString, languageProperties.getPropertiesMap().get(k))) {
+
+						return false;
+
+					}
+
+				} else {
+
+					if (!compareStringValue(valueString, languageProperties.getPropertiesStringMap().get(k))) {
+						
+						return false;
+						
+					}
 					
 				}
-				
+
 			} else {
-				
+
 				actualValue.getParamTextField().setText("");
-				
+
 			}
-			
+
 		}
 
 		return isValid;
-		
+
 	}
 
 }

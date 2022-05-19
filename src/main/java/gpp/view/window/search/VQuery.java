@@ -70,7 +70,6 @@ public class VQuery extends JPanel {
 
 		repositoryField = new VSearchFieldContainer("Autor/Nombre del repositorio", "");
 		repositoryField.getParamTextField().addPlaceholder("twbs/bootstrap, rails/rails");
-		repositoryField.getParamTextField().addPlaceholder("javascript, artificial, software");
 		container.add(repositoryField);
 
 		descriptionField = new VSearchFieldContainer("Palabras en la descripción", "");

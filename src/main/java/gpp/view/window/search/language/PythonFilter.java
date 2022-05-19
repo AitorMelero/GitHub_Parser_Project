@@ -37,6 +37,9 @@ public class PythonFilter extends Filter {
 	private VSearchFieldContainer raiseField;
 	private VSearchFieldContainer withField;
 	private VSearchFieldContainer asyncField;
+	private VSearchFieldContainer librariesField;
+	private VSearchFieldContainer classesNamesField;
+	private VSearchFieldContainer functionsNamesField;
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -151,6 +154,18 @@ public class PythonFilter extends Filter {
 		asyncField = new VSearchFieldContainer("Número de async", "");
 		super.getFieldsList().add(asyncField);
 		super.getFieldsListValues().put(PythonLanguageParser.ASYNC, asyncField);
+		
+		librariesField = new VSearchFieldContainer("Librerías usadas", "");
+		super.getFieldsList().add(librariesField);
+		super.getFieldsListValues().put(PythonLanguageParser.LIBRARIES, librariesField);
+		
+		classesNamesField = new VSearchFieldContainer("Clases usadas", "");
+		super.getFieldsList().add(classesNamesField);
+		super.getFieldsListValues().put(PythonLanguageParser.CLASSES_NAMES, classesNamesField);
+		
+		functionsNamesField = new VSearchFieldContainer("Funciones usadas", "");
+		super.getFieldsList().add(functionsNamesField);
+		super.getFieldsListValues().put(PythonLanguageParser.FUNCTIONS_NAMES, functionsNamesField);
 
 	}
 

@@ -902,107 +902,130 @@ public class PythonLanguageParser extends LanguageParser
 
 		for (int np : namesProperties) {
 
-			super.getPropertiesMap().put(np, 0l);
-
 			switch (np) {
 
 			case COMMENTS:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de comentarios: ", 0l);
 				break;
 
 			case IMPORTS:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de imports: ", 0l);
 				break;
 
 			case IF:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de if: ", 0l);
 				break;
 
 			case ELSE:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de else: ", 0l);
 				break;
 
 			case FOR:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de for: ", 0l);
 				break;
 
 			case WHILE:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de while: ", 0l);
 				break;
 
 			case FUNCTIONS:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de funciones: ", 0l);
 				break;
 
 			case GLOBAL:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de global: ", 0l);
 				break;
 
 			case NONLOCAL:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de nonlocal: ", 0l);
 				break;
 
 			case CONTINUE:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de continue: ", 0l);
 				break;
 
 			case BREAK:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de break: ", 0l);
 				break;
 
 			case ARRAYS:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de arrays: ", 0l);
 				break;
 
 			case LOGICAL_EXPRESSIONS:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de expresiones lógicas: ", 0l);
 				break;
 
 			case LAMBDA:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de lambdas: ", 0l);
 				break;
 
 			case CLASSES:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de clases: ", 0l);
 				break;
 
 			case YIELD:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de yield: ", 0l);
 				break;
 
 			case ASSERT:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de assert: ", 0l);
 				break;
 
 			case TRY:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de try: ", 0l);
 				break;
 
 			case DECORATORS:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de decorators: ", 0l);
 				break;
 
 			case DICTIONARIES:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de diccionarios: ", 0l);
 				break;
 
 			case IMPORTS_WITH_FROM:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de imports con from: ", 0l);
 				break;
 
 			case PASS:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de pass: ", 0l);
 				break;
 
 			case RAISE:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de raise: ", 0l);
 				break;
 
 			case WITH:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de with: ", 0l);
 				break;
 
 			case ASYNC:
+				super.getPropertiesMap().put(np, 0l);
 				super.getPropertiesVisualMap().put("Número de async: ", 0l);
 				break;
 				

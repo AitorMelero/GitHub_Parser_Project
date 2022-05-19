@@ -87,6 +87,8 @@ public abstract class LanguageParser implements IGeneralLanguageParser {
 
 		propertiesMap = new HashMap<Integer, Long>();
 		propertiesVisualMap = new HashMap<String, Long>();
+		propertiesStringMap = new HashMap<Integer, Set<String>>();
+		propertiesStringVisualMap = new HashMap<String, Set<String>>();
 
 	}
 

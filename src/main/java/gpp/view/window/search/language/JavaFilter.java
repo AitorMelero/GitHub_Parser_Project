@@ -46,6 +46,10 @@ public class JavaFilter extends Filter {
 	private VSearchFieldContainer switchField;
 	private VSearchFieldContainer instanceofField;
 	private VSearchFieldContainer synchronizedField;
+	private VSearchFieldContainer librariesField;
+	private VSearchFieldContainer classesNamesField;
+	private VSearchFieldContainer methodsNamesField;
+	private VSearchFieldContainer interfacesNamesField;
 
 	/**************************************************************************
 	 * CONSTRUCTOR
@@ -163,6 +167,18 @@ public class JavaFilter extends Filter {
 		synchronizedField = new VSearchFieldContainer("Número de synchronized", "");
 		super.getFieldsList().add(synchronizedField);
 		super.getFieldsListValues().put(JavaLanguageParser.SYNCHRONIZED, synchronizedField);
+		librariesField = new VSearchFieldContainer("Librerías usadas", "");
+		super.getFieldsList().add(librariesField);
+		super.getFieldsListValues().put(JavaLanguageParser.LIBRARIES, librariesField);
+		classesNamesField = new VSearchFieldContainer("Clases usadas", "");
+		super.getFieldsList().add(classesNamesField);
+		super.getFieldsListValues().put(JavaLanguageParser.CLASSES_NAMES, classesNamesField);
+		methodsNamesField = new VSearchFieldContainer("Métodos usados", "");
+		super.getFieldsList().add(methodsNamesField);
+		super.getFieldsListValues().put(JavaLanguageParser.METHODS_NAMES, methodsNamesField);
+		interfacesNamesField = new VSearchFieldContainer("Interfaces usadas", "");
+		super.getFieldsList().add(interfacesNamesField);
+		super.getFieldsListValues().put(JavaLanguageParser.INTERFACES_NAMES, interfacesNamesField);
 
 	}
 
